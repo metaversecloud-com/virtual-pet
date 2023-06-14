@@ -1,0 +1,40 @@
+.experience-container {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.xp-badge {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.experience-bar {
+  height: 20px;
+  background-color: #201f1f;
+  border-radius: 5px;
+  flex-grow: 1;
+  position: relative;
+}
+
+.experience-bar-inner {
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 5px;
+}
+
+.level-indicator {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: white;
+}

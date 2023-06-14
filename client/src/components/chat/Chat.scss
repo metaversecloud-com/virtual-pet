@@ -1,0 +1,25 @@
+.chat {
+  margin: 50px auto;
+  width: 80%;
+  max-width: 600px;
+  color: rgba(255, 255, 255, 0.8); /* Adicionar essa linha */
+}
+
+.message-list {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  background-color: #2b2d31; /* Adicionar essa linha */
+}
+
+.dragon-message {
+  background-color: #4a4c51 !important; /* Mudar a cor de fundo */
+  border: 1px solid #6c757d !important; /* Mudar cor da borda */
+  color: rgba(255, 255, 255, 0.8) !important; /* Adicionar essa linha */
+}
+
+.user-message {
+  background-color: #3a3c41 !important; /* Mudar a cor de fundo */
+  border: 1px solid #6c757d !important; /* Mudar cor da borda */
+  color: rgba(255, 255, 255, 0.8) !important; /* Adicionar essa linha */
+}

@@ -1,0 +1,50 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./VirtualFriend.scss";
+import { getVisitor, getPet } from "../redux/actions/session";
+// import Chat from "../components/chat/Chat";
+
+import Pet from "../components/pets/pet";
+import MobileMenu from "../components/mobileMenu/MobileMenu";
+
+const VirtualFriend = () => {
+  const dispatch = useDispatch();
+  const [level, setLevel] = useState(0);
+
+  const pet = useSelector((state) => state?.session?.pet);
+  const visitor = useSelector((state) => state?.session?.visitor);
+  const petType = pet?.petType;
+
+  useEffect(() => {
+    dispatch(getVisitor());
+    dispatch(getPet());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const exp = pet?.experience || 0;
+    setLevel(Math.floor(exp / 100));
+  }, [pet, petType]);
+
+  const getPetComponent = () => {
+    if (level === 0) {
+      return <Pet petAge="baby" />;
+    }
+    if (level === 1) {
+      return <Pet petAge="adolescent" />;
+    }
+    if (level >= 2) {
+      return <Pet petAge="adult" />;
+    } else {
+      return <Pet />;
+    }
+  };
+
+  return (
+    <div className="virtual-friend-wrapper">
+      {getPetComponent()}
+      {visitor?.isAdmin && <MobileMenu />}
+    </div>
+  );
+};
+
+export default VirtualFriend;

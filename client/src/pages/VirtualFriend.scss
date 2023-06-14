@@ -1,0 +1,76 @@
+.virtual-friend-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #2b2d31;
+
+  .white-overlay {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .action-icon {
+    cursor: pointer;
+    font-size: 36px;
+    margin-right: 5px;
+    padding: 10px;
+    background-color: #007bff;
+    border-radius: 50%;
+    border: 2px solid #6c757d; /* Mudar cor da borda */
+    color: white;
+    width: 68px;
+  }
+
+  .action-icon.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .virtual-friend .sleeping {
+    filter: grayscale(100%);
+    opacity: 0.8;
+  }
+
+  .virtual-friend {
+    border: none;
+    max-width: 500px;
+    width: 100%;
+    margin: 0px auto;
+    text-align: center;
+    background: none;
+    border-radius: 5px;
+    background: none !important;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .card-body {
+    border: none;
+    border-bottom: 1px solid grey;
+  }
+
+  .spawn-button {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .spawn-button:hover {
+    background-color: #0056b3;
+  }
+
+  .spawn-button.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .spawn-button i {
+    margin-right: 5px;
+  }
+}

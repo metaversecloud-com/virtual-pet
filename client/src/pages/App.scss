@@ -1,0 +1,77 @@
+$small: 600px;
+$medium: 1000px;
+
+body {
+  display: block;
+  margin: 0px;
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.App-header {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-container {
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.app-container > div {
+  height: 100%;
+}
+
+.app-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.col-auto {
+  width: 100% !important;
+}
+
+.divider {
+  height: 10px;
+  background-color: black;
+  cursor: row-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gutter {
+  height: 10px;
+  background-color: black;
+  cursor: row-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    cursor: pointer;
+    background-color: black;
+  }
+}
+
+.app-container iframe.discord-iframe-admin {
+  height: calc(50% - 104px);
+}
+
+.app-container iframe.discord-iframe-noadmin {
+  height: 50%;
+}
