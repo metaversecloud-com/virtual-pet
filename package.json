@@ -1,6 +1,6 @@
 {
   "author": "metaversecloud.com | topia.io",
-  "name": "sdk-boilerplate",
+  "name": "sdk-virtual-pet",
   "dependencies": {
     "@rtsdk/topia": "^0.3.1",
     "axios": "^1.4.0",
