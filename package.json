@@ -1,6 +1,6 @@
 {
   "author": "metaversecloud.com | topia.io",
-  "name": "sdk-boilerplate",
+  "name": "sdk-virtual-pet",
   "dependencies": {
     "@rtsdk/topia": "^0.3.1",
     "axios": "^1.4.0",
@@ -13,17 +13,21 @@
     "regenerator-runtime": "^0.13.11",
     "yalc": "^1.0.0-pre.53"
   },
+  "workspaces": [
+        "client",
+        "server"
+    ],
   "description": "",
   "keywords": [],
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "build": "cd client && npm install && npm run build",
+    "build": "npm run build -w client",
     "link-sdk": "yalc link @rtsdk/topia",
     "unlink-sdk": "yalc remove @rtsdk/topia",
     "server": "node server/index.js",
     "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": "npm run -ws"
   },
   "type": "module",
   "version": "1.0.0"
