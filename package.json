@@ -27,7 +27,7 @@
     "unlink-sdk": "yalc remove @rtsdk/topia",
     "server": "node server/index.js",
     "client": "npm start --prefix client",
-    "start": "npm run -ws"
+    "start": "npm start -ws"
   },
   "type": "module",
   "version": "1.0.0"
