@@ -1,26 +1,16 @@
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  Input,
-  Button,
-  ListGroup,
-  ListGroupItem,
-  Badge,
-} from "reactstrap";
+import { Container, Row, Col, InputGroup, Button } from "reactstrap";
 
 import "./Settings.scss";
 
 import { deleteAll } from "../../redux/actions/session";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
 const Settings = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading] = useState(false);
+  const [isSuccess] = useState(false);
 
   const error = useSelector((state) => state?.session?.error);
   const dispatch = useDispatch();

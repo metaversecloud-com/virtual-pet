@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./VirtualFriend.scss";
 import { getVisitor, getPet } from "../redux/actions/session";
-// import Chat from "../components/chat/Chat";
 
 import Pet from "../components/pets/pet";
 import MobileMenu from "../components/mobileMenu/MobileMenu";
