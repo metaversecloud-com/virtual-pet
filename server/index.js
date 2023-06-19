@@ -16,6 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
+
 // Mova esta linha para cima, antes de servir os arquivos estáticos do React
 app.use("/backend", router);
 
