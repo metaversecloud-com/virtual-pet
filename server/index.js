@@ -17,7 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-// Mova esta linha para cima, antes de servir os arquivos estáticos do React
 app.use("/backend", router);
 
 if (process.env.NODE_ENV === "production") {
