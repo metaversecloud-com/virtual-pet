@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./MobileMenu.scss";
 
 function MobileMenu() {
-  const dataObject = useSelector(
-    (state) => state?.session?.droppedAsset?.dataObject
-  );
-
   const getQueryParams = () => {
     const queryParameters = new URLSearchParams(window.location.search);
     const visitorId = queryParameters.get("visitorId");

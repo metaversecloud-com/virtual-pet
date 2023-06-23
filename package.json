@@ -2,21 +2,21 @@
   "author": "metaversecloud.com | topia.io",
   "name": "sdk-virtual-pet",
   "dependencies": {
-    "@rtsdk/topia": "^0.3.1",
+    "@rtsdk/topia": "^0.3.4",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
-    "concurrently": "^8.0.1",
+    "concurrently": "^8.2.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "openai": "^3.2.1",
+    "openai": "^3.3.0",
     "regenerator-runtime": "^0.13.11",
     "yalc": "^1.0.0-pre.53"
   },
   "workspaces": [
-        "client",
-        "server"
-    ],
+    "client",
+    "server"
+  ],
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -25,9 +25,9 @@
     "build": "npm run build -w client",
     "link-sdk": "yalc link @rtsdk/topia",
     "unlink-sdk": "yalc remove @rtsdk/topia",
-    "server": "node server/index.js",
-    "client": "npm start --prefix client",
-    "start": "npm run -ws"
+    "server": "npm start -w server",
+    "client": "npm start -w client",
+    "start": "npm start -w server"
   },
   "type": "module",
   "version": "1.0.0"

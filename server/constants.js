@@ -1,4 +1,3 @@
-const BASE_URL = "https://virtual-pet.herokuapp.com";
-// const BASE_URL = "http://localhost:3001";
+const BASE_URL = process.env.BASE_URL || "https://virtual-pet.topia-rtsdk.com";
 
 export default { BASE_URL };

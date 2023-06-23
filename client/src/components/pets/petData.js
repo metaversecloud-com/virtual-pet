@@ -97,4 +97,6 @@ const unicorn = {
   },
 };
 
-export default { dragon, penguin, unicorn };
+const petData = { dragon, penguin, unicorn };
+
+export default petData;
