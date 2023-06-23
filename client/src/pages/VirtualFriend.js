@@ -29,7 +29,7 @@ const VirtualFriend = () => {
       return <Pet petAge="baby" />;
     }
     if (level === 1) {
-      return <Pet petAge="adolescent" />;
+      return <Pet petAge="teen" />;
     }
     if (level >= 2) {
       return <Pet petAge="adult" />;

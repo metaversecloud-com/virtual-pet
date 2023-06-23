@@ -65,9 +65,10 @@ const Pet = ({ petAge }) => {
   useEffect(() => {
     const petAgeMap = {
       baby: petData?.[petType]?.baby,
-      adolescent: petData?.[petType]?.adolescent,
+      teen: petData?.[petType]?.teen,
       adult: petData?.[petType]?.adult,
     };
+
     setPetSelected(petAgeMap[petAge]);
   }, [petAge, pet, petType]);
 
@@ -227,6 +228,7 @@ const Pet = ({ petAge }) => {
         alt="Pet"
         className={petState.isSleeping ? "sleeping" : ""}
       />
+
       <ExperienceBar isFeeding={petState.isFeeding} />
       <CardBody>
         <CardTitle tag="h5">

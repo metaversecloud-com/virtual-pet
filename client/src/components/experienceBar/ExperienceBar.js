@@ -35,7 +35,6 @@ const ExperienceBar = () => {
 
   useEffect(() => {
     const exp = pet?.experience || 0;
-    console.log("exp", (exp / totalExperienceNeededForNextLevel(exp)) * 100);
     setExperience((exp / totalExperienceNeededForNextLevel(exp)) * 100);
     setLevel(Math.floor(getLevel(exp)));
   }, [pet]);
