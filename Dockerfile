@@ -6,4 +6,5 @@ EXPOSE 3000
 RUN npm run build
 ENV BROWSER=none
 ENV NODE_ENV=production
+ENV PORT=5000
 CMD ["npm", "start"]

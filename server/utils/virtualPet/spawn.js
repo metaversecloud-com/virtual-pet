@@ -13,6 +13,7 @@ import constants from "../../constants.js";
  */
 export const spawn = async (req, res) => {
   try {
+    console.log("Spawning the Pet");
     const {
       assetId,
       interactivePublicKey,
@@ -59,7 +60,9 @@ export const spawn = async (req, res) => {
     return res.json({ success: true });
   } catch (error) {
     console.error("Error while spawning the pet", error);
-    return res.status(500).send({ error, success: false });
+    return res
+      .status(500)
+      .send({ error: JSON.stringify(error), success: false });
   }
 };
 
