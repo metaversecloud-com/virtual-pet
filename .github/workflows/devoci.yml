@@ -1,4 +1,4 @@
-name: CICD
+name: OCI_Deploy
 
 on:
   push:
@@ -10,7 +10,6 @@ on:
         type: string
         default: 'dev'
 env:
-  REGISTRY: '368076259134.dkr.ecr.us-east-1.amazonaws.com'
   REPOSITORY: 'sdk-apps'
   IMAGE_TAG: 'sdk-virtual-pet'
         
