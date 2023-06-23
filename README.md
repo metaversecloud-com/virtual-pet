@@ -11,11 +11,14 @@ This boilerplate is meant to give you a simple starting point to build new featu
 ## Add your .env environmental variables
 
 ```json
-API_KEY=488ecv4e-82ea-4r41-av3a-fdf73fgfq6v6
-API_URL=http://localhost:3001
 INSTANCE_DOMAIN=api.topia.io
-INTERACTIVE_KEY=enteryourinteractivekey
-INTERACTIVE_SECRET=enteryoursecret
+INSTANCE_PROTOCOL=https
+INTERACTIVE_KEY=xxxxxxxxxxxxx
+INTERACTIVE_SECRET=xxxxxxxxxxxxxx
+API_KEY=xxxxxxxxxxxxx
+IMG_ASSET_ID=xxxxxxxxxxxxx
+NODE_ENV=production
+REACT_APP_API_URL=https://virtual-pet.topia-rtsdk.com # The url where the app is deployed
 ```
 
 ### Where to find API_KEY, INTERACTIVE_KEY and INTERACTIVE_SECRET
@@ -23,11 +26,14 @@ INTERACTIVE_SECRET=enteryoursecret
 [Topia Dev Account Dashboard](https://dev.topia.io/t/dashboard/integrations)
 [Topia Production Account Dashboard](https://topia.io/t/dashboard/integrations)
 
-# Deploying to Heroku
+## Deployment
 
-- Go to https://heroku.com and create an account if you don't already have one.
-- Create a new Heroku project.
-- Add your .env parameters to a heroku project.
-- Add both the `https://github.com/mars/create-react-app-buildpack.git` and `heroku/nodejs` buildpacks to your project.
-- From your terminal, type `git remote add heroku <your heroku git URL>`.
-- From your terminal, type `git push heroku master`.
+Juan Pablo deployed the APP to AWS and we have logs and cloudwatch configured there.
+
+## External Configuration (Configuring WORLD)
+
+You need to place an asset to the world to be used as a Pet Store
+
+The Asset has to be opened in the Drawer, and you need to configure the Credentials by going to Integrations => and toggle to on the ADD PLAYER SESSION CREDENTIALS TO ASSET INTERACTIONS
+
+After it go to Asset => Links => Add Website and place the deployment URL (like `https://virtual-pet.topia-rtsdk.com`) and click FORCE LINK TO OPEN IN DRAWER IFRAME

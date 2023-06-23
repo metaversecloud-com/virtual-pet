@@ -8,6 +8,7 @@ node_modules/
 .env.local
 .env.development
 .env.production
+.env-k12
 
 # Ignore build artifacts and logs
 dist/
