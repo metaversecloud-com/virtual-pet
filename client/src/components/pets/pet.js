@@ -234,7 +234,11 @@ const Pet = ({ petAge }) => {
         <CardTitle tag="h5">
           {petSelected?.petDescription} - {pet?.name}
         </CardTitle>{" "}
-        <CardSubtitle tag="h6" className="mb-2 text-muted">
+        <CardSubtitle
+          tag="h6"
+          className="mb-2 text-muted"
+          style={{ color: "grey" }}
+        >
           {getMessage()}
         </CardSubtitle>
         <ActionIconsContainer
