@@ -123,7 +123,7 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 
   await petSpawnedDroppedAsset?.updateClickType({
     clickType: "link",
-    clickableLink: `https://virtual-pet.herokuapp.com?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
+    clickableLink: `${constants.BASE_URL}?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
     clickableLinkTitle: "Virtual Pet",
     clickableDisplayTextDescription: "Play with your Virtual Pet",
     clickableDisplayTextHeadline: "Virtual Pet",
