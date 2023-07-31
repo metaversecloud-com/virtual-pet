@@ -1,13 +1,56 @@
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../../public/fonts/Quicksand-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../../public/fonts/Quicksand-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../../public/fonts/Quicksand-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../../public/fonts/Quicksand-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../../public/fonts/Quicksand-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 .virtual-friend-wrapper {
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #2b2d31;
+  background-color: #ffffff;
+  position: relative;
+  padding-bottom: 50px;
 
   .white-overlay {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
   .action-icon {
@@ -15,11 +58,12 @@
     font-size: 36px;
     margin-right: 5px;
     padding: 10px;
-    background-color: #007bff;
+    background-color: white;
     border-radius: 50%;
-    border: 2px solid #6c757d; /* Mudar cor da borda */
-    color: white;
+    border: 2px solid #6c757d;
+    color: #000000; 
     width: 68px;
+    color: #0A2540;
   }
 
   .action-icon.disabled {
@@ -41,24 +85,37 @@
     background: none;
     border-radius: 5px;
     background: none !important;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.8);  // changed to black
   }
 
-  .card-body {
-    border: none;
-    border-bottom: 1px solid grey;
+  // .card-body {
+  //   border: none;
+  //   border-bottom: 1px solid grey;
+  // }
+
+  .card-img-top {
+      border-radius: 8px;
+      border: 1px solid var(--navy-100, #EBEDEF);
+      width: 93%;
+      margin: 0 auto;
   }
 
   .spawn-button {
-    width: 100%;
+    width: 200px;
     text-align: center;
     padding: 10px;
     font-size: 18px;
-    color: white;
-    background-color: #007bff;
+    color: #ffffff;
+    background: var(--navy-900, #0A2540);
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 8px; 
+
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .spawn-button:hover {

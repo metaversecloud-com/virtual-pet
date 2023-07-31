@@ -226,7 +226,7 @@ const Pet = ({ petAge }) => {
             : petSelected?.imgPathNeutral
         }
         alt="Pet"
-        className={petState.isSleeping ? "sleeping" : ""}
+        className={`img-border ${petState.isSleeping ? "sleeping" : ""}`}
       />
 
       <ExperienceBar isFeeding={petState.isFeeding} />
@@ -237,7 +237,7 @@ const Pet = ({ petAge }) => {
         <CardSubtitle
           tag="h6"
           className="mb-2 text-muted"
-          style={{ color: "grey" }}
+          style={{ color: "grey", paddingBottom: "20px" }}
         >
           {getMessage()}
         </CardSubtitle>
@@ -248,7 +248,7 @@ const Pet = ({ petAge }) => {
           handlePetAction={handlePetAction}
         />
       </CardBody>
-      <CardFooter>
+      <CardFooter style={{ padding: 0 }}>
         <button
           className={`spawn-button ${
             petState.spawnPetButtonIsDisabled ||
@@ -259,7 +259,7 @@ const Pet = ({ petAge }) => {
           }`}
           onClick={!petState.spawnPetButtonIsDisabled ? handleSpawnPet : null}
         >
-          <i className="fas fa-wand-magic-sparkles"></i> Spawn Pet
+          Spawn Pet
         </button>
       </CardFooter>
     </Card>
