@@ -229,7 +229,6 @@ const Pet = ({ petAge }) => {
         className={`img-border ${petState.isSleeping ? "sleeping" : ""}`}
       />
 
-      <ExperienceBar isFeeding={petState.isFeeding} />
       <CardBody>
         <CardTitle tag="h5">
           {petSelected?.petDescription} - {pet?.name}
@@ -238,13 +237,14 @@ const Pet = ({ petAge }) => {
           tag="h6"
           className="mb-2 text-muted"
           style={{
-            color: "grey",
-            paddingBottom: "20px",
+            color: "#3B5166",
+            paddingBottom: "0px",
             fontFamily: "Open Sans",
           }}
         >
           {getMessage()}
         </CardSubtitle>
+        <ExperienceBar isFeeding={petState.isFeeding} />
         <ActionIconsContainer
           isSleeping={petState.isSleeping}
           isLoading={petState.isLoading}
@@ -252,6 +252,7 @@ const Pet = ({ petAge }) => {
           handlePetAction={handlePetAction}
         />
       </CardBody>
+
       <CardFooter style={{ padding: 0 }}>
         <button
           className={`spawn-button ${
