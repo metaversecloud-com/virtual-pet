@@ -38,6 +38,12 @@
   font-display: swap;
 }
 
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
 .virtual-friend-wrapper {
   height: 100vh;
@@ -90,12 +96,7 @@
     border-radius: 5px;
     background: none !important;
     color: rgba(0, 0, 0, 0.8);  // changed to black
-  }
-
-  // .card-body {
-  //   border: none;
-  //   border-bottom: 1px solid grey;
-  // }
+  }  
 
   .card-img-top {
       border-radius: 8px;

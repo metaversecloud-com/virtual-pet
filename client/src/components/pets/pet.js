@@ -210,7 +210,20 @@ const Pet = ({ petAge }) => {
       />
       <ExperienceBar isFeeding={petState.isFeeding} />
       <CardBody>
-        <CardTitle tag="h5">{petSelected?.petDescription}</CardTitle>
+        <CardTitle tag="h5">
+          {petSelected?.petDescription} - {pet?.name}
+        </CardTitle>
+        <CardSubtitle
+          tag="h6"
+          className="mb-2 text-muted"
+          style={{
+            color: "#3B5166",
+            paddingBottom: "0px",
+            fontFamily: "Open Sans",
+          }}
+        >
+          Owner: {pet?.username}
+        </CardSubtitle>
       </CardBody>
     </Card>
   );

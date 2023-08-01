@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners"; // import your spinner here
 import "./VirtualFriend.scss";
 import { getVisitor, getPet } from "../redux/actions/session";
 
@@ -9,14 +10,20 @@ import MobileMenu from "../components/mobileMenu/MobileMenu";
 const VirtualFriend = () => {
   const dispatch = useDispatch();
   const [level, setLevel] = useState(0);
+  const [loading, setLoading] = useState(true); // new state to track loading
 
   const pet = useSelector((state) => state?.session?.pet);
   const visitor = useSelector((state) => state?.session?.visitor);
   const petType = pet?.petType;
 
   useEffect(() => {
-    dispatch(getVisitor());
-    dispatch(getPet());
+    const fetchData = async () => {
+      await dispatch(getVisitor());
+      await dispatch(getPet());
+      setLoading(false); // set loading to false after data is loaded
+    };
+
+    fetchData();
   }, [dispatch]);
 
   useEffect(() => {
@@ -37,6 +44,14 @@ const VirtualFriend = () => {
       return <Pet />;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <ClipLoader color={"#123abc"} loading={loading} size={150} />
+      </div>
+    ); // return a loading spinner
+  }
 
   return (
     <div className="virtual-friend-wrapper">
