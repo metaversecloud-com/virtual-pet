@@ -66,6 +66,10 @@
     color: #0A2540;
   }
 
+  .card-title {
+    font-family: Quicksand;
+  }
+
   .action-icon.disabled {
     cursor: not-allowed;
     opacity: 0.5;
@@ -116,6 +120,7 @@
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
+    font-family: "Open Sans"
   }
 
   .spawn-button:hover {

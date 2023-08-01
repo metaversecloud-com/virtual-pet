@@ -237,7 +237,11 @@ const Pet = ({ petAge }) => {
         <CardSubtitle
           tag="h6"
           className="mb-2 text-muted"
-          style={{ color: "grey", paddingBottom: "20px" }}
+          style={{
+            color: "grey",
+            paddingBottom: "20px",
+            fontFamily: "Open Sans",
+          }}
         >
           {getMessage()}
         </CardSubtitle>
