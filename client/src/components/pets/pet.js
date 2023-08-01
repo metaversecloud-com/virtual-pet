@@ -253,7 +253,7 @@ const Pet = ({ petAge }) => {
         />
       </CardBody>
 
-      <CardFooter style={{ padding: 0 }}>
+      <CardFooter style={{ padding: 0, border: "none" }}>
         <button
           className={`spawn-button ${
             petState.spawnPetButtonIsDisabled ||

@@ -19,17 +19,18 @@
 
 .experience-bar {
   height: 20px;
-    background-color: #d3d3d3;
-    border-radius: 5px;
+    background-color: #ECF9F3;
+    border-radius: 100px;
     flex-grow: 0.95;
     position: relative;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 .experience-bar-inner {
   height: 100%;
-  background-color: #0A2540;
-  border-radius: 5px;
+  background-color: #00875A;
+  border-radius: 100px;
 }
 
 .level-indicator {
