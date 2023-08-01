@@ -41,7 +41,7 @@ const VirtualFriend = () => {
   return (
     <div className="virtual-friend-wrapper">
       {getPetComponent()}
-      {visitor?.isAdmin && <MobileMenu />}
+      {/* {visitor?.isAdmin && <MobileMenu />} */}
     </div>
   );
 };
