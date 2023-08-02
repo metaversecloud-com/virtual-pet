@@ -230,8 +230,8 @@ const Pet = ({ petAge }) => {
         alt="Pet"
         className={petState.isSleeping ? "sleeping" : ""}
       />
-      <ExperienceBar isFeeding={petState.isFeeding} />
       <CardBody>
+        <ExperienceBar isFeeding={petState.isFeeding} />
         <CardTitle tag="h5">{pet?.name}</CardTitle>
         <CardSubtitle
           tag="h6"
