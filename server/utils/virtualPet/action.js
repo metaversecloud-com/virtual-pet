@@ -1,11 +1,18 @@
 import { Visitor } from "../topiaInit.js";
 import { isPetInWorld, canPerformAction } from "./utils.js";
 
+// const ACTION_COOLDOWNS = {
+//   PLAY: 1000 * 60 * 60 * 15,
+//   SLEEP: 1000 * 60 * 60 * 45,
+//   FEED: 1000 * 60 * 60 * 1,
+//   TRAIN: 1000 * 60 * 60 * 30,
+// };
+
 const ACTION_COOLDOWNS = {
-  PLAY: 1000 * 60 * 60 * 15,
-  SLEEP: 1000 * 60 * 60 * 45,
-  FEED: 1000 * 60 * 60 * 1,
-  TRAIN: 1000 * 60 * 60 * 30,
+  PLAY: 1,
+  SLEEP: 1,
+  FEED: 1,
+  TRAIN: 1,
 };
 
 const ACTION_EXPERIENCE_GAIN = {

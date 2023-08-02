@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -261,17 +262,19 @@ const Pet = ({ petAge }) => {
 
   return isPetAssetOwner ? (
     <Card className="virtual-friend white-overlay">
-      <CardImg
-        top
-        width="100%"
-        src={
-          petState.isFeeding
-            ? petSelected?.imgPathSmiling
-            : petSelected?.imgPathNeutral
-        }
-        alt="Pet"
-        className={`img-border ${petState.isSleeping ? "sleeping" : ""}`}
-      />
+      {petState.isFeeding ? (
+        <video width="100%" autoPlay loop muted>
+          <source src="/assets/dragon/feeding.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <CardImg
+          top
+          width="100%"
+          src={petSelected?.imgPathNeutral}
+          alt="Pet"
+          className={`img-border ${petState.isSleeping ? "sleeping" : ""}`}
+        />
+      )}
 
       <CardBody>
         <ExperienceBar isFeeding={petState.isFeeding} />
