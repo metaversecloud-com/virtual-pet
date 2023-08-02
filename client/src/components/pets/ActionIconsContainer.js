@@ -66,7 +66,7 @@ const ActionIconsContainer = ({
           target={icon.id}
           toggle={() => toggle(icon.id)}
         >
-          Add pet to the world before doing actions
+          Add pet to the world before taking actions
         </Tooltip>
       ))}
     </>
