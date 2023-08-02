@@ -3,6 +3,7 @@ import {
   processTextWithAI,
   deleteAll,
   spawn,
+  pickup,
   get,
   create,
   chatWithPet,
@@ -22,6 +23,7 @@ router.post("/assistant", processTextWithAI);
 router.get("/pet", get);
 router.post("/pet", create);
 router.post("/pet/spawn", spawn);
+router.post("/pet/pickup", pickup);
 router.post("/pet/action", action);
 router.delete("/pet", deleteAll);
 router.post("/pet/chat", chatWithPet);

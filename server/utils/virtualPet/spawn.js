@@ -1,4 +1,3 @@
-import axios from "axios";
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
 import constants from "../../constants.js";
 

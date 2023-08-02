@@ -77,6 +77,24 @@ export const spawnPet = () => async (dispatch) => {
   }
 };
 
+export const pickupPet = () => async (dispatch) => {
+  try {
+    const queryParams = getQueryParams();
+    const url = `backend/pet/pickup?${queryParams}`;
+    const response = await axios.post(url);
+
+    if (response.status === 200) {
+      dispatch(getPet());
+    }
+  } catch (error) {
+    dispatch(setError("There was an error while spawning the pet"));
+    if (error.response && error.response.data) {
+    } else {
+    }
+    return false;
+  }
+};
+
 export const getDroppedAsset = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();

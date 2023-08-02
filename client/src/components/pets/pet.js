@@ -8,7 +8,11 @@ import {
   CardSubtitle,
   CardFooter,
 } from "reactstrap";
-import { spawnPet, executeAction } from "../../redux/actions/session";
+import {
+  spawnPet,
+  pickupPet,
+  executeAction,
+} from "../../redux/actions/session";
 import ExperienceBar from "../experienceBar/ExperienceBar";
 import petData from "./petData";
 import ActionIconsContainer from "./ActionIconsContainer";
@@ -34,6 +38,7 @@ const Pet = ({ petAge }) => {
     dontWantToPlay: false,
     isLoading: false,
     spawnPetButtonIsDisabled: false,
+    pickupPetButtonIsDisabled: false,
   };
 
   const [petState, setPetState] = useState(initialPetState);
@@ -113,6 +118,23 @@ const Pet = ({ petAge }) => {
     await dispatch(spawnPet());
     const timer = setTimeout(() => {
       updatePetState({ spawnPetButtonIsDisabled: false });
+    }, 3500);
+    return () => clearTimeout(timer);
+  };
+
+  // Remove the pet to the world
+  const handlePickupPet = async () => {
+    resetPetState();
+    updatePetState({
+      spawnPetButtonIsDisabled: true,
+      pickupPetButtonIsDisabled: true,
+    });
+    await dispatch(pickupPet());
+    const timer = setTimeout(() => {
+      updatePetState({
+        spawnPetButtonIsDisabled: false,
+        pickupPetButtonIsDisabled: false,
+      });
     }, 3500);
     return () => clearTimeout(timer);
   };
@@ -210,9 +232,7 @@ const Pet = ({ petAge }) => {
       />
       <ExperienceBar isFeeding={petState.isFeeding} />
       <CardBody>
-        <CardTitle tag="h5">
-          {petSelected?.petDescription} - {pet?.name}
-        </CardTitle>
+        <CardTitle tag="h5">{pet?.name}</CardTitle>
         <CardSubtitle
           tag="h6"
           className="mb-2 text-muted"
@@ -222,7 +242,18 @@ const Pet = ({ petAge }) => {
             fontFamily: "Open Sans",
           }}
         >
-          Owner: {pet?.username}
+          My owner is {pet?.username}
+        </CardSubtitle>
+        <CardSubtitle
+          tag="h6"
+          className="mb-2 text-muted"
+          style={{
+            color: "#3B5166",
+            paddingBottom: "0px",
+            fontFamily: "Open Sans",
+          }}
+        >
+          I'm a {petSelected?.petDescription}
         </CardSubtitle>
       </CardBody>
     </Card>
@@ -243,21 +274,23 @@ const Pet = ({ petAge }) => {
       />
 
       <CardBody>
+        <ExperienceBar isFeeding={petState.isFeeding} />
         <CardTitle tag="h5">
-          {petSelected?.petDescription} - {pet?.name}
+          <b style={{ color: "#0A2540" }}>
+            {petSelected?.petDescription} - {pet?.name}
+          </b>
         </CardTitle>{" "}
         <CardSubtitle
           tag="h6"
           className="mb-2 text-muted"
           style={{
             color: "#3B5166",
-            paddingBottom: "0px",
+            paddingBottom: "20px",
             fontFamily: "Open Sans",
           }}
         >
           {getMessage()}
         </CardSubtitle>
-        <ExperienceBar isFeeding={petState.isFeeding} />
         <ActionIconsContainer
           isSleeping={petState.isSleeping}
           isLoading={petState.isLoading}
@@ -267,18 +300,35 @@ const Pet = ({ petAge }) => {
       </CardBody>
 
       <CardFooter style={{ padding: 0, border: "none" }}>
-        <button
-          className={`spawn-button ${
-            petState.spawnPetButtonIsDisabled ||
-            petState.isSleeping ||
-            petState.isLoading
-              ? "disabled"
-              : ""
-          }`}
-          onClick={!petState.spawnPetButtonIsDisabled ? handleSpawnPet : null}
-        >
-          Spawn Pet
-        </button>
+        {!pet.isPetInWorld ? (
+          <button
+            className={`spawn-button ${
+              petState.spawnPetButtonIsDisabled ||
+              petState.isSleeping ||
+              petState.isLoading
+                ? "disabled"
+                : ""
+            }`}
+            onClick={!petState.spawnPetButtonIsDisabled ? handleSpawnPet : null}
+          >
+            Call Pet
+          </button>
+        ) : (
+          <button
+            className={`spawn-button ${
+              petState.spawnPetButtonIsDisabled ||
+              petState.isSleeping ||
+              petState.isLoading
+                ? "disabled"
+                : ""
+            }`}
+            onClick={
+              !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
+            }
+          >
+            Pick up Pet
+          </button>
+        )}
       </CardFooter>
     </Card>
   ) : (
