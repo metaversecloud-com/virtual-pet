@@ -1,7 +1,7 @@
 .mascot-selector-wrapper {
   background-color: #ffffff;
   padding-top: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 60px;
 
   .card {
     cursor: pointer;
@@ -35,6 +35,7 @@
     color: rgba(0, 0, 0, 0.8);
     border-color: #000000 !important;
     opacity: 1;
+    background-color: #f3f5f6;
   }
 
   .mascot-card:not(.selected) {
@@ -64,17 +65,18 @@
   }
 
   .card-body {
-    background-color: #ffffff;
+    // background-color: #ffffff;
   }
 
   .mascot-title {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: rgba(0, 0, 0, 0.8);
+    text-align: left;
+    margin-bottom: 20px;
+    color: #0A2540;
   }
 
   .mascot-title h1 {
-    font-size: 2rem;
+    font-size: 18px;
+    font-family: "Quicksand";
     font-weight: bold;
   }
 
@@ -103,6 +105,10 @@
   .mascot-image-container {
     position: relative;
     overflow: hidden;
+    border: 1px solid grey;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
   }
 
   .fixed-bottom {
@@ -116,16 +122,17 @@
   .pet-name-selection {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     margin: 0 auto;
   }
 
   .pet-name-selection span {
-    font-size: 1.2em;
+    font-size: 14px;
     margin-bottom: 10px;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.8);
+    font-family: 'Open Sans';
+    color: #4F6275;
   }
 
   .dropdown {
@@ -141,7 +148,14 @@
     margin-bottom: 30px;
     border-radius: 8px;
     background-color: white;
-    color: darkgray;
+    color: #4F6275;
+  }
+
+  .dropdown-toggle {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 12px !important;
   }
 
   @keyframes glowing {
