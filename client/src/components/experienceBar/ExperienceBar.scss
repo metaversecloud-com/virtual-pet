@@ -2,9 +2,11 @@
   position: relative;
   bottom: 0;
   width: 100%;
-  display: flex;
+  display: block;
   align-items: center;
   padding: 5px;
+  padding-left: 0px;
+  padding-right: 0px;
   margin-bottom: 20px;
 }
 
@@ -40,4 +42,15 @@
   transform: translate(-50%, -50%);
   font-size: 14px;
   color: #000000;
+}
+
+.level-text {
+  color: #00875A;
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19.6px;
+  letter-spacing: 0.25px;
+  margin-top: 5px;
 }

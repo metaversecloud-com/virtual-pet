@@ -62,18 +62,32 @@
   .action-icon {
     cursor: pointer;
     font-size: 16px;
-    margin-right: 5px;
     padding: 10px;
     background-color: white;
     border-radius: 50%;
     border: 2px solid #F3F5F6;
-    width: 50px;
     color: #0A2540;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .card-title {
     font-family: Quicksand;
     color: #0A2540;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .card-subtitle {
+    color: #3B5166;
+    text-align: center;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19.6px;
+    letter-spacing: 0.25px;
   }
 
   .action-icon.disabled {
@@ -109,22 +123,25 @@
 
   .spawn-button {
     text-align: center;
-    font-size: 18px;
     color: #ffffff;
     background: var(--navy-900, #0A2540);
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-radius: 8px; 
     position: fixed;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
-    font-family: "Open Sans";
-    padding-right: 16px;
-    padding-left: 16px;
-    max-height: 40px;
     height: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    max-height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 8px;
+    font-family: 'Open Sans';
+    line-height: 19.6px;
+    letter-spacing: 0.25px;
   }
 
   .spawn-button:hover {

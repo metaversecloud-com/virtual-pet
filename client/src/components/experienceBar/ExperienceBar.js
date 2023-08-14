@@ -48,7 +48,7 @@ const ExperienceBar = () => {
           style={{ width: `${experience}%` }}
         ></div>
         <span className="level-indicator"></span>
-        <p>
+        <p className="level-text">
           <b
             style={{
               fontFamily: "Open Sans",
