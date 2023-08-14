@@ -28,6 +28,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-split": "^2.0.14",
+    "react-svg-loader": "^3.0.3",
     "reactstrap": "^9.2.0",
     "redux-first-history": "^5.1.1",
     "web-vitals": "^3.4.0"
