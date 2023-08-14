@@ -301,21 +301,25 @@ const Pet = ({ petAge }) => {
 
       <CardFooter style={{ padding: 0, border: "none" }}>
         {!pet.isPetInWorld ? (
-          <button
-            className={`spawn-button ${
-              petState.spawnPetButtonIsDisabled ||
-              petState.isSleeping ||
-              petState.isLoading
-                ? "disabled"
-                : ""
-            }`}
-            onClick={!petState.spawnPetButtonIsDisabled ? handleSpawnPet : null}
-          >
-            Call Pet
-          </button>
+          <div className="fixed-bottom">
+            <button
+              className={`topia-default-button ${
+                petState.spawnPetButtonIsDisabled ||
+                petState.isSleeping ||
+                petState.isLoading
+                  ? "disabled"
+                  : ""
+              }`}
+              onClick={
+                !petState.spawnPetButtonIsDisabled ? handleSpawnPet : null
+              }
+            >
+              Call Pet
+            </button>
+          </div>
         ) : (
           <button
-            className={`spawn-button ${
+            className={`topia-default-button ${
               petState.spawnPetButtonIsDisabled ||
               petState.isSleeping ||
               petState.isLoading

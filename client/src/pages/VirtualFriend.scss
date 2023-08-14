@@ -121,29 +121,6 @@
       margin: 0 auto;
   }
 
-  .spawn-button {
-    text-align: center;
-    color: #ffffff;
-    background: var(--navy-900, #0A2540);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    position: fixed;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 40px;
-    font-size: 14px;
-    font-weight: 600;
-    max-height: 40px;
-    padding-left: 16px;
-    padding-right: 16px;
-    border-radius: 8px;
-    font-family: 'Open Sans';
-    line-height: 19.6px;
-    letter-spacing: 0.25px;
-  }
-
   .spawn-button:hover {
     background-color: #0056b3;
   }
@@ -156,4 +133,33 @@
   .spawn-button i {
     margin-right: 5px;
   }
+}
+
+.topia-default-button {
+  text-align: center;
+  color: #ffffff;
+  background: var(--navy-900, #0A2540);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  max-height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 8px;
+  font-family: 'Open Sans';
+  line-height: 19.6px;
+  letter-spacing: 0.25px;
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 1rem !important;
+  text-align: center;
 }
