@@ -120,7 +120,7 @@ const MascotFirstTimeCreation = () => {
             </Col>
           ))}
         </Row>
-        <div className="fixed-bottom">
+        <div className="fixed-bottom" style={{ background: "white" }}>
           <button className="topia-default-button" onClick={handleSelection}>
             Choose {selectedMascot.name}
           </button>

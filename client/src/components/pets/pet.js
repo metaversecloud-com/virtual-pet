@@ -318,20 +318,22 @@ const Pet = ({ petAge }) => {
             </button>
           </div>
         ) : (
-          <button
-            className={`topia-default-button ${
-              petState.spawnPetButtonIsDisabled ||
-              petState.isSleeping ||
-              petState.isLoading
-                ? "disabled"
-                : ""
-            }`}
-            onClick={
-              !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
-            }
-          >
-            Pick up Pet
-          </button>
+          <div className="fixed-bottom" style={{ background: "white" }}>
+            <button
+              className={`topia-default-button ${
+                petState.spawnPetButtonIsDisabled ||
+                petState.isSleeping ||
+                petState.isLoading
+                  ? "disabled"
+                  : ""
+              }`}
+              onClick={
+                !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
+              }
+            >
+              Pick up Pet
+            </button>
+          </div>
         )}
       </CardFooter>
     </Card>
