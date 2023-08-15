@@ -41,7 +41,6 @@ const ExperienceBar = () => {
 
   return (
     <div className="experience-container">
-      {/* <span className="xp-badge">XP</span> */}
       <div className="experience-bar">
         <div
           className="experience-bar-inner"
