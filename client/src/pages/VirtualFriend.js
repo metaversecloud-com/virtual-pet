@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ClipLoader } from "react-spinners"; // import your spinner here
+import { ClipLoader } from "react-spinners";
 import "./VirtualFriend.scss";
 import { getVisitor, getPet } from "../redux/actions/session";
 
@@ -10,7 +10,7 @@ import MobileMenu from "../components/mobileMenu/MobileMenu";
 const VirtualFriend = () => {
   const dispatch = useDispatch();
   const [level, setLevel] = useState(0);
-  const [loading, setLoading] = useState(true); // new state to track loading
+  const [loading, setLoading] = useState(true);
 
   const pet = useSelector((state) => state?.session?.pet);
   const visitor = useSelector((state) => state?.session?.visitor);
