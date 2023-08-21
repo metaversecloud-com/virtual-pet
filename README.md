@@ -28,7 +28,6 @@ INTERACTIVE_SECRET=xxxxxxxxxxxxxx
 API_KEY=xxxxxxxxxxxxx
 IMG_ASSET_ID=xxxxxxxxxxxxx
 NODE_ENV=production
-REACT_APP_API_URL=https://virtual-pet.topia-rtsdk.com # The url where the app is deployed
 ```
 
 ### Where to find API_KEY, INTERACTIVE_KEY and INTERACTIVE_SECRET
@@ -46,4 +45,4 @@ You need to place an asset to the world to be used as a Pet Store
 
 The Asset has to be opened in the Drawer, and you need to configure the Credentials by going to Integrations => and toggle to on the ADD PLAYER SESSION CREDENTIALS TO ASSET INTERACTIONS
 
-After it go to Asset => Links => Add Website and place the deployment URL (like `https://virtual-pet.topia-rtsdk.com`) and click FORCE LINK TO OPEN IN DRAWER IFRAME
+After it go to Asset => Links => Add Website and place the deployment URL and click FORCE LINK TO OPEN IN DRAWER IFRAME

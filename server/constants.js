@@ -1,3 +1,3 @@
-const BASE_URL = process.env.BASE_URL || "https://virtual-pet.topia-rtsdk.com";
+const BASE_URL = process.env.BASE_URL;
 
 export default { BASE_URL };
