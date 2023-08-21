@@ -1,8 +1,8 @@
 import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
-import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
-axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
+// import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
+// axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
 
 export const {
   setVisitor,
