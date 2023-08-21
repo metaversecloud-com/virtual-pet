@@ -1,5 +1,5 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
-import constants from "../../constants.js";
+import { BASE_URL } from "../../constants.js";
 
 /**
  * This module contains the logic for spawning a virtual pet in the virtual world.
@@ -122,7 +122,7 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 
   await petSpawnedDroppedAsset?.updateClickType({
     clickType: "link",
-    clickableLink: `${constants.BASE_URL}?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
+    clickableLink: `${BASE_URL}?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
     clickableLinkTitle: "Virtual Pet",
     clickableDisplayTextDescription: "Play with your Virtual Pet",
     clickableDisplayTextHeadline: "Virtual Pet",
@@ -144,27 +144,27 @@ function getPetImgUrl(petType, level) {
   let petImgUrl;
   if (petType === "dragon") {
     if (level === 0) {
-      petImgUrl = `${constants.BASE_URL}/assets/dragon/world/baby.png`;
+      petImgUrl = `${BASE_URL}/assets/dragon/world/baby.png`;
     } else if (level === 1) {
-      petImgUrl = `${constants.BASE_URL}/assets/dragon/world/teen.png`;
+      petImgUrl = `${BASE_URL}/assets/dragon/world/teen.png`;
     } else {
-      petImgUrl = `${constants.BASE_URL}/assets/dragon/world/adult.png`;
+      petImgUrl = `${BASE_URL}/assets/dragon/world/adult.png`;
     }
   } else if (petType === "penguin") {
     if (level === 0) {
-      petImgUrl = `${constants.BASE_URL}/assets/penguin/world/baby.png`;
+      petImgUrl = `${BASE_URL}/assets/penguin/world/baby.png`;
     } else if (level === 1) {
-      petImgUrl = `${constants.BASE_URL}/assets/penguin/world/teen.png`;
+      petImgUrl = `${BASE_URL}/assets/penguin/world/teen.png`;
     } else {
-      petImgUrl = `${constants.BASE_URL}/assets/penguin/world/adult.png`;
+      petImgUrl = `${BASE_URL}/assets/penguin/world/adult.png`;
     }
   } else if (petType === "unicorn") {
     if (level === 0) {
-      petImgUrl = `${constants.BASE_URL}/assets/unicorn/world/baby.png`;
+      petImgUrl = `${BASE_URL}/assets/unicorn/world/baby.png`;
     } else if (level === 1) {
-      petImgUrl = `${constants.BASE_URL}/assets/unicorn/world/teen.png`;
+      petImgUrl = `${BASE_URL}/assets/unicorn/world/teen.png`;
     } else {
-      petImgUrl = `${constants.BASE_URL}/assets/unicorn/world/adult.png`;
+      petImgUrl = `${BASE_URL}/assets/unicorn/world/adult.png`;
     }
   }
   return petImgUrl;
