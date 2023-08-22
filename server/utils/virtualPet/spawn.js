@@ -1,6 +1,7 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
-import { BASE_URL } from "../../constants.js";
+import constants from "../../constants.js";
 
+let BASE_URL;
 /**
  * This module contains the logic for spawning a virtual pet in the virtual world.
  * It handles the following operations:
@@ -33,6 +34,16 @@ export const spawn = async (req, res) => {
           "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
         success: false,
       });
+    }
+
+    const protocol = req.protocol;
+    const host = req.host;
+    const port = req.port;
+
+    if (host === "localhost") {
+      BASE_URL = `https://virtual-pet.topia-rtsdk.com`;
+    } else {
+      BASE_URL = `${protocol}://${host}`;
     }
 
     const credentials = {

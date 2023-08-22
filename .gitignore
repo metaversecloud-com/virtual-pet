@@ -4,11 +4,7 @@
 node_modules/
 
 # Ignore environment configuration files
-.env
-.env.local
-.env.development
-.env.production
-.env-k12
+.env*
 
 # Ignore build artifacts and logs
 dist/

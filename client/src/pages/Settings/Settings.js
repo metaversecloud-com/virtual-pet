@@ -26,14 +26,15 @@ const Settings = () => {
           <Col md="6" className="mx-auto">
             <h3 className="text-center">Settings</h3>
             <InputGroup>
-              <Button
+              <button
                 color="primary"
                 onClick={handleDeleteAllPets}
                 disabled={isLoading}
                 style={{ margin: "0 auto" }}
+                className="topia-default-button"
               >
-                {isLoading ? "Loading..." : "Delete All Pets"}
-              </Button>
+                {isLoading ? "Loading..." : "Remove all pets"}
+              </button>
             </InputGroup>
             {isSuccess && !error && (
               <div className="mt-2 text-success">

@@ -1,36 +1,36 @@
 $small: 300px;
 $medium: 1000px;
 
-.nav-footer-mobile {
+.nav-header-mobile {
   position: fixed;
-  bottom: 0;
+  top: 0;
   width: 100%;
   height: 104px;
-  background-color: black;
+  background-color: #0a2540;
   display: block;
   padding-bottom: 7px;
   z-index: 200;
 }
 
-.nav-footer-mobile li {
+.nav-header-mobile li {
   color: white;
   margin-top: 10px;
   flex: 1;
 }
 
-.nav-footer-mobile ul,
-.nav-footer-mobile li {
+.nav-header-mobile ul,
+.nav-header-mobile li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.nav-footer-mobile a {
+.nav-header-mobile a {
   text-decoration: none;
   color: white;
 }
 
-.nav-footer-mobile span {
+.nav-header-mobile span {
   text-decoration: none;
   color: white;
   align-items: center;
@@ -40,27 +40,27 @@ $medium: 1000px;
   margin-top: 0px;
 }
 
-.nav-footer-mobile div {
+.nav-header-mobile div {
   text-align: center;
 }
 
-.nav-footer-mobile ul {
+.nav-header-mobile ul {
   align-items: center;
   display: flex;
   justify-content: center;
 }
 
-.nav-footer-mobile .downloadMenuBar {
+.nav-header-mobile .downloadMenuBar {
   height: 30px;
   width: 100%;
-  background-color: brown;
+  background-color: #0a2540;
   text-align: center;
 }
 
-.nav-footer-mobile .upperMenuBar {
+.nav-header-mobile .upperMenuBar {
   height: 30px;
   width: 100%;
-  background-color: brown;
+  background-color: #0a2540;
   text-align: center;
 }
 
@@ -80,9 +80,9 @@ $medium: 1000px;
   font-size: 12px;
 }
 
-.nav-footer-mobile a,
-.nav-footer-mobile a:visited,
-.nav-footer-mobile a:hover {
+.nav-header-mobile a,
+.nav-header-mobile a:visited,
+.nav-header-mobile a:hover {
   text-decoration: none !important;
   color: white !important;
 }

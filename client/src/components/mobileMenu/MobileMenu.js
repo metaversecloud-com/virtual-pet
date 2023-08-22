@@ -15,7 +15,7 @@ function MobileMenu() {
   };
 
   const nav = (
-    <nav className="nav-footer-mobile">
+    <nav className="nav-header-mobile">
       <ul className="upperMenuBar">
         <li>Admin Panel</li>
       </ul>
