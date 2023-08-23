@@ -162,19 +162,19 @@ function getPetImgUrl(petType, level) {
   let petImgUrlLayer1;
   if (petType === "dragon") {
     if (level === 0) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1.png`;
     } else if (level === 1) {
       petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
       petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1.png`;
     } else {
-      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1.png`;
     }
   } else if (petType === "penguin") {
     if (level === 0) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1.png`;
     } else if (level === 1) {
       petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
       petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1.png`;
@@ -184,14 +184,14 @@ function getPetImgUrl(petType, level) {
     }
   } else if (petType === "unicorn") {
     if (level === 0) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1.png`;
     } else if (level === 1) {
       petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
       petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1.png`;
     } else {
-      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1.png`;
     }
   }
 
