@@ -36,14 +36,14 @@ export const spawn = async (req, res) => {
       });
     }
 
-    const protocol = req.protocol;
+    const protocol = process.env.INSTANCE_PROTOCOL;
     const host = req.host;
     const port = req.port;
 
     if (host === "localhost") {
-      BASE_URL = `https://virtual-pet.topia-rtsdk.com`;
+      BASE_URL = `${protocol}://virtual-pet.topia-rtsdk.com`;
     } else {
-      BASE_URL = `https://${host}`;
+      BASE_URL = `${protocol}://${host}`;
     }
 
     const credentials = {
