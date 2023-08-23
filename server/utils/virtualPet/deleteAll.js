@@ -40,7 +40,7 @@ export const deleteAll = async (req, res) => {
 
     if (!visitor?.isAdmin) {
       return res.status(401).json({
-        msg: "Only admins have enough permissions to remove all pets",
+        msg: "Only admins have enough permissions to pick up all pets",
       });
     }
 

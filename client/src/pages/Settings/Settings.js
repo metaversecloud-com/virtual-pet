@@ -33,7 +33,7 @@ const Settings = () => {
                 style={{ margin: "0 auto" }}
                 className="topia-default-button"
               >
-                {isLoading ? "Loading..." : "Remove all pets"}
+                {isLoading ? "Loading..." : "Pick up all pets"}
               </button>
             </InputGroup>
             {isSuccess && !error && (
