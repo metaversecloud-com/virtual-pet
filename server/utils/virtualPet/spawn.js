@@ -43,7 +43,7 @@ export const spawn = async (req, res) => {
     if (host === "localhost") {
       BASE_URL = `https://virtual-pet.topia-rtsdk.com`;
     } else {
-      BASE_URL = `${protocol}://${host}`;
+      BASE_URL = `https://${host}`;
     }
 
     const credentials = {
