@@ -41,7 +41,7 @@ const ExperienceBar = () => {
         <p className="level-text">
           <b
             style={{
-              fontFamily: "Open Sans",
+              fontFamily: "'Open Sans'",
               color: "#00875A",
               marginBottom: "20px",
               fontSize: "14px",

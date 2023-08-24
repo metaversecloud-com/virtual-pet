@@ -103,11 +103,11 @@ const Pet = ({ petAge }) => {
     } else if (petState.isNotSleepy) {
       return "I'm not sleepy";
     } else if (petState.dontWantToPlay) {
-      return "I don't want to play right now.";
+      return "I need a break from playing.";
     } else if (petState.dontWantToTrain) {
-      return "I don't want to train right now.";
+      return "I don’t want to train anymore.";
     } else {
-      return "Ready for some action!";
+      return "";
     }
   };
 
@@ -239,7 +239,7 @@ const Pet = ({ petAge }) => {
           style={{
             color: "#3B5166",
             paddingBottom: "0px",
-            fontFamily: "Open Sans",
+            fontFamily: "'Open Sans'",
           }}
         >
           My owner is {pet?.username}
@@ -250,7 +250,7 @@ const Pet = ({ petAge }) => {
           style={{
             color: "#3B5166",
             paddingBottom: "0px",
-            fontFamily: "Open Sans",
+            fontFamily: "'Open Sans'",
           }}
         >
           I'm a {petSelected?.petDescription}
@@ -286,7 +286,7 @@ const Pet = ({ petAge }) => {
           style={{
             color: "#3B5166",
             paddingBottom: "20px",
-            fontFamily: "Open Sans",
+            fontFamily: "'Open Sans'",
           }}
         >
           {getMessage()}

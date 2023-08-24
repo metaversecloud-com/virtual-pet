@@ -83,7 +83,7 @@ const MascotFirstTimeCreation = () => {
           <h1>Choose Your Virtual Mascot</h1>
         </div>
         <div className="pet-name-selection">
-          <span>Pet's name:</span>
+          <span>Name:</span>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle caret>{selectedName}</DropdownToggle>
             <DropdownMenu>

@@ -24,7 +24,7 @@ import unicornAdultImgPathSmiling from "../../assets/unicorn/normal/adult.png";
 
 const dragon = {
   baby: {
-    beingFedMessage: "Hmmm... I like it!",
+    beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
     petDescription: "Baby Dragon",
     imgPathNeutral: dragonBabyImgPathNeutral,
@@ -32,14 +32,14 @@ const dragon = {
   },
 
   teen: {
-    beingFedMessage: "Hmmm... I like meat!",
+    beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
     petDescription: "Teen Dragon",
     imgPathNeutral: dragonTeenImgPathNeutral,
     imgPathSmiling: dragonTeenImgPathSmiling,
   },
   adult: {
-    beingFedMessage: "Hmmm... Thank you for the food my lord.",
+    beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
     petDescription: "Adult Dragon",
     imgPathNeutral: dragonAdultImgPathNeutral,
@@ -49,7 +49,7 @@ const dragon = {
 
 const penguin = {
   baby: {
-    beingFedMessage: "Hmmm... I like it!",
+    beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
     petDescription: "Baby penguin",
     imgPathNeutral: penguinBabyImgPathNeutral,
@@ -57,14 +57,14 @@ const penguin = {
   },
 
   teen: {
-    beingFedMessage: "Hmmm... I like meat!",
+    beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
     petDescription: "Teen penguin",
     imgPathNeutral: penguinTeenImgPathNeutral,
     imgPathSmiling: penguinTeenImgPathSmiling,
   },
   adult: {
-    beingFedMessage: "Hmmm... Thank you for the food my lord.",
+    beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
     petDescription: "Adult penguin",
     imgPathNeutral: penguinAdultImgPathNeutral,
@@ -74,7 +74,7 @@ const penguin = {
 
 const unicorn = {
   baby: {
-    beingFedMessage: "Hmmm... I like it!",
+    beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
     petDescription: "Baby unicorn",
     imgPathNeutral: unicornBabyImgPathNeutral,
@@ -82,14 +82,14 @@ const unicorn = {
   },
 
   teen: {
-    beingFedMessage: "Hmmm... I like meat!",
+    beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
     petDescription: "Teen unicorn",
     imgPathNeutral: unicornTeenImgPathNeutral,
     imgPathSmiling: unicornTeenImgPathSmiling,
   },
   adult: {
-    beingFedMessage: "Hmmm... Thank you for the food my lord.",
+    beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
     petDescription: "Adult unicorn",
     imgPathNeutral: unicornAdultImgPathNeutral,
