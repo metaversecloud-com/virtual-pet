@@ -44,7 +44,6 @@ export const create = async (req, res) => {
       pet = {
         username: visitor?.username,
         experience: 0,
-        food: { foodTimestamp: Date.now(), amount: 0 },
         petType,
         name,
       };

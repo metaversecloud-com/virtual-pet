@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import "./VirtualFriend.scss";
 import { getVisitor, getPet } from "../redux/actions/session";
+import { getLevel } from "./utils.js";
 
 import Pet from "../components/pets/pet";
 import MobileMenu from "../components/mobileMenu/MobileMenu";
@@ -27,18 +28,20 @@ const VirtualFriend = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const exp = pet?.experience || 0;
-    setLevel(Math.floor(exp / 100));
+    const currentPetExperience = pet?.experience || 0;
+    const { currentLevel } = getLevel(currentPetExperience);
+
+    setLevel(currentLevel);
   }, [pet, petType]);
 
   const getPetComponent = () => {
-    if (level === 0) {
+    if (level === 1) {
       return <Pet petAge="baby" />;
     }
-    if (level === 1) {
+    if (level === 2) {
       return <Pet petAge="teen" />;
     }
-    if (level >= 2) {
+    if (level >= 3) {
       return <Pet petAge="adult" />;
     } else {
       return <Pet />;

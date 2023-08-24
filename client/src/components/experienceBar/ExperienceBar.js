@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { getLevel } from "../../pages/utils.js";
 
 import "./ExperienceBar.scss";
-const BASE_EXPERIENCE_POINTS = 100;
 
 const ExperienceBar = () => {
-  const [experience, setExperience] = useState(0);
+  const [experiencePercentage, setExperiencePercentage] = useState(0);
   const [level, setLevel] = useState(0);
 
   const pet = useSelector((state) => state?.session?.pet);
 
-  function getLevel(experiencePoints) {
-    let level = 0;
-    let totalExperience = 0;
-
-    while (totalExperience <= experiencePoints) {
-      level++;
-      totalExperience += level * 100;
-    }
-
-    return level;
-  }
-
-  function totalExperienceNeededForNextLevel(experience) {
-    const currentLevel = getLevel(experience);
-    let totalPointsNeededForNextLevel = 0;
-
-    for (let count = 1; count <= currentLevel; count++) {
-      totalPointsNeededForNextLevel += count * BASE_EXPERIENCE_POINTS;
-    }
-
-    return totalPointsNeededForNextLevel;
-  }
-
   useEffect(() => {
-    const exp = pet?.experience || 0;
-    setExperience((exp / totalExperienceNeededForNextLevel(exp)) * 100);
-    setLevel(Math.floor(getLevel(exp)));
+    const currentPetExperience = pet?.experience || 0;
+
+    const {
+      currentLevel,
+      experienceNeededForNextLevel,
+      experienceNeededForTheLevelYouCurrentlyAchieved,
+    } = getLevel(currentPetExperience);
+
+    let experiencePorcentage =
+      ((currentPetExperience -
+        experienceNeededForTheLevelYouCurrentlyAchieved) /
+        (experienceNeededForNextLevel -
+          experienceNeededForTheLevelYouCurrentlyAchieved)) *
+      100;
+
+    setExperiencePercentage(experiencePorcentage);
+    setLevel(currentLevel);
   }, [pet]);
 
   return (
@@ -44,7 +35,7 @@ const ExperienceBar = () => {
       <div className="experience-bar">
         <div
           className="experience-bar-inner"
-          style={{ width: `${experience}%` }}
+          style={{ width: `${experiencePercentage}%` }}
         ></div>
         <span className="level-indicator"></span>
         <p className="level-text">
