@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Visitor } from "../topiaInit.js";
+import { Visitor, World, DroppedAsset } from "../topiaInit.js";
 
 export const deleteAll = async (req, res) => {
   try {
@@ -44,9 +44,11 @@ export const deleteAll = async (req, res) => {
       });
     }
 
-    const allPetAssets = await getAllPetAssets(urlSlug, visitor);
+    const world = await World.create(urlSlug, { credentials });
 
-    await deleteAllPets(urlSlug, allPetAssets);
+    const allPetAssets = await getAllPetAssets(urlSlug, visitor, world);
+
+    await deleteAllPets(urlSlug, allPetAssets, credentials);
 
     return res.json({ success: true });
   } catch (error) {
@@ -55,44 +57,29 @@ export const deleteAll = async (req, res) => {
   }
 };
 
-async function deleteAllPets(urlSlug, petAssets) {
-  petAssets.map((petAsset) => deletePetRequest(urlSlug, petAsset));
+async function deleteAllPets(urlSlug, petAssets, credentials) {
+  petAssets.map((petAsset) => deletePetRequest(urlSlug, petAsset, credentials));
 }
 
-async function deletePetRequest(urlSlug, petAsset) {
-  var data = {};
+async function deletePetRequest(urlSlug, petAsset, credentials) {
+  const droppedAsset = await DroppedAsset.get(petAsset?.id, urlSlug, {
+    credentials,
+  });
 
-  var config = {
-    method: "delete",
-    url: `https://${process.env.INSTANCE_DOMAIN}/api/v1/world/${urlSlug}/assets/${petAsset?.id}`,
-    headers: {
-      accept: "application/json",
-      authorization: process.env.API_KEY,
-      "Content-Type": "application/json",
-    },
-    data,
-  };
-
-  return axios(config);
+  await droppedAsset.deleteDroppedAsset();
 }
 
-async function getAllPetAssets(urlSlug) {
-  var data = {};
+async function getAllPetAssets(urlSlug, visitor, world) {
+  await world.fetchDroppedAssets();
+  const allAssets = world.droppedAssets;
 
-  var config = {
-    method: "get",
-    url: `https://${process.env.INSTANCE_DOMAIN}/api/v1/world/${urlSlug}/assets`,
-    headers: {
-      accept: "application/json",
-      authorization: process.env.API_KEY,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
+  const keys = Object.entries(allAssets);
+  let arr = keys.map((test) => {
+    return test[1];
+  });
+  arr = Array.from(arr);
 
-  const allAssets = await axios(config);
-
-  const petAsset = allAssets?.data?.filter(
+  const petAsset = arr?.filter(
     (item) => item.uniqueName && item.uniqueName?.includes(`petSystem-`)
   );
 

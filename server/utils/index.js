@@ -1,6 +1,5 @@
 export * from "./topiaInit.js";
 export * from "./world/index.js";
-export * from "./openai/openai.js";
 export * from "./virtualPet/spawn.js";
 export * from "./virtualPet/pickup.js";
 export * from "./virtualPet/get.js";
