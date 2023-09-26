@@ -34,15 +34,16 @@ export const get = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await Visitor.get(visitorId, urlSlug, {
+    const visitor = Visitor.create(visitorId, urlSlug, { credentials });
+    const petSpawnedDroppedAsset = DroppedAsset.create(assetId, urlSlug, {
       credentials,
     });
-
-    await visitor.fetchDataObject();
-
-    let petSpawnedDroppedAsset = await DroppedAsset.get(assetId, urlSlug, {
-      credentials,
-    });
+    await Promise.all([
+      petSpawnedDroppedAsset.fetchDroppedAssetById(),
+      petSpawnedDroppedAsset.fetchDataObject(),
+      visitor.fetchVisitor(),
+      visitor.fetchDataObject(),
+    ]);
 
     let isPetAssetOwner = false;
     if (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import "./VirtualFriend.scss";
-import { getVisitor, getPet } from "../redux/actions/session";
+import { getPet } from "../redux/actions/session";
 import { getLevel } from "./utils.js";
 
 import Pet from "../components/pets/pet";
@@ -19,9 +19,8 @@ const VirtualFriend = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getVisitor());
       await dispatch(getPet());
-      setLoading(false); // set loading to false after data is loaded
+      setLoading(false);
     };
 
     fetchData();
