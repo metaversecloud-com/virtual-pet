@@ -107,7 +107,7 @@ async function removeAllUserPets(urlSlug, visitor, credentials) {
 async function dropImageAsset(urlSlug, credentials, visitor, pet) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
-  const level = Math.floor(pet?.experience / 100);
+  const level = calculateLevel(pet?.experience);
 
   const { petImgUrlLayer0, petImgUrlLayer1 } = getPetImgUrl(
     pet?.petType,
@@ -196,4 +196,15 @@ function getPetImgUrl(petType, level) {
   }
 
   return { petImgUrlLayer0, petImgUrlLayer1 };
+}
+
+function calculateLevel(exp) {
+  if (exp >= 0 && exp < 1000) {
+    return 0;
+  } else if (exp < 4500) {
+    return 1;
+  } else if (exp >= 4500) {
+    return 2;
+  }
+  return 0;
 }

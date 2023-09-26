@@ -5,13 +5,13 @@ const ACTION_COOLDOWNS = {
   PLAY: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 15,
   SLEEP: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 45,
   FEED: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 60 * 1,
-  TRAIN: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 60 * 30,
+  TRAIN: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 30,
 };
 
 const ACTION_EXPERIENCE_GAIN = {
   PLAY: 5,
   SLEEP: 15,
-  FEED: 20,
+  FEED: process.env.IS_LOCALHOST ? 500 : 20,
   TRAIN: 10,
 };
 

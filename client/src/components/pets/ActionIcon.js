@@ -29,8 +29,6 @@ const ActionIcon = ({ id, iconClass, action, disabled }) => {
     <div
       className={`action-icon-wrapper ${disabled ? "disabled" : ""}`}
       onClick={disabled ? null : action}
-      // onMouseOver={() => toggleTooltip(id)}
-      // onMouseOut={() => toggleTooltip(null)}
     >
       <img id={id} src={iconSrc} alt={iconClass} className="action-icon" />
       <span className="tooltip-text">

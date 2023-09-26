@@ -34,13 +34,13 @@ const VirtualFriend = () => {
   }, [pet, petType]);
 
   const getPetComponent = () => {
-    if (level === 1) {
+    if (level < 5) {
       return <Pet petAge="baby" />;
     }
-    if (level === 2) {
+    if (level >= 5 && level < 10) {
       return <Pet petAge="teen" />;
     }
-    if (level >= 3) {
+    if (level >= 10) {
       return <Pet petAge="adult" />;
     } else {
       return <Pet />;
