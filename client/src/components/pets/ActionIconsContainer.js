@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ActionIcon from "./ActionIcon";
-import { Tooltip } from "reactstrap";
 
 const ActionIconsContainer = ({
   isSleeping,
@@ -8,20 +7,6 @@ const ActionIconsContainer = ({
   pet,
   handlePetAction,
 }) => {
-  const [tooltipOpen, setTooltipOpen] = useState(null);
-
-  const toggle = (tooltipId) => {
-    if (!pet?.isPetInWorld) {
-      setTooltipOpen(tooltipOpen === tooltipId ? null : tooltipId);
-    }
-  };
-
-  useEffect(() => {
-    if (pet?.isPetInWorld && tooltipOpen !== null) {
-      setTooltipOpen(null);
-    }
-  }, [pet?.isPetInWorld]);
-
   const FEED = "FEED";
   const SLEEP = "SLEEP";
   const PLAY = "PLAY";
@@ -57,17 +42,7 @@ const ActionIconsContainer = ({
   return (
     <>
       {actionIcons.map((icon) => (
-        <ActionIcon key={icon.id} {...icon} toggleTooltip={toggle} />
-      ))}
-      {actionIcons.map((icon) => (
-        <Tooltip
-          key={icon.id}
-          isOpen={tooltipOpen === icon.id}
-          target={icon.id}
-          toggle={() => toggle(icon.id)}
-        >
-          Call pet to take any action.
-        </Tooltip>
+        <ActionIcon key={icon.id} {...icon} pet />
       ))}
     </>
   );

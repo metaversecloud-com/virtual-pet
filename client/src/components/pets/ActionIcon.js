@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Bed from "../../assets/actionIcons/bed.svg";
 import PersonRunning from "../../assets/actionIcons/person-running.svg";
 import Play from "../../assets/actionIcons/play.svg";
@@ -11,7 +12,13 @@ const icons = {
   FEED: Utensils,
 };
 
-const ActionIcon = ({ id, iconClass, action, disabled, toggleTooltip }) => {
+function capitalize(str) {
+  if (!str || typeof str !== "string") return "";
+  return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
+}
+
+const ActionIcon = ({ id, iconClass, action, disabled }) => {
+  const pet = useSelector((state) => state?.session?.pet);
   const iconSrc = icons[id];
 
   if (!iconSrc) {
@@ -22,10 +29,13 @@ const ActionIcon = ({ id, iconClass, action, disabled, toggleTooltip }) => {
     <div
       className={`action-icon-wrapper ${disabled ? "disabled" : ""}`}
       onClick={disabled ? null : action}
-      onMouseOver={() => toggleTooltip(id)}
-      onMouseOut={() => toggleTooltip(null)}
+      // onMouseOver={() => toggleTooltip(id)}
+      // onMouseOut={() => toggleTooltip(null)}
     >
       <img id={id} src={iconSrc} alt={iconClass} className="action-icon" />
+      <span className="tooltip-text">
+        {pet?.isPetInWorld ? capitalize(id) : "Call pet to take any action."}
+      </span>
     </div>
   );
 };
