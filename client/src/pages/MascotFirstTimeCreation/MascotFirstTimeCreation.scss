@@ -50,8 +50,13 @@
   .mascot-card.selected .card-text {
     color: rgba(0, 0, 0, 0.8);
   }
+  .card-text {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px !important;
+  }
 
   .mascot-image {
+    object-fit: cover;
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -62,10 +67,6 @@
     color: rgba(0, 0, 0, 0.8);
     padding-top: 1rem;
     padding-bottom: 1rem;
-  }
-
-  .card-body {
-    // background-color: #ffffff;
   }
 
   .mascot-title {
@@ -105,10 +106,15 @@
   .mascot-image-container {
     position: relative;
     overflow: hidden;
-    border: 1px solid grey;
-    margin: 10px;
     padding: 10px;
     border-radius: 8px;
+    border: 1px solid #EBEDEF;
+    margin-left: 20px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .pet-name-selection {
@@ -150,6 +156,15 @@
     font-size: 12px !important;
   }
 
+  h5 {
+    color: #0A2540;
+    font-family: 'Quicksand';
+    font-size: 18px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+  }
+
   @keyframes glowing {
     0% {
       background-position: -200% 0;
@@ -164,8 +179,9 @@
 
   @media (max-width: 575.98px) {
     .mascot-image {
-      height: auto;
-      max-height: none;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: cover;
     }
   }
 

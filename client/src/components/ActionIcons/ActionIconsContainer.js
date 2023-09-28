@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ActionIcon from "./ActionIcon";
+import "./ActionIcon.scss";
 
 const ActionIconsContainer = ({
   isSleeping,
@@ -40,11 +41,11 @@ const ActionIconsContainer = ({
   ];
 
   return (
-    <>
+    <div>
       {actionIcons.map((icon) => (
         <ActionIcon key={icon.id} {...icon} pet />
       ))}
-    </>
+    </div>
   );
 };
 

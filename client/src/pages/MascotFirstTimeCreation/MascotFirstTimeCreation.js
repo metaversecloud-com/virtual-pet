@@ -28,21 +28,23 @@ const mascots = [
     id: 0,
     name: "Dragon",
     petType: "dragon",
-    description: "A mystical, fiery creature that soars through the skies.",
+    description:
+      "A mystical, fire-breathing creature that soars through the skies.",
     image: dragonImg,
   },
   {
     id: 1,
     name: "Penguin",
     petType: "penguin",
-    description: "An agile, fierce predator with striking patterns.",
+    description:
+      "A playful bird with striking patterns that swims but does not fly!",
     image: penguinImg,
   },
   {
     id: 2,
     name: "Unicorn",
     petType: "unicorn",
-    description: "A strong, gentle giant of the forests.",
+    description: "A magical and majestic creature that are difficult to catch.",
     image: unicornImg,
   },
 ];
@@ -104,18 +106,21 @@ const MascotFirstTimeCreation = () => {
                   selectedMascot.id === mascot.id ? "selected" : ""
                 }`}
               >
-                <div className="mascot-image-container">
-                  <CardImg
-                    top
-                    src={mascot.image}
-                    alt={mascot.name}
-                    className="mascot-image"
-                  />
-                </div>
-                <CardBody>
-                  <CardTitle tag="h5">{mascot.name}</CardTitle>
-                  <CardText>{mascot.description}</CardText>
-                </CardBody>
+                <Row className="no-gutters">
+                  <Col xs={4} className="mascot-image-container">
+                    <CardImg
+                      src={mascot.image}
+                      alt={mascot.name}
+                      className="mascot-image"
+                    />
+                  </Col>
+                  <Col xs={7}>
+                    <CardBody>
+                      <CardTitle tag="h5">{mascot.name}</CardTitle>
+                      <CardText>{mascot.description}</CardText>
+                    </CardBody>
+                  </Col>
+                </Row>
               </Card>
             </Col>
           ))}

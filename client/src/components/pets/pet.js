@@ -15,7 +15,8 @@ import {
 } from "../../redux/actions/session";
 import ExperienceBar from "../experienceBar/ExperienceBar";
 import petData from "./petData";
-import ActionIconsContainer from "./ActionIconsContainer";
+import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
+import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
 
 const DELAY_LONG = 5000;
 const DELAY_MEDIUM = 3500;
@@ -42,6 +43,7 @@ const Pet = ({ petAge }) => {
   };
 
   const [petState, setPetState] = useState(initialPetState);
+  const [showInfoAboutLevels, setShowInfoAboutLevels] = useState(false);
 
   const resetPetState = () => {
     setPetState(initialPetState);
@@ -107,7 +109,7 @@ const Pet = ({ petAge }) => {
     } else if (petState.dontWantToTrain) {
       return "I don’t want to train anymore.";
     } else {
-      return "";
+      return " ";
     }
   };
 
@@ -221,6 +223,16 @@ const Pet = ({ petAge }) => {
     });
   };
 
+  function toggleShowInfoAboutLevels() {
+    setShowInfoAboutLevels(!showInfoAboutLevels);
+  }
+
+  if (showInfoAboutLevels) {
+    return (
+      <InfoAboutLevels toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} />
+    );
+  }
+
   const notPetAssetOwnerView = () => (
     <Card className="virtual-friend white-overlay">
       <CardImg
@@ -231,7 +243,10 @@ const Pet = ({ petAge }) => {
         className={petState.isSleeping ? "sleeping" : ""}
       />
       <CardBody>
-        <ExperienceBar isFeeding={petState.isFeeding} />
+        <ExperienceBar
+          isFeeding={petState.isFeeding}
+          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+        />
         <CardTitle tag="h5">{pet?.name}</CardTitle>
         <CardSubtitle
           tag="h6"
@@ -274,29 +289,34 @@ const Pet = ({ petAge }) => {
       />
 
       <CardBody>
-        <ExperienceBar isFeeding={petState.isFeeding} />
-        <CardTitle tag="h5">
-          <b style={{ color: "#0A2540" }}>
-            {petSelected?.petDescription} - {pet?.name}
-          </b>
-        </CardTitle>{" "}
-        <CardSubtitle
-          tag="h6"
-          className="mb-2 text-muted"
-          style={{
-            color: "#3B5166",
-            paddingBottom: "20px",
-            fontFamily: "'Open Sans'",
-          }}
-        >
-          {getMessage()}
-        </CardSubtitle>
-        <ActionIconsContainer
-          isSleeping={petState.isSleeping}
-          isLoading={petState.isLoading}
-          pet={pet}
-          handlePetAction={handlePetAction}
+        <ExperienceBar
+          isFeeding={petState.isFeeding}
+          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
         />
+        <div className="action-icon-container">
+          <CardTitle tag="h5">
+            <b style={{ color: "#0A2540" }}>
+              {petSelected?.petDescription} - {pet?.name}
+            </b>
+          </CardTitle>{" "}
+          <CardSubtitle
+            tag="h6"
+            className="mb-2 text-muted"
+            style={{
+              color: "#3B5166",
+              paddingBottom: "20px",
+              fontFamily: "'Open Sans'",
+            }}
+          >
+            {getMessage()}
+          </CardSubtitle>
+          <ActionIconsContainer
+            isSleeping={petState.isSleeping}
+            isLoading={petState.isLoading}
+            pet={pet}
+            handlePetAction={handlePetAction}
+          />
+        </div>
       </CardBody>
 
       <CardFooter style={{ padding: 0, border: "none" }}>

@@ -59,21 +59,6 @@
     background-color: rgba(0, 0, 0, 0.3);
   }
 
-  .action-icon-wrapper {
-    cursor: pointer;
-    padding: 10px;
-    background-color: white;
-    border-radius: 50%;
-    border: 2px solid #F3F5F6;
-    color: #0A2540;
-    margin-left: 5px;
-    margin-right: 5px;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    position: relative;
-  }
-
   .tooltip-text {
     visibility: hidden;
     background-color: #0A2540;
@@ -150,8 +135,9 @@
   .card-img-top {
       border-radius: 8px;
       border: 1px solid var(--navy-100, #EBEDEF);
-      width: 93%;
-      margin: 0 auto;
+      width: 320px;
+      margin-left: 16px;
+      margin-right: 16px;
   }
 
   .spawn-button:hover {
@@ -200,4 +186,47 @@
   background-color: #ffffff;
   padding: 1rem !important;
   text-align: center;
+}
+
+.icon-circle-container {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  border: 1px solid var(--colors-primary-100, #EBEDEF);
+  background: var(--colors-primary-0, #FFF);
+  cursor: pointer;
+  margin-left: 15px;
+  margin-bottom: 24px;
+  }
+
+.icon-circle-text {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  padding: 0px 5px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.admin-margin {
+  margin-top: 130px;
+}
+
+.action-icon-container {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  display: block;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--navy-100, #EBEDEF);
+  margin: 0 auto;
+  width: 320px;
+  margin-top: 16px;
 }
