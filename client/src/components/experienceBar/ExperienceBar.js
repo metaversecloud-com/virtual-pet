@@ -50,11 +50,11 @@ const ExperienceBar = ({ toggleShowInfoAboutLevels }) => {
   return (
     <div className="experience-container">
       {infoIcon()}
-      <p className="level-text" style={{ textAlign: "left" }}>
+      <p className="level-text" style={{ textAlign: "left", color: "#3B5166" }}>
         <b
           style={{
             fontFamily: "'Open Sans'",
-            color: "#00875A",
+            color: "#3B5166",
             marginBottom: "20px",
             fontSize: "14px",
           }}

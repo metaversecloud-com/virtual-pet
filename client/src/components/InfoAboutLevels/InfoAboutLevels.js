@@ -49,47 +49,57 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
       {backArrowIcon()}
       <Card className="virtual-friend white-overlay">
         <div className="pet-info">
-          <CardImg
-            top
-            src={petData?.[petType]?.baby?.imgPathNeutral}
-            alt="Pet"
-            style={{
-              width: "50px",
-              borderRadius: "100px",
-              marginBottom: "16px",
-            }}
-          />
+          <div
+            className="pet-info-img-container"
+            style={{ width: "80px", height: "80px" }}
+          >
+            <CardImg
+              top
+              src={petData?.[petType]?.baby?.imgPathNeutral}
+              alt="Pet"
+              style={{
+                width: "50px",
+              }}
+            />
+          </div>
           <h5>Level 1 - 5</h5>
           <p>Baby</p>
         </div>
 
         <div className="pet-info">
-          <CardImg
-            top
-            width="100px"
-            src={petData?.[petType]?.teen?.imgPathNeutral}
-            alt="Pet"
-            style={{
-              width: "100px",
-              borderRadius: "100px",
-              marginBottom: "16px",
-            }}
-          />
+          <div
+            className="pet-info-img-container"
+            style={{ width: "130px", height: "130px" }}
+          >
+            <CardImg
+              top
+              width="100px"
+              src={petData?.[petType]?.teen?.imgPathNeutral}
+              alt="Pet"
+              style={{
+                width: "100px",
+              }}
+            />
+          </div>
+
           <h5>Level 5 - 10</h5>
           <p>Teen</p>
         </div>
         <div className="pet-info">
-          <CardImg
-            top
-            width="150px"
-            src={petData?.[petType]?.adult?.imgPathNeutral}
-            alt="Pet"
-            style={{
-              width: "150px",
-              borderRadius: "100px",
-              marginBottom: "16px",
-            }}
-          />
+          <div
+            className="pet-info-img-container"
+            style={{ width: "180px", height: "180px" }}
+          >
+            <CardImg
+              top
+              width="150px"
+              src={petData?.[petType]?.adult?.imgPathNeutral}
+              alt="Pet"
+              style={{
+                width: "140px",
+              }}
+            />
+          </div>
           <h5>Level 10+</h5>
           <p>Adult</p>
         </div>

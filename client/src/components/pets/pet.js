@@ -109,7 +109,7 @@ const Pet = ({ petAge }) => {
     } else if (petState.dontWantToTrain) {
       return "I don’t want to train anymore.";
     } else {
-      return " ";
+      return "";
     }
   };
 
@@ -247,7 +247,9 @@ const Pet = ({ petAge }) => {
           isFeeding={petState.isFeeding}
           toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
         />
-        <CardTitle tag="h5">{pet?.name}</CardTitle>
+        <CardTitle tag="h5" style={{ marginTop: "16px" }}>
+          {pet?.name}
+        </CardTitle>
         <CardSubtitle
           tag="h6"
           className="mb-2 text-muted"
@@ -276,17 +278,31 @@ const Pet = ({ petAge }) => {
 
   return isPetAssetOwner ? (
     <Card className="virtual-friend white-overlay">
-      <CardImg
-        top
-        width="100%"
-        src={
-          petState.isFeeding
-            ? petSelected?.imgPathSmiling
-            : petSelected?.imgPathNeutral
-        }
-        alt="Pet"
-        className={`img-border ${petState.isSleeping ? "sleeping" : ""}`}
-      />
+      <div className="card-img-container">
+        <CardImg
+          top
+          width="100%"
+          src={
+            petState.isFeeding
+              ? petSelected?.imgPathSmiling
+              : petSelected?.imgPathNeutral
+          }
+          alt="Pet"
+        />
+        <CardSubtitle
+          tag="h6"
+          className="mb-2 text-muted"
+          style={{
+            color: "#0A2540 !important",
+            paddingBottom: "20px",
+            fontFamily: "'Quicksand'",
+            fontSize: "16px",
+            fontWeight: 600,
+          }}
+        >
+          {getMessage() || <div style={{ minHeight: "20px" }}></div>}
+        </CardSubtitle>
+      </div>
 
       <CardBody>
         <ExperienceBar
@@ -299,17 +315,6 @@ const Pet = ({ petAge }) => {
               {petSelected?.petDescription} - {pet?.name}
             </b>
           </CardTitle>{" "}
-          <CardSubtitle
-            tag="h6"
-            className="mb-2 text-muted"
-            style={{
-              color: "#3B5166",
-              paddingBottom: "20px",
-              fontFamily: "'Open Sans'",
-            }}
-          >
-            {getMessage()}
-          </CardSubtitle>
           <ActionIconsContainer
             isSleeping={petState.isSleeping}
             isLoading={petState.isLoading}

@@ -51,7 +51,7 @@ const penguin = {
   baby: {
     beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
-    petDescription: "Baby penguin",
+    petDescription: "Baby Penguin",
     imgPathNeutral: penguinBabyImgPathNeutral,
     imgPathSmiling: penguinBabyImgPathSmiling,
   },
@@ -59,14 +59,14 @@ const penguin = {
   teen: {
     beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
-    petDescription: "Teen penguin",
+    petDescription: "Teen Penguin",
     imgPathNeutral: penguinTeenImgPathNeutral,
     imgPathSmiling: penguinTeenImgPathSmiling,
   },
   adult: {
     beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
-    petDescription: "Adult penguin",
+    petDescription: "Adult Penguin",
     imgPathNeutral: penguinAdultImgPathNeutral,
     imgPathSmiling: penguinAdultImgPathSmiling,
   },
@@ -76,7 +76,7 @@ const unicorn = {
   baby: {
     beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
-    petDescription: "Baby unicorn",
+    petDescription: "Baby Unicorn",
     imgPathNeutral: unicornBabyImgPathNeutral,
     imgPathSmiling: unicornBabyImgPathSmiling,
   },
@@ -84,14 +84,14 @@ const unicorn = {
   teen: {
     beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
-    petDescription: "Teen unicorn",
+    petDescription: "Teen Unicorn",
     imgPathNeutral: unicornTeenImgPathNeutral,
     imgPathSmiling: unicornTeenImgPathSmiling,
   },
   adult: {
     beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
-    petDescription: "Adult unicorn",
+    petDescription: "Adult Unicorn",
     imgPathNeutral: unicornAdultImgPathNeutral,
     imgPathSmiling: unicornAdultImgPathSmiling,
   },

@@ -99,13 +99,13 @@
   .card-title {
     font-family: Quicksand;
     color: #0A2540;
-    font-size: 24px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
   }
 
   .card-subtitle {
-    color: #3B5166;
+    color: #0A2540;
     text-align: center;
     font-family: 'Open Sans';
     font-size: 14px;
@@ -133,11 +133,19 @@
   }  
 
   .card-img-top {
-      border-radius: 8px;
-      border: 1px solid var(--navy-100, #EBEDEF);
-      width: 320px;
-      margin-left: 16px;
-      margin-right: 16px;
+      // border-radius: 8px;
+      // border: 1px solid var(--navy-100, #EBEDEF);
+      // width: 320px;
+      // margin-left: 16px;
+      // margin-right: 16px;
+  }
+
+  .card-img-container {
+    border-radius: 8px;
+    border: 1px solid var(--navy-100, #EBEDEF);
+    width: 320px;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .spawn-button:hover {
