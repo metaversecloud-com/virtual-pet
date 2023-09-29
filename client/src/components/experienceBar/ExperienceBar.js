@@ -8,8 +8,8 @@ import "./ExperienceBar.scss";
 const ExperienceBar = ({ toggleShowInfoAboutLevels }) => {
   const [experiencePercentage, setExperiencePercentage] = useState(0);
   const [level, setLevel] = useState(0);
-  console.log("toggleShowInfoAboutLevels", toggleShowInfoAboutLevels);
   const pet = useSelector((state) => state?.session?.pet);
+  console.log("Pet Experience", pet?.experience);
 
   useEffect(() => {
     const currentPetExperience = pet?.experience || 0;

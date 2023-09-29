@@ -235,43 +235,50 @@ const Pet = ({ petAge }) => {
 
   const notPetAssetOwnerView = () => (
     <Card className="virtual-friend white-overlay">
-      <CardImg
-        top
-        width="100%"
-        src={petSelected?.imgPathNeutral}
-        alt="Pet"
-        className={petState.isSleeping ? "sleeping" : ""}
-      />
+      <div className="card-img-container">
+        <CardImg
+          top
+          width="100%"
+          src={
+            petState.isFeeding
+              ? petSelected?.imgPathSmiling
+              : petSelected?.imgPathNeutral
+          }
+          alt="Pet"
+        />
+      </div>
       <CardBody>
         <ExperienceBar
           isFeeding={petState.isFeeding}
           toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
         />
-        <CardTitle tag="h5" style={{ marginTop: "16px" }}>
-          {pet?.name}
-        </CardTitle>
-        <CardSubtitle
-          tag="h6"
-          className="mb-2 text-muted"
-          style={{
-            color: "#3B5166",
-            paddingBottom: "0px",
-            fontFamily: "'Open Sans'",
-          }}
-        >
-          My owner is {pet?.username}
-        </CardSubtitle>
-        <CardSubtitle
-          tag="h6"
-          className="mb-2 text-muted"
-          style={{
-            color: "#3B5166",
-            paddingBottom: "0px",
-            fontFamily: "'Open Sans'",
-          }}
-        >
-          I'm a {petSelected?.petDescription}
-        </CardSubtitle>
+        <div className="general-card-container" style={{ marginTop: "16px" }}>
+          <CardTitle tag="h5" style={{ marginTop: "16px" }}>
+            {pet?.name}
+          </CardTitle>
+          <CardSubtitle
+            tag="h6"
+            className="mb-2 text-muted"
+            style={{
+              color: "#3B5166",
+              paddingBottom: "0px",
+              fontFamily: "'Open Sans'",
+            }}
+          >
+            My owner is {pet?.username}
+          </CardSubtitle>
+          <CardSubtitle
+            tag="h6"
+            className="mb-2 text-muted"
+            style={{
+              color: "#3B5166",
+              paddingBottom: "0px",
+              fontFamily: "'Open Sans'",
+            }}
+          >
+            I'm a {petSelected?.petDescription}
+          </CardSubtitle>
+        </div>
       </CardBody>
     </Card>
   );
