@@ -44,7 +44,7 @@ const mascots = [
     id: 2,
     name: "Unicorn",
     petType: "unicorn",
-    description: "A magical and majestic creature that are difficult to catch.",
+    description: "A magical and majestic creature that is difficult to catch.",
     image: unicornImg,
   },
 ];
