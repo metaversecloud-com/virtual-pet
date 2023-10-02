@@ -53,8 +53,6 @@ export const action = async (req, res) => {
 
     await visitor.fetchDataObject();
 
-    // await visitor.setDataObject({ pet: null });
-
     const pet = visitor?.dataObject?.pet;
 
     if (!pet) {
@@ -70,6 +68,7 @@ export const action = async (req, res) => {
     try {
       updatedPet = performAction(pet, action, currentTime);
     } catch (error) {
+      console.error("❌ Error performing an action", JSON.stringify(error));
       return res.status(403).json({
         message: error.message,
         success: false,
@@ -82,7 +81,10 @@ export const action = async (req, res) => {
 
     return res.json({ pet: updatedPet, success: true });
   } catch (error) {
-    console.error("Error while performing action with the pet: ", error);
+    console.error(
+      "❌ Error while performing action with the pet: ",
+      JSON.stringify(error)
+    );
     return res.status(500).json({ error: error?.message, success: false });
   }
 };

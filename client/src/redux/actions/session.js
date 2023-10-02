@@ -175,7 +175,7 @@ export const namePet = (name) => async (dispatch) => {
       return dispatch(push(`/?${queryParams}`));
     }
   } catch (error) {
-    console.error("error", error);
+    console.error("Error Naming the pet", JSON.stringify(error));
     if (error.response && error.response.data) {
     } else {
     }

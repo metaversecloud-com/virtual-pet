@@ -69,7 +69,7 @@ export const spawn = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    console.error("Error while spawning the pet", error);
+    console.error("❌ Error while spawning the pet", JSON.stringify(error));
     return res
       .status(500)
       .send({ error: JSON.stringify(error), success: false });
@@ -94,7 +94,7 @@ async function removeAllUserPets(urlSlug, visitor, credentials) {
       );
     }
   } catch (error) {
-    console.log("There are no pets to be deleted.");
+    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
   }
 }
 

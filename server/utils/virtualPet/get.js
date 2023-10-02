@@ -3,7 +3,7 @@ import { isPetInWorld } from "./utils.js";
 
 export const get = async (req, res) => {
   try {
-    console.info("get  ********✅");
+    console.info("✅ Get Pet Endpoint called");
 
     const {
       assetId,
@@ -89,7 +89,7 @@ export const get = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.error("Error while getting the pet: ", error);
+    console.error("❌ Error while getting the pet: ", JSON.stringify(error));
     return res.status(500).send({ error, success: false });
   }
 };

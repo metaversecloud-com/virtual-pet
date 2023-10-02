@@ -7,7 +7,9 @@ export async function isPetInWorld(urlSlug, visitor, credentials) {
     petAssets = await world.fetchDroppedAssetsWithUniqueName({
       uniqueName: `petSystem-${visitor?.username}`,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("❌ Error in isPetInWorld function", JSON.stringify(error));
+  }
 
   if (visitor?.dataObject?.pet) {
     return !!(petAssets && petAssets.length);

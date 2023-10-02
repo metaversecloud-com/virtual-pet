@@ -2,8 +2,6 @@ import { Visitor } from "../topiaInit.js";
 
 export const create = async (req, res) => {
   try {
-    console.info("create  ********✅");
-
     const {
       assetId,
       interactivePublicKey,
@@ -11,6 +9,8 @@ export const create = async (req, res) => {
       urlSlug,
       visitorId,
     } = req.query;
+
+    console.info("✅ Creating the Pet Endpoint", JSON.stringify(req.query));
 
     if (
       !assetId ||
@@ -52,7 +52,10 @@ export const create = async (req, res) => {
 
     return res.json({ pet: visitor?.dataObject?.pet, success: true });
   } catch (error) {
-    console.error("Error while creating the pet for the first time: ", error);
+    console.error(
+      "❌Error while creating the pet for the first time: ",
+      JSON.stringify(error)
+    );
     return res.status(500).send({ error, success: false });
   }
 };
