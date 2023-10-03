@@ -2,8 +2,6 @@ import { Visitor, World, DroppedAsset } from "../topiaInit.js";
 
 export const deleteAll = async (req, res) => {
   try {
-    console.info("✅ DeleteAll Endpoint called");
-
     const {
       assetId,
       interactivePublicKey,
@@ -39,6 +37,7 @@ export const deleteAll = async (req, res) => {
   } catch (error) {
     console.error(
       "❌ Error while deleting all the pets: ",
+      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
       JSON.stringify(error)
     );
     return res.status(500).send({ error: error?.message, success: false });

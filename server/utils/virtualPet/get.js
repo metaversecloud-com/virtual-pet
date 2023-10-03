@@ -3,8 +3,6 @@ import { isPetInWorld } from "./utils.js";
 
 export const get = async (req, res) => {
   try {
-    console.info("✅ Get Pet Endpoint called", { requestId: req.id });
-
     const {
       assetId,
       interactivePublicKey,
@@ -76,8 +74,8 @@ export const get = async (req, res) => {
     });
   } catch (error) {
     console.error(
-      { requestId: req.id },
-      "❌ Error while getting the pet: ",
+      "❌ Error while getting the pets: ",
+      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
       JSON.stringify(error)
     );
     return res

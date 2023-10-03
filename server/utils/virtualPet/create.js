@@ -10,8 +10,6 @@ export const create = async (req, res) => {
       visitorId,
     } = req.query;
 
-    console.info("✅ Creating the Pet Endpoint", JSON.stringify(req.query));
-
     const { petType, name } = req.body;
 
     const visitor = await Visitor.get(visitorId, urlSlug, {
@@ -39,7 +37,8 @@ export const create = async (req, res) => {
     return res.json({ pet: visitor?.dataObject?.pet, success: true });
   } catch (error) {
     console.error(
-      "❌Error while creating the pet for the first time: ",
+      "❌ Error while creating the pet for the first time: ",
+      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
       JSON.stringify(error)
     );
     return res.status(500).send({ error: error?.message, success: false });

@@ -13,7 +13,6 @@ let BASE_URL;
  */
 export const spawn = async (req, res) => {
   try {
-    console.log("Spawning the Pet");
     const {
       assetId,
       interactivePublicKey,
@@ -55,7 +54,11 @@ export const spawn = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    console.error("❌ Error while spawning the pet", JSON.stringify(error));
+    console.error(
+      "❌ Error while spawning the pet: ",
+      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
+      JSON.stringify(error)
+    );
     return res.status(500).send({ error: error?.message, success: false });
   }
 };
