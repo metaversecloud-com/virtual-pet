@@ -69,7 +69,7 @@ export const action = async (req, res) => {
     return res.json({ pet: updatedPet, success: true });
   } catch (error) {
     console.error(
-      "❌ Error while performing action with the Pet: ",
+      "❌ 🏃‍♂️ Error while performing action with the Pet: ",
       { requestId: req.id, reqQuery: req.query, reqBody: req.body },
       JSON.stringify(error)
     );

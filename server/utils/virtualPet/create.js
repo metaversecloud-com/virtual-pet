@@ -37,7 +37,7 @@ export const create = async (req, res) => {
     return res.json({ pet: visitor?.dataObject?.pet, success: true });
   } catch (error) {
     console.error(
-      "❌ Error while creating the pet for the first time: ",
+      "❌ 🏗️ Error while creating the pet for the first time: ",
       { requestId: req.id, reqQuery: req.query, reqBody: req.body },
       JSON.stringify(error)
     );

@@ -55,7 +55,7 @@ export const spawn = async (req, res) => {
     return res.json({ success: true });
   } catch (error) {
     console.error(
-      "❌ Error while spawning the pet: ",
+      "❌ 🐰 Error while spawning the pet: ",
       { requestId: req.id, reqQuery: req.query, reqBody: req.body },
       JSON.stringify(error)
     );
