@@ -1,5 +1,6 @@
 import { DroppedAsset, Visitor, User, World } from "../topiaInit.js";
 import { isPetInWorld } from "./utils.js";
+import { logger } from "../../logs/logger.js";
 
 export const get = async (req, res) => {
   try {
@@ -73,11 +74,12 @@ export const get = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.error(
-      "❌ Error while getting the pets: ",
-      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
-      JSON.stringify(error)
-    );
+    logger.error({
+      error,
+      message: "❌ Error while getting the pets",
+      functionName: "get",
+      req,
+    });
     return res
       .status(500)
       .send({ requestId: req.id, error: error?.message, success: false });

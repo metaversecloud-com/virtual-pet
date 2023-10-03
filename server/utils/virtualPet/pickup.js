@@ -1,4 +1,5 @@
 import { Visitor, World } from "../topiaInit.js";
+import { logger } from "../../logs/logger.js";
 
 export const pickup = async (req, res) => {
   try {
@@ -28,11 +29,12 @@ export const pickup = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    console.error(
-      "❌ 🐹 Error while picking up the pet: ",
-      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
-      JSON.stringify(error)
-    );
+    logger.error({
+      error,
+      message: "❌ 🐹 Error while picking up the pet",
+      functionName: "pickup",
+      req,
+    });
     return res.status(500).send({ error: error?.message, success: false });
   }
 };

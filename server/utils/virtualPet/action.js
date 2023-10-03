@@ -1,5 +1,6 @@
 import { Visitor } from "../topiaInit.js";
 import { isPetInWorld, canPerformAction } from "./utils.js";
+import { logger } from "../../logs/logger.js";
 
 const ACTION_COOLDOWNS = {
   PLAY: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 15,
@@ -68,11 +69,12 @@ export const action = async (req, res) => {
 
     return res.json({ pet: updatedPet, success: true });
   } catch (error) {
-    console.error(
-      "❌ 🏃‍♂️ Error while performing action with the Pet: ",
-      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
-      JSON.stringify(error)
-    );
+    logger.error({
+      error,
+      message: "❌ 🏃‍♂️ Error while performing action with the Pet",
+      functionName: "action",
+      req,
+    });
     return res.status(500).json({ error: error?.message, success: false });
   }
 };

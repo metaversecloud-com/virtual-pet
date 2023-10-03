@@ -1,4 +1,5 @@
 import { Visitor } from "../topiaInit.js";
+import { logger } from "../../logs/logger.js";
 
 export const create = async (req, res) => {
   try {
@@ -36,11 +37,12 @@ export const create = async (req, res) => {
 
     return res.json({ pet: visitor?.dataObject?.pet, success: true });
   } catch (error) {
-    console.error(
-      "❌ 🏗️ Error while creating the pet for the first time: ",
-      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
-      JSON.stringify(error)
-    );
+    logger.error({
+      error,
+      message: "❌ 🏗️ Error while creating the pet for the first time",
+      functionName: "create",
+      req,
+    });
     return res.status(500).send({ error: error?.message, success: false });
   }
 };

@@ -1,5 +1,5 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
-import constants from "../../constants.js";
+import { logger } from "../../logs/logger.js";
 
 let BASE_URL;
 /**
@@ -54,11 +54,12 @@ export const spawn = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    console.error(
-      "❌ 🐰 Error while spawning the pet: ",
-      { requestId: req.id, reqQuery: req.query, reqBody: req.body },
-      JSON.stringify(error)
-    );
+    logger.error({
+      error,
+      message: "❌ 🐰 Error while spawning the pet",
+      functionName: "spawn",
+      req,
+    });
     return res.status(500).send({ error: error?.message, success: false });
   }
 };
