@@ -26,19 +26,6 @@ export const action = async (req, res) => {
     } = req.query;
 
     const { action } = req.body;
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
 
     const credentials = {
       assetId,
@@ -65,12 +52,12 @@ export const action = async (req, res) => {
     const currentTime = Date.now();
 
     let updatedPet;
-    try {
-      updatedPet = performAction(pet, action, currentTime);
-    } catch (error) {
-      console.error("❌ Error performing an action", JSON.stringify(error));
+
+    updatedPet = performAction(pet, action, currentTime);
+
+    if (!updatedPet) {
       return res.status(403).json({
-        message: error.message,
+        message: `Pet doesn't want to ${action} at the moment.`,
         success: false,
       });
     }
@@ -101,7 +88,7 @@ function performAction(pet, actionKey, now) {
   }
 
   if (!canPerformAction(pet[actionKey].timestamp, now, cooldown)) {
-    throw new Error(`Pet doesn't want to ${actionKey} at the moment.`);
+    return false;
   }
 
   return {

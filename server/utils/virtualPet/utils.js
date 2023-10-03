@@ -43,3 +43,30 @@ export function canPerformAction(
   const timeSinceLastAction = currentTime - lastActionTime;
   return !(lastActionTime && timeSinceLastAction < minTimeBetweenActions);
 }
+
+export function validateInput(params) {
+  const {
+    assetId,
+    interactivePublicKey,
+    interactiveNonce,
+    urlSlug,
+    visitorId,
+  } = params;
+
+  if (
+    !assetId ||
+    assetId === "null" ||
+    !interactivePublicKey ||
+    interactivePublicKey === "null" ||
+    !interactiveNonce ||
+    interactiveNonce === "null" ||
+    !urlSlug ||
+    urlSlug === "null" ||
+    !visitorId ||
+    visitorId === "null"
+  ) {
+    throw new Error(
+      "❌ Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'"
+    );
+  }
+}

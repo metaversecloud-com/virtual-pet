@@ -3,7 +3,7 @@ import { isPetInWorld } from "./utils.js";
 
 export const get = async (req, res) => {
   try {
-    console.info("✅ Get Pet Endpoint called");
+    console.info("✅ Get Pet Endpoint called", { requestId: req.id });
 
     const {
       assetId,
@@ -12,20 +12,6 @@ export const get = async (req, res) => {
       urlSlug,
       visitorId,
     } = req.query;
-
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
 
     const credentials = {
       assetId,
@@ -89,7 +75,13 @@ export const get = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.error("❌ Error while getting the pet: ", JSON.stringify(error));
-    return res.status(500).send({ error, success: false });
+    console.error(
+      { requestId: req.id },
+      "❌ Error while getting the pet: ",
+      JSON.stringify(error)
+    );
+    return res
+      .status(500)
+      .send({ requestId: req.id, error: error?.message, success: false });
   }
 };

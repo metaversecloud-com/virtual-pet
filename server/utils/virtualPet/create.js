@@ -12,20 +12,6 @@ export const create = async (req, res) => {
 
     console.info("✅ Creating the Pet Endpoint", JSON.stringify(req.query));
 
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
-
     const { petType, name } = req.body;
 
     const visitor = await Visitor.get(visitorId, urlSlug, {
@@ -56,6 +42,6 @@ export const create = async (req, res) => {
       "❌Error while creating the pet for the first time: ",
       JSON.stringify(error)
     );
-    return res.status(500).send({ error, success: false });
+    return res.status(500).send({ error: error?.message, success: false });
   }
 };

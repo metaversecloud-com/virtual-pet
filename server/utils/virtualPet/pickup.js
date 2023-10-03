@@ -11,20 +11,6 @@ export const pickup = async (req, res) => {
       visitorId,
     } = req.query;
 
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
-
     const credentials = {
       assetId,
       interactiveNonce,
@@ -44,9 +30,7 @@ export const pickup = async (req, res) => {
     return res.json({ success: true });
   } catch (error) {
     console.error("❌ Error while spawning the pet", JSON.stringify(error));
-    return res
-      .status(500)
-      .send({ error: JSON.stringify(error), success: false });
+    return res.status(500).send({ error: error?.message, success: false });
   }
 };
 
