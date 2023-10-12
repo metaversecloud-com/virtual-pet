@@ -47,7 +47,11 @@ export const deleteAll = async (req, res) => {
 };
 
 async function deleteAllPets(urlSlug, petAssets, credentials) {
-  petAssets.map((petAsset) => deletePetRequest(urlSlug, petAsset, credentials));
+  await Promise.all(
+    petAssets.map((petAsset) =>
+      deletePetRequest(urlSlug, petAsset, credentials)
+    )
+  );
 }
 
 async function deletePetRequest(urlSlug, petAsset, credentials) {
