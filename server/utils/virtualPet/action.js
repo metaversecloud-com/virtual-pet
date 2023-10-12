@@ -24,9 +24,9 @@ export const action = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
-    } = req.query;
+    } = req?.query;
 
-    const { action } = req.body;
+    const { action } = req?.body;
 
     const credentials = {
       assetId,

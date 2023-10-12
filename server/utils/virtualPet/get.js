@@ -76,7 +76,7 @@ export const get = async (req, res) => {
   } catch (error) {
     logger.error({
       error,
-      message: "❌ Error while getting the pets",
+      message: "❌ Error while getting the pet",
       functionName: "get",
       req,
     });
