@@ -21,22 +21,6 @@ app.use(requestID());
 
 app.use("/backend", router);
 
-process.on("unhandledRejection", (reason) => {
-  console.error("❌❌❌ Captured unhandledRejection:", reason);
-});
-
-app.get("/test-error", (req, res) => {
-  try {
-    new Promise((resolve, reject) => {
-      reject(new Error("This is an unhandled promise rejection"));
-    });
-  } catch (error) {}
-});
-
-process.on("unhandledRejection", (reason) => {
-  console.error("❌❌❌Captured unhandledRejection:", reason);
-});
-
 if (process.env.NODE_ENV === "production") {
   // Node serves the files for the React app
   const __filename = fileURLToPath(import.meta.url);
