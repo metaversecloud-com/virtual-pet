@@ -34,5 +34,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-  console.info(`Server listening on ${PORT}`);
+  console.info(`Server listening on ${PORT}, version 2.1`);
 });
