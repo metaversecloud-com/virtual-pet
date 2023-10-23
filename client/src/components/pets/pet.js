@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   Card,
   CardImg,
@@ -27,6 +28,9 @@ const TRAIN = "TRAIN";
 
 const Pet = ({ petAge }) => {
   const dispatch = useDispatch();
+
+  const { isSpawnedDroppedAsset } = useParams();
+  console.log("isSpawnedDroppedAsset1", isSpawnedDroppedAsset);
 
   const initialPetState = {
     isFeeding: false,
@@ -131,7 +135,7 @@ const Pet = ({ petAge }) => {
       spawnPetButtonIsDisabled: true,
       pickupPetButtonIsDisabled: true,
     });
-    await dispatch(pickupPet());
+    await dispatch(pickupPet(isSpawnedDroppedAsset));
     const timer = setTimeout(() => {
       updatePetState({
         spawnPetButtonIsDisabled: false,

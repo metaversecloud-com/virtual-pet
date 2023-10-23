@@ -9,6 +9,7 @@ export const pickup = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      isSpawnedDroppedAsset,
     } = req.query;
 
     const credentials = {
@@ -26,6 +27,10 @@ export const pickup = async (req, res) => {
     await visitor.fetchDataObject();
 
     await removeAllUserPets(urlSlug, visitor, credentials);
+
+    if (isSpawnedDroppedAsset) {
+      await visitor.closeIframe();
+    }
 
     return res.json({ success: true });
   } catch (error) {

@@ -77,10 +77,12 @@ export const spawnPet = () => async (dispatch) => {
   }
 };
 
-export const pickupPet = () => async (dispatch) => {
+export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
   try {
+    console.log("isSpawnedDroppedAsset pickupPet", isSpawnedDroppedAsset);
     const queryParams = getQueryParams();
-    const url = `backend/pet/pickup?${queryParams}`;
+    // isSpawnedDroppedAsset is a variable that shows if the asset being pickup is the spawned asset (like dragon). If it's empty or undefined, it's value is the Pet House.
+    const url = `/backend/pet/pickup?${queryParams}&isSpawnedDroppedAsset=${isSpawnedDroppedAsset}`;
     const response = await axios.post(url);
 
     if (response.status === 200) {
@@ -116,7 +118,7 @@ export const getDroppedAsset = () => async (dispatch) => {
 export const getPet = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}`;
 
     const response = await axios.get(url);
     const pet = response?.data?.pet;
