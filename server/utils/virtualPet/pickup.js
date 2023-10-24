@@ -29,7 +29,7 @@ export const pickup = async (req, res) => {
     await removeAllUserPets(urlSlug, visitor, credentials);
 
     if (isSpawnedDroppedAsset) {
-      await visitor.closeIframe();
+      await visitor.closeIframe(assetId);
     }
 
     return res.json({ success: true });
