@@ -27,7 +27,7 @@ export const getVisitor = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
 
-    const response = await axios.get(`backend/visitor?${queryParams}`);
+    const response = await axios.get(`/backend/visitor?${queryParams}`);
 
     if (response.status === 200) {
       dispatch(setVisitor(response.data.visitor));
@@ -43,7 +43,7 @@ export const getVisitor = () => async (dispatch) => {
 export const executeAction = (action) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet/action?${queryParams}`;
+    const url = `/backend/pet/action?${queryParams}`;
     const response = await axios.post(url, { action });
 
     if (response.status === 200) {
@@ -62,7 +62,7 @@ export const executeAction = (action) => async (dispatch) => {
 export const spawnPet = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet/spawn?${queryParams}`;
+    const url = `/backend/pet/spawn?${queryParams}`;
     const response = await axios.post(url);
 
     if (response.status === 200) {
@@ -100,7 +100,7 @@ export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
 export const getDroppedAsset = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/dropped-asset?${queryParams}`;
+    const url = `/backend/dropped-asset?${queryParams}`;
 
     const response = await axios.get(url);
 
@@ -143,7 +143,7 @@ export const getPet = () => async (dispatch) => {
 export const createPet = (petType, name) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}`;
 
     const response = await axios.post(url, { petType, name });
     const pet = response?.data?.pet;
@@ -165,7 +165,7 @@ export const createPet = (petType, name) => async (dispatch) => {
 export const namePet = (name) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet/name?${queryParams}`;
+    const url = `/backend/pet/name?${queryParams}`;
 
     const response = await axios.post(url, { name });
     const pet = response?.data?.pet;
@@ -187,7 +187,7 @@ export const namePet = (name) => async (dispatch) => {
 export const deleteAll = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}`;
 
     const response = await axios.delete(url);
     if (response.status === 200) {

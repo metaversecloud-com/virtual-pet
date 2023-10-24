@@ -26,11 +26,11 @@ export const pickup = async (req, res) => {
     // This function loads the visitor's data object, because it's not there by default when we load the visitor
     await visitor.fetchDataObject();
 
-    await removeAllUserPets(urlSlug, visitor, credentials);
-
     if (isSpawnedDroppedAsset) {
       await visitor.closeIframe(assetId);
     }
+
+    await removeAllUserPets(urlSlug, visitor, credentials);
 
     return res.json({ success: true });
   } catch (error) {
