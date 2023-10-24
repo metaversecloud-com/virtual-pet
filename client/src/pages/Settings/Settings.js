@@ -43,7 +43,7 @@ const Settings = () => {
             </InputGroup>
             {isSuccess && !error && (
               <div className="mt-2 text-success">
-                Pets deleted successfully!
+                All pets removed from world!
               </div>
             )}
             {error && (
