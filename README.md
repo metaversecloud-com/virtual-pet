@@ -18,13 +18,11 @@ Hey there, welcome to the **Virtual Pet** repository! If you ever wanted to rais
 - **Backend:** Node.js
 - **Frontend:** React
 
-# Getting Started
+# 🧑‍💻 Getting Started
 
 - Clone this repository
-- Run `npm i` in server
-- `npm start`
-- Run `npm i` in client
-- # `npm start`
+- Run `npm i` in server and then `npm start`
+- Run `npm i` in client and then `npm start`
 
 ### 🌍 Environment Variables
 
