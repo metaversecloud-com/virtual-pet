@@ -1,8 +1,8 @@
 import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
-import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
-axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
+// import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
+// axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
 
 export const {
   setVisitor,
@@ -27,7 +27,7 @@ export const getVisitor = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
 
-    const response = await axios.get(`backend/visitor?${queryParams}`);
+    const response = await axios.get(`/backend/visitor?${queryParams}`);
 
     if (response.status === 200) {
       dispatch(setVisitor(response.data.visitor));
@@ -43,7 +43,7 @@ export const getVisitor = () => async (dispatch) => {
 export const executeAction = (action) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet/action?${queryParams}`;
+    const url = `/backend/pet/action?${queryParams}`;
     const response = await axios.post(url, { action });
 
     if (response.status === 200) {
@@ -62,7 +62,27 @@ export const executeAction = (action) => async (dispatch) => {
 export const spawnPet = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet/spawn?${queryParams}`;
+    const url = `/backend/pet/spawn?${queryParams}`;
+    const response = await axios.post(url);
+
+    if (response.status === 200) {
+      dispatch(getPet());
+    }
+  } catch (error) {
+    dispatch(setError("There was an error while spawning the pet"));
+    if (error.response && error.response.data) {
+    } else {
+    }
+    return false;
+  }
+};
+
+export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
+  try {
+    console.log("isSpawnedDroppedAsset pickupPet", isSpawnedDroppedAsset);
+    const queryParams = getQueryParams();
+    // isSpawnedDroppedAsset is a variable that shows if the asset being pickup is the spawned asset (like dragon). If it's empty or undefined, it's value is the Pet House.
+    const url = `/backend/pet/pickup?${queryParams}&isSpawnedDroppedAsset=${isSpawnedDroppedAsset}`;
     const response = await axios.post(url);
 
     if (response.status === 200) {
@@ -80,7 +100,7 @@ export const spawnPet = () => async (dispatch) => {
 export const getDroppedAsset = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/dropped-asset?${queryParams}`;
+    const url = `/backend/dropped-asset?${queryParams}`;
 
     const response = await axios.get(url);
 
@@ -98,7 +118,7 @@ export const getDroppedAsset = () => async (dispatch) => {
 export const getPet = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}`;
 
     const response = await axios.get(url);
     const pet = response?.data?.pet;
@@ -123,7 +143,7 @@ export const getPet = () => async (dispatch) => {
 export const createPet = (petType, name) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}`;
 
     const response = await axios.post(url, { petType, name });
     const pet = response?.data?.pet;
@@ -145,7 +165,7 @@ export const createPet = (petType, name) => async (dispatch) => {
 export const namePet = (name) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet/name?${queryParams}`;
+    const url = `/backend/pet/name?${queryParams}`;
 
     const response = await axios.post(url, { name });
     const pet = response?.data?.pet;
@@ -157,7 +177,7 @@ export const namePet = (name) => async (dispatch) => {
       return dispatch(push(`/?${queryParams}`));
     }
   } catch (error) {
-    console.error("error", error);
+    console.error("Error Naming the pet", JSON.stringify(error));
     if (error.response && error.response.data) {
     } else {
     }
@@ -167,7 +187,7 @@ export const namePet = (name) => async (dispatch) => {
 export const deleteAll = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}`;
 
     const response = await axios.delete(url);
     if (response.status === 200) {

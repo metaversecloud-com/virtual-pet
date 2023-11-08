@@ -14,6 +14,7 @@ const PageRoutes = () => {
     <Router history={history}>
       <Routes>
         <Route path="/" element={<VirtualFriend />} />
+        <Route path="/asset-type/:isSpawnedDroppedAsset" element={<VirtualFriend />} />
         <Route path="/mascot-selector" element={<MascotFirstTimeCreation />} />
         <Route path="/pet-naming" element={<PetNaming />} />
         <Route path="/settings" element={<Settings />} />

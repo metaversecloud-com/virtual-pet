@@ -28,21 +28,23 @@ const mascots = [
     id: 0,
     name: "Dragon",
     petType: "dragon",
-    description: "A mystical, fiery creature that soars through the skies.",
+    description:
+      "A mystical, fire-breathing creature that soars through the skies.",
     image: dragonImg,
   },
   {
     id: 1,
     name: "Penguin",
     petType: "penguin",
-    description: "An agile, fierce predator with striking patterns.",
+    description:
+      "A playful bird with striking patterns that swims but does not fly!",
     image: penguinImg,
   },
   {
     id: 2,
     name: "Unicorn",
     petType: "unicorn",
-    description: "A strong, gentle giant of the forests.",
+    description: "A magical and majestic creature that is difficult to catch.",
     image: unicornImg,
   },
 ];
@@ -83,7 +85,7 @@ const MascotFirstTimeCreation = () => {
           <h1>Choose Your Virtual Mascot</h1>
         </div>
         <div className="pet-name-selection">
-          <span>Pet's name:</span>
+          <span>Name:</span>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle caret>{selectedName}</DropdownToggle>
             <DropdownMenu>
@@ -104,26 +106,29 @@ const MascotFirstTimeCreation = () => {
                   selectedMascot.id === mascot.id ? "selected" : ""
                 }`}
               >
-                <div className="mascot-image-container">
-                  <CardImg
-                    top
-                    src={mascot.image}
-                    alt={mascot.name}
-                    className="mascot-image"
-                  />
-                </div>
-                <CardBody>
-                  <CardTitle tag="h5">{mascot.name}</CardTitle>
-                  <CardText>{mascot.description}</CardText>
-                </CardBody>
+                <Row className="no-gutters">
+                  <Col xs={4} className="mascot-image-container">
+                    <CardImg
+                      src={mascot.image}
+                      alt={mascot.name}
+                      className="mascot-image"
+                    />
+                  </Col>
+                  <Col xs={7}>
+                    <CardBody>
+                      <CardTitle tag="h5">{mascot.name}</CardTitle>
+                      <CardText>{mascot.description}</CardText>
+                    </CardBody>
+                  </Col>
+                </Row>
               </Card>
             </Col>
           ))}
         </Row>
-        <div className="fixed-bottom p-3 d-flex justify-content-center">
-          <Button className="choose-button" onClick={handleSelection}>
+        <div className="fixed-bottom" style={{ background: "white" }}>
+          <button className="topia-default-button" onClick={handleSelection}>
             Choose {selectedMascot.name}
-          </Button>
+          </button>
         </div>
       </Container>
     </div>

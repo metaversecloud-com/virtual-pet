@@ -12,7 +12,6 @@ import {
 
 const config = {
   apiDomain: process.env.INSTANCE_DOMAIN,
-  // apiKey: process.env.API_KEY,
   apiProtocol: process.env.INSTANCE_PROTOCOL,
   interactiveKey: process.env.INTERACTIVE_KEY,
   interactiveSecret: process.env.INTERACTIVE_SECRET,

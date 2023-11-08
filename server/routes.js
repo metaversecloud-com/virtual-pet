@@ -1,14 +1,14 @@
 import {
   getVisitor,
-  processTextWithAI,
   deleteAll,
   spawn,
+  pickup,
   get,
   create,
-  chatWithPet,
   action,
 } from "./utils/index.js";
 import express from "express";
+import { validationMiddleware } from "./middleware/validation.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -16,14 +16,13 @@ router.get("/", (req, res) => {
 });
 
 router.get("/visitor", getVisitor);
-router.post("/assistant", processTextWithAI);
 
 // Pet related routes
-router.get("/pet", get);
-router.post("/pet", create);
-router.post("/pet/spawn", spawn);
-router.post("/pet/action", action);
-router.delete("/pet", deleteAll);
-router.post("/pet/chat", chatWithPet);
+router.get("/pet", validationMiddleware, get);
+router.post("/pet", validationMiddleware, create);
+router.post("/pet/spawn", validationMiddleware, spawn);
+router.post("/pet/pickup", validationMiddleware, pickup);
+router.post("/pet/action", validationMiddleware, action);
+router.delete("/pet", validationMiddleware, deleteAll);
 
 export default router;

@@ -1,10 +1,9 @@
 import { DroppedAsset, Visitor, User, World } from "../topiaInit.js";
 import { isPetInWorld } from "./utils.js";
+import { logger } from "../../logs/logger.js";
 
 export const get = async (req, res) => {
   try {
-    console.info("get  ********✅");
-
     const {
       assetId,
       interactivePublicKey,
@@ -13,20 +12,6 @@ export const get = async (req, res) => {
       visitorId,
     } = req.query;
 
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
-
     const credentials = {
       assetId,
       interactiveNonce,
@@ -34,15 +19,16 @@ export const get = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await Visitor.get(visitorId, urlSlug, {
+    const visitor = Visitor.create(visitorId, urlSlug, { credentials });
+    const petSpawnedDroppedAsset = DroppedAsset.create(assetId, urlSlug, {
       credentials,
     });
-
-    await visitor.fetchDataObject();
-
-    let petSpawnedDroppedAsset = await DroppedAsset.get(assetId, urlSlug, {
-      credentials,
-    });
+    await Promise.all([
+      petSpawnedDroppedAsset.fetchDroppedAssetById(),
+      petSpawnedDroppedAsset.fetchDataObject(),
+      visitor.fetchVisitor(),
+      visitor.fetchDataObject(),
+    ]);
 
     let isPetAssetOwner = false;
     if (
@@ -88,7 +74,14 @@ export const get = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.error("Error while getting the pet: ", error);
-    return res.status(500).send({ error, success: false });
+    logger.error({
+      error,
+      message: "❌ Error while getting the pet",
+      functionName: "get",
+      req,
+    });
+    return res
+      .status(500)
+      .send({ requestId: req.id, error: error?.message, success: false });
   }
 };

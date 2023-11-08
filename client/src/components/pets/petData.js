@@ -24,7 +24,7 @@ import unicornAdultImgPathSmiling from "../../assets/unicorn/normal/adult.png";
 
 const dragon = {
   baby: {
-    beingFedMessage: "Hmmm... I like it!",
+    beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
     petDescription: "Baby Dragon",
     imgPathNeutral: dragonBabyImgPathNeutral,
@@ -32,14 +32,14 @@ const dragon = {
   },
 
   teen: {
-    beingFedMessage: "Hmmm... I like meat!",
+    beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
     petDescription: "Teen Dragon",
     imgPathNeutral: dragonTeenImgPathNeutral,
     imgPathSmiling: dragonTeenImgPathSmiling,
   },
   adult: {
-    beingFedMessage: "Hmmm... Thank you for the food my lord.",
+    beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
     petDescription: "Adult Dragon",
     imgPathNeutral: dragonAdultImgPathNeutral,
@@ -49,24 +49,24 @@ const dragon = {
 
 const penguin = {
   baby: {
-    beingFedMessage: "Hmmm... I like it!",
+    beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
-    petDescription: "Baby penguin",
+    petDescription: "Baby Penguin",
     imgPathNeutral: penguinBabyImgPathNeutral,
     imgPathSmiling: penguinBabyImgPathSmiling,
   },
 
   teen: {
-    beingFedMessage: "Hmmm... I like meat!",
+    beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
-    petDescription: "Teen penguin",
+    petDescription: "Teen Penguin",
     imgPathNeutral: penguinTeenImgPathNeutral,
     imgPathSmiling: penguinTeenImgPathSmiling,
   },
   adult: {
-    beingFedMessage: "Hmmm... Thank you for the food my lord.",
+    beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
-    petDescription: "Adult penguin",
+    petDescription: "Adult Penguin",
     imgPathNeutral: penguinAdultImgPathNeutral,
     imgPathSmiling: penguinAdultImgPathSmiling,
   },
@@ -74,24 +74,24 @@ const penguin = {
 
 const unicorn = {
   baby: {
-    beingFedMessage: "Hmmm... I like it!",
+    beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
-    petDescription: "Baby unicorn",
+    petDescription: "Baby Unicorn",
     imgPathNeutral: unicornBabyImgPathNeutral,
     imgPathSmiling: unicornBabyImgPathSmiling,
   },
 
   teen: {
-    beingFedMessage: "Hmmm... I like meat!",
+    beingFedMessage: "Yum! Thanks for feeding me!!",
     notHungryMessage: "I don't want to eat right now.",
-    petDescription: "Teen unicorn",
+    petDescription: "Teen Unicorn",
     imgPathNeutral: unicornTeenImgPathNeutral,
     imgPathSmiling: unicornTeenImgPathSmiling,
   },
   adult: {
-    beingFedMessage: "Hmmm... Thank you for the food my lord.",
+    beingFedMessage: "So great! Thanks!",
     notHungryMessage: "I'm not hungry right now.",
-    petDescription: "Adult unicorn",
+    petDescription: "Adult Unicorn",
     imgPathNeutral: unicornAdultImgPathNeutral,
     imgPathSmiling: unicornAdultImgPathSmiling,
   },

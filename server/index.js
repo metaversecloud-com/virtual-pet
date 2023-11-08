@@ -1,5 +1,6 @@
 import path from "path";
 import express from "express";
+import requestID from "express-request-id";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import router from "./routes.js";
@@ -16,6 +17,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use(requestID());
 
 app.use("/backend", router);
 
@@ -32,5 +34,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-  console.info(`Server listening on ${PORT}`);
+  console.info(`Server listening on ${PORT}, version 2.1`);
 });

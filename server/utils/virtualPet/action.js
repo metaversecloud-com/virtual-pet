@@ -1,17 +1,18 @@
 import { Visitor } from "../topiaInit.js";
 import { isPetInWorld, canPerformAction } from "./utils.js";
+import { logger } from "../../logs/logger.js";
 
 const ACTION_COOLDOWNS = {
-  PLAY: 1000 * 60 * 60 * 15,
-  SLEEP: 1000 * 60 * 60 * 45,
-  FEED: 1000 * 60 * 60 * 1,
-  TRAIN: 1000 * 60 * 60 * 30,
+  PLAY: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 15,
+  SLEEP: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 45,
+  FEED: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 60 * 1,
+  TRAIN: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 30,
 };
 
 const ACTION_EXPERIENCE_GAIN = {
   PLAY: 5,
   SLEEP: 15,
-  FEED: 20,
+  FEED: process.env.IS_LOCALHOST ? 500 : 20,
   TRAIN: 10,
 };
 
@@ -23,22 +24,9 @@ export const action = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
-    } = req.query;
+    } = req?.query;
 
-    const { action } = req.body;
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
+    const { action } = req?.body;
 
     const credentials = {
       assetId,
@@ -53,8 +41,6 @@ export const action = async (req, res) => {
 
     await visitor.fetchDataObject();
 
-    // await visitor.setDataObject({ pet: null });
-
     const pet = visitor?.dataObject?.pet;
 
     if (!pet) {
@@ -67,11 +53,12 @@ export const action = async (req, res) => {
     const currentTime = Date.now();
 
     let updatedPet;
-    try {
-      updatedPet = performAction(pet, action, currentTime);
-    } catch (error) {
+
+    updatedPet = performAction(pet, action, currentTime);
+
+    if (!updatedPet) {
       return res.status(403).json({
-        message: error.message,
+        message: `Pet doesn't want to ${action} at the moment.`,
         success: false,
       });
     }
@@ -82,7 +69,12 @@ export const action = async (req, res) => {
 
     return res.json({ pet: updatedPet, success: true });
   } catch (error) {
-    console.error("Error while performing action with the pet: ", error);
+    logger.error({
+      error,
+      message: "❌ 🏃‍♂️ Error while performing action with the Pet",
+      functionName: "action",
+      req,
+    });
     return res.status(500).json({ error: error?.message, success: false });
   }
 };
@@ -99,7 +91,7 @@ function performAction(pet, actionKey, now) {
   }
 
   if (!canPerformAction(pet[actionKey].timestamp, now, cooldown)) {
-    throw new Error(`Pet doesn't want to ${actionKey} at the moment.`);
+    return false;
   }
 
   return {

@@ -1,7 +1,7 @@
-import axios from "axios";
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
-import constants from "../../constants.js";
+import { logger } from "../../logs/logger.js";
 
+let BASE_URL;
 /**
  * This module contains the logic for spawning a virtual pet in the virtual world.
  * It handles the following operations:
@@ -13,7 +13,6 @@ import constants from "../../constants.js";
  */
 export const spawn = async (req, res) => {
   try {
-    console.log("Spawning the Pet");
     const {
       assetId,
       interactivePublicKey,
@@ -22,18 +21,14 @@ export const spawn = async (req, res) => {
       visitorId,
     } = req.query;
 
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
+    const protocol = process.env.INSTANCE_PROTOCOL;
+    const host = req.host;
+    const port = req.port;
+
+    if (host === "localhost") {
+      BASE_URL = `${protocol}://virtual-pet.topia-rtsdk.com`;
+    } else {
+      BASE_URL = `${protocol}://${host}`;
     }
 
     const credentials = {
@@ -59,10 +54,13 @@ export const spawn = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    console.error("Error while spawning the pet", error);
-    return res
-      .status(500)
-      .send({ error: JSON.stringify(error), success: false });
+    logger.error({
+      error,
+      message: "❌ 🐰 Error while spawning the pet",
+      functionName: "spawn",
+      req,
+    });
+    return res.status(500).send({ error: error?.message, success: false });
   }
 };
 
@@ -84,7 +82,7 @@ async function removeAllUserPets(urlSlug, visitor, credentials) {
       );
     }
   } catch (error) {
-    console.log("There are no pets to be deleted.");
+    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
   }
 }
 
@@ -97,9 +95,12 @@ async function removeAllUserPets(urlSlug, visitor, credentials) {
 async function dropImageAsset(urlSlug, credentials, visitor, pet) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
-  const level = Math.floor(pet?.experience / 100);
+  const level = calculateLevel(pet?.experience);
 
-  const petImgUrl = getPetImgUrl(pet?.petType, level);
+  const { petImgUrlLayer0, petImgUrlLayer1 } = getPetImgUrl(
+    pet?.petType,
+    level
+  );
 
   const { moveTo, username } = visitor;
   const { x, y } = moveTo;
@@ -123,7 +124,7 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 
   await petSpawnedDroppedAsset?.updateClickType({
     clickType: "link",
-    clickableLink: `https://virtual-pet.herokuapp.com?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
+    clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
     clickableLinkTitle: "Virtual Pet",
     clickableDisplayTextDescription: "Play with your Virtual Pet",
     clickableDisplayTextHeadline: "Virtual Pet",
@@ -135,38 +136,63 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
     interactivePublicKey: process.env.INTERACTIVE_KEY,
   });
 
-  await petSpawnedDroppedAsset?.updateWebImageLayers(petImgUrl, petImgUrl);
+  await petSpawnedDroppedAsset?.updateWebImageLayers(
+    petImgUrlLayer0,
+    petImgUrlLayer1
+  );
 
   return petSpawnedDroppedAsset;
 }
 
 // Get the pet's image Url based on the pet's type and level.
 function getPetImgUrl(petType, level) {
-  let petImgUrl;
+  let petImgUrlLayer0;
+  let petImgUrlLayer1;
   if (petType === "dragon") {
     if (level === 0) {
-      petImgUrl = `${constants.BASE_URL}/assets/dragon/world/baby.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1.png`;
     } else if (level === 1) {
-      petImgUrl = `${constants.BASE_URL}/assets/dragon/world/teen.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1.png`;
     } else {
-      petImgUrl = `${constants.BASE_URL}/assets/dragon/world/adult.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1.png`;
     }
   } else if (petType === "penguin") {
     if (level === 0) {
-      petImgUrl = `${constants.BASE_URL}/assets/penguin/world/baby.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1.png`;
     } else if (level === 1) {
-      petImgUrl = `${constants.BASE_URL}/assets/penguin/world/teen.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1.png`;
     } else {
-      petImgUrl = `${constants.BASE_URL}/assets/penguin/world/adult.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1.png`;
     }
   } else if (petType === "unicorn") {
     if (level === 0) {
-      petImgUrl = `${constants.BASE_URL}/assets/unicorn/world/baby.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1.png`;
     } else if (level === 1) {
-      petImgUrl = `${constants.BASE_URL}/assets/unicorn/world/teen.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1.png`;
     } else {
-      petImgUrl = `${constants.BASE_URL}/assets/unicorn/world/adult.png`;
+      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
+      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1.png`;
     }
   }
-  return petImgUrl;
+
+  return { petImgUrlLayer0, petImgUrlLayer1 };
+}
+
+function calculateLevel(exp) {
+  if (exp >= 0 && exp < 1000) {
+    return 0;
+  } else if (exp < 4500) {
+    return 1;
+  } else if (exp >= 4500) {
+    return 2;
+  }
+  return 0;
 }

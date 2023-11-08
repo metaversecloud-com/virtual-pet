@@ -18,7 +18,7 @@ export const getVisitor = async (req, res) => {
     });
     return res.json({ visitor, success: true });
   } catch (error) {
-    console.error("Error getting the visitor", error);
+    console.error("❌ Error getting the visitor", JSON.stringify(error));
     return res.status(500).send({ error, success: false });
   }
 };

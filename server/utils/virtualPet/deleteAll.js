@@ -1,10 +1,8 @@
-import axios from "axios";
-import { Visitor } from "../topiaInit.js";
+import { Visitor, World, DroppedAsset } from "../topiaInit.js";
+import { logger } from "../../logs/logger.js";
 
 export const deleteAll = async (req, res) => {
   try {
-    console.info("deleteAll  ********✅");
-
     const {
       assetId,
       interactivePublicKey,
@@ -12,20 +10,6 @@ export const deleteAll = async (req, res) => {
       urlSlug,
       visitorId,
     } = req.query;
-
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
 
     const credentials = {
       assetId,
@@ -40,59 +24,55 @@ export const deleteAll = async (req, res) => {
 
     if (!visitor?.isAdmin) {
       return res.status(401).json({
-        msg: "Only admins have enough permissions to remove all pets",
+        msg: "Only admins have enough permissions to pick up all pets",
       });
     }
 
-    const allPetAssets = await getAllPetAssets(urlSlug, visitor);
+    const world = await World.create(urlSlug, { credentials });
 
-    await deleteAllPets(urlSlug, allPetAssets);
+    const allPetAssets = await getAllPetAssets(urlSlug, visitor, world);
+
+    await deleteAllPets(urlSlug, allPetAssets, credentials);
 
     return res.json({ success: true });
   } catch (error) {
-    console.error("Error while deleting all the pets: ", error);
-    return res.status(500).send({ error, success: false });
+    logger.error({
+      error,
+      message: "❌ 🧹 Error while deleting all the pets",
+      functionName: "deleteAll",
+      req,
+    });
+    return res.status(500).send({ error: error?.message, success: false });
   }
 };
 
-async function deleteAllPets(urlSlug, petAssets) {
-  petAssets.map((petAsset) => deletePetRequest(urlSlug, petAsset));
+async function deleteAllPets(urlSlug, petAssets, credentials) {
+  await Promise.all(
+    petAssets.map((petAsset) =>
+      deletePetRequest(urlSlug, petAsset, credentials)
+    )
+  );
 }
 
-async function deletePetRequest(urlSlug, petAsset) {
-  var data = {};
+async function deletePetRequest(urlSlug, petAsset, credentials) {
+  const droppedAsset = await DroppedAsset.get(petAsset?.id, urlSlug, {
+    credentials,
+  });
 
-  var config = {
-    method: "delete",
-    url: `https://${process.env.INSTANCE_DOMAIN}/api/v1/world/${urlSlug}/assets/${petAsset?.id}`,
-    headers: {
-      accept: "application/json",
-      authorization: process.env.API_KEY,
-      "Content-Type": "application/json",
-    },
-    data,
-  };
-
-  return axios(config);
+  await droppedAsset.deleteDroppedAsset();
 }
 
-async function getAllPetAssets(urlSlug) {
-  var data = {};
+async function getAllPetAssets(urlSlug, visitor, world) {
+  await world.fetchDroppedAssets();
+  const allAssets = world.droppedAssets;
 
-  var config = {
-    method: "get",
-    url: `https://${process.env.INSTANCE_DOMAIN}/api/v1/world/${urlSlug}/assets`,
-    headers: {
-      accept: "application/json",
-      authorization: process.env.API_KEY,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
+  const keys = Object.entries(allAssets);
+  let arr = keys.map((test) => {
+    return test[1];
+  });
+  arr = Array.from(arr);
 
-  const allAssets = await axios(config);
-
-  const petAsset = allAssets?.data?.filter(
+  const petAsset = arr?.filter(
     (item) => item.uniqueName && item.uniqueName?.includes(`petSystem-`)
   );
 

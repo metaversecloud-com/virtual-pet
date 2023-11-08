@@ -1,9 +1,8 @@
 import { Visitor } from "../topiaInit.js";
+import { logger } from "../../logs/logger.js";
 
 export const create = async (req, res) => {
   try {
-    console.info("create  ********✅");
-
     const {
       assetId,
       interactivePublicKey,
@@ -11,20 +10,6 @@ export const create = async (req, res) => {
       urlSlug,
       visitorId,
     } = req.query;
-
-    if (
-      !assetId ||
-      !interactivePublicKey ||
-      !interactiveNonce ||
-      !urlSlug ||
-      !visitorId
-    ) {
-      return res.status(400).json({
-        message:
-          "Missing required data in the request: 'assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId'",
-        success: false,
-      });
-    }
 
     const { petType, name } = req.body;
 
@@ -44,7 +29,6 @@ export const create = async (req, res) => {
       pet = {
         username: visitor?.username,
         experience: 0,
-        food: { foodTimestamp: Date.now(), amount: 0 },
         petType,
         name,
       };
@@ -53,7 +37,12 @@ export const create = async (req, res) => {
 
     return res.json({ pet: visitor?.dataObject?.pet, success: true });
   } catch (error) {
-    console.error("Error while creating the pet for the first time: ", error);
-    return res.status(500).send({ error, success: false });
+    logger.error({
+      error,
+      message: "❌ 🏗️ Error while creating the pet for the first time",
+      functionName: "create",
+      req,
+    });
+    return res.status(500).send({ error: error?.message, success: false });
   }
 };

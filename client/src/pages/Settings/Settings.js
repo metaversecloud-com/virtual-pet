@@ -1,22 +1,27 @@
 import { Container, Row, Col, InputGroup, Button } from "reactstrap";
-
 import "./Settings.scss";
-
 import { deleteAll } from "../../redux/actions/session";
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
 const Settings = () => {
-  const [isLoading] = useState(false);
-  const [isSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const error = useSelector((state) => state?.session?.error);
   const dispatch = useDispatch();
 
-  const handleDeleteAllPets = () => {
-    dispatch(deleteAll());
+  const handleDeleteAllPets = async () => {
+    try {
+      setIsLoading(true);
+      await dispatch(deleteAll());
+      setIsSuccess(true);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -31,13 +36,14 @@ const Settings = () => {
                 onClick={handleDeleteAllPets}
                 disabled={isLoading}
                 style={{ margin: "0 auto" }}
+                className="topia-default-button"
               >
-                {isLoading ? "Loading..." : "Delete All Pets"}
+                {isLoading ? "Loading..." : "Pick up all pets"}
               </Button>
             </InputGroup>
             {isSuccess && !error && (
               <div className="mt-2 text-success">
-                Pets deleted successfully!
+                All pets removed from world!
               </div>
             )}
             {error && (

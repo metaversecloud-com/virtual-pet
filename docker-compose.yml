@@ -1,11 +1,11 @@
-version: '3'
+version: "3"
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "3000"
     environment:
       - INSTANCE_DOMAIN=${INSTANCE_DOMAIN}
       - INSTANCE_PROTOCOL=${INSTANCE_PROTOCOL}
@@ -14,6 +14,7 @@ services:
       - API_KEY=${API_KEY}
       - IMG_ASSET_ID=${IMG_ASSET_ID}
       - REACT_APP_API_URL=${REACT_APP_API_URL}
+      - PORT=3000
     volumes:
       - .:/app
       - /app/node_modules
