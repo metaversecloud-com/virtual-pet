@@ -124,12 +124,12 @@ export const getPet = () => async (dispatch) => {
     const pet = response?.data?.pet;
     const visitor = response?.data?.visitor;
     const isPetAssetOwner = response?.data?.isPetAssetOwner;
+    dispatch(setVisitor(visitor));
     if (response.status === 200) {
       if (!pet) {
         return dispatch(push(`/mascot-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
-      dispatch(setVisitor(visitor));
       dispatch(setPetAssetOwner(isPetAssetOwner));
     }
   } catch (error) {
