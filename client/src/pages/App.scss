@@ -75,3 +75,15 @@ body,
 .app-container iframe.discord-iframe-noadmin {
   height: 50%;
 }
+
+.icon-with-rounded-border {
+  border-radius: 50px;
+  border: 1px solid #EBEDEF;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer !important;
+  z-index: 30;
+}

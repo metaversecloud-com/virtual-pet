@@ -31,6 +31,7 @@ export const create = async (req, res) => {
         experience: 0,
         petType,
         name,
+        color: 0,
       };
       await visitor.setDataObject({ pet });
     }

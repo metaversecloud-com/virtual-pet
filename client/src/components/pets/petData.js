@@ -2,6 +2,18 @@ import dragonBabyImgPathNeutral from "../../assets/dragon/normal/baby.png";
 import dragonTeenImgPathNeutral from "../../assets/dragon/normal/teen.png";
 import dragonAdultImgPathNeutral from "../../assets/dragon/normal/adult.png";
 
+import dragonBabyColor0Neutral from "../../assets/dragon/normal/baby-color-0.png";
+import dragonBabyColor1Neutral from "../../assets/dragon/normal/baby-color-1.png";
+import dragonBabyColor2Neutral from "../../assets/dragon/normal/baby-color-2.png";
+
+import dragonTeenColor0Neutral from "../../assets/dragon/normal/teen-color-0.png";
+import dragonTeenColor1Neutral from "../../assets/dragon/normal/teen-color-1.png";
+import dragonTeenColor2Neutral from "../../assets/dragon/normal/teen-color-2.png";
+
+import dragonAdultColor0Neutral from "../../assets/dragon/normal/adult-color-0.png";
+import dragonAdultColor1Neutral from "../../assets/dragon/normal/adult-color-1.png";
+import dragonAdultColor2Neutral from "../../assets/dragon/normal/adult-color-2.png";
+
 import dragonBabyImgPathSmiling from "../../assets/dragon/normal/baby.png";
 import dragonTeenImgPathSmiling from "../../assets/dragon/normal/teen.png";
 import dragonAdultImgPathSmiling from "../../assets/dragon/normal/adult.png";
@@ -27,7 +39,11 @@ const dragon = {
     beingFedMessage: "So Yummy!!",
     notHungryMessage: "I'm not hungry.",
     petDescription: "Baby Dragon",
-    imgPathNeutral: dragonBabyImgPathNeutral,
+    imgPathNeutral: [
+      dragonBabyColor0Neutral,
+      dragonBabyColor1Neutral,
+      dragonBabyColor2Neutral,
+    ],
     imgPathSmiling: dragonBabyImgPathSmiling,
   },
 

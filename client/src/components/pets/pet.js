@@ -18,6 +18,7 @@ import ExperienceBar from "../experienceBar/ExperienceBar";
 import petData from "./petData";
 import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
 import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
+import pencilSvg from "../../assets/pen-to-square-regular.svg";
 
 const DELAY_LONG = 5000;
 const DELAY_MEDIUM = 3500;
@@ -26,11 +27,10 @@ const SLEEP = "SLEEP";
 const PLAY = "PLAY";
 const TRAIN = "TRAIN";
 
-const Pet = ({ petAge }) => {
+const Pet = ({ petAge, setShowEditPetScreen }) => {
   const dispatch = useDispatch();
 
   const { isSpawnedDroppedAsset } = useParams();
-  console.log("isSpawnedDroppedAsset1", isSpawnedDroppedAsset);
 
   const initialPetState = {
     isFeeding: false,
@@ -62,6 +62,7 @@ const Pet = ({ petAge }) => {
   const isPetAssetOwner = useSelector(
     (state) => state?.session?.isPetAssetOwner
   );
+  const petColor = pet?.color;
   const petType = pet?.petType;
 
   const [petSelected, setPetSelected] = useState({});
@@ -231,6 +232,20 @@ const Pet = ({ petAge }) => {
     setShowInfoAboutLevels(!showInfoAboutLevels);
   }
 
+  function getEditButton() {
+    return (
+      <div
+        style={{ position: "relative", left: "32px", top: "56px" }}
+        className="icon-with-rounded-border"
+        onClick={() => {
+          setShowEditPetScreen(true);
+        }}
+      >
+        <img src={pencilSvg} />
+      </div>
+    );
+  }
+
   if (showInfoAboutLevels) {
     return (
       <InfoAboutLevels toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} />
@@ -246,7 +261,7 @@ const Pet = ({ petAge }) => {
           src={
             petState.isFeeding
               ? petSelected?.imgPathSmiling
-              : petSelected?.imgPathNeutral
+              : petSelected?.imgPathNeutral[petColor]
           }
           alt="Pet"
         />
@@ -288,91 +303,94 @@ const Pet = ({ petAge }) => {
   );
 
   return isPetAssetOwner ? (
-    <Card className="virtual-friend white-overlay">
-      <div className="card-img-container">
-        <CardImg
-          top
-          width="100%"
-          src={
-            petState.isFeeding
-              ? petSelected?.imgPathSmiling
-              : petSelected?.imgPathNeutral
-          }
-          alt="Pet"
-        />
-        <CardSubtitle
-          tag="h6"
-          className="mb-2 text-muted"
-          style={{
-            color: "#0A2540 !important",
-            paddingBottom: "20px",
-            fontFamily: "'Quicksand'",
-            fontSize: "16px",
-            fontWeight: 600,
-          }}
-        >
-          {getMessage() || <div style={{ minHeight: "20px" }}></div>}
-        </CardSubtitle>
-      </div>
-
-      <CardBody>
-        <ExperienceBar
-          isFeeding={petState.isFeeding}
-          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-        />
-        <div className="action-icon-container">
-          <CardTitle tag="h5">
-            <b style={{ color: "#0A2540" }}>
-              {petSelected?.petDescription} - {pet?.name}
-            </b>
-          </CardTitle>{" "}
-          <ActionIconsContainer
-            isSleeping={petState.isSleeping}
-            isLoading={petState.isLoading}
-            pet={pet}
-            handlePetAction={handlePetAction}
+    <>
+      {getEditButton()}
+      <Card className="virtual-friend white-overlay">
+        <div className="card-img-container">
+          <CardImg
+            top
+            width="100%"
+            src={
+              petState.isFeeding
+                ? petSelected?.imgPathSmiling
+                : petSelected?.imgPathNeutral?.[petColor]
+            }
+            alt="Pet"
           />
+          <CardSubtitle
+            tag="h6"
+            className="mb-2 text-muted"
+            style={{
+              color: "#0A2540 !important",
+              paddingBottom: "20px",
+              fontFamily: "'Quicksand'",
+              fontSize: "16px",
+              fontWeight: 600,
+            }}
+          >
+            {getMessage() || <div style={{ minHeight: "20px" }}></div>}
+          </CardSubtitle>
         </div>
-      </CardBody>
 
-      <CardFooter style={{ padding: 0, border: "none" }}>
-        {!pet.isPetInWorld ? (
-          <div className="fixed-bottom">
-            <button
-              className={`topia-default-button ${
-                petState.spawnPetButtonIsDisabled ||
-                petState.isSleeping ||
-                petState.isLoading
-                  ? "disabled"
-                  : ""
-              }`}
-              onClick={
-                !petState.spawnPetButtonIsDisabled ? handleSpawnPet : null
-              }
-            >
-              Call Pet
-            </button>
+        <CardBody>
+          <ExperienceBar
+            isFeeding={petState.isFeeding}
+            toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+          />
+          <div className="action-icon-container">
+            <CardTitle tag="h5">
+              <b style={{ color: "#0A2540" }}>
+                {petSelected?.petDescription} - {pet?.name}
+              </b>
+            </CardTitle>{" "}
+            <ActionIconsContainer
+              isSleeping={petState.isSleeping}
+              isLoading={petState.isLoading}
+              pet={pet}
+              handlePetAction={handlePetAction}
+            />
           </div>
-        ) : (
-          <div className="fixed-bottom" style={{ background: "white" }}>
-            <button
-              className={`topia-default-button ${
-                petState.spawnPetButtonIsDisabled ||
-                petState.isSleeping ||
-                petState.isLoading
-                  ? "disabled"
-                  : ""
-              }`}
-              onClick={
-                !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
-              }
-            >
-              Pick up Pet
-            </button>
-          </div>
-        )}
-      </CardFooter>
-    </Card>
+        </CardBody>
+
+        <CardFooter style={{ padding: 0, border: "none" }}>
+          {!pet.isPetInWorld ? (
+            <div className="fixed-bottom">
+              <button
+                className={`topia-default-button ${
+                  petState.spawnPetButtonIsDisabled ||
+                  petState.isSleeping ||
+                  petState.isLoading
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={
+                  !petState.spawnPetButtonIsDisabled ? handleSpawnPet : null
+                }
+              >
+                Call Pet
+              </button>
+            </div>
+          ) : (
+            <div className="fixed-bottom" style={{ background: "white" }}>
+              <button
+                className={`topia-default-button ${
+                  petState.spawnPetButtonIsDisabled ||
+                  petState.isSleeping ||
+                  petState.isLoading
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={
+                  !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
+                }
+              >
+                Pick up Pet
+              </button>
+            </div>
+          )}
+        </CardFooter>
+      </Card>
+    </>
   ) : (
     notPetAssetOwnerView()
   );

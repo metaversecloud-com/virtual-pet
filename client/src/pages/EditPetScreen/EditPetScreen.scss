@@ -1,0 +1,80 @@
+
+.icon-with-rounded-border {
+  border-radius: 50px;
+  border: 1px solid #EBEDEF;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer !important;
+  z-index: 30;
+}
+
+.card-body-vertically-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.label-text {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-family: "Open Sans";
+  color: #4F6275;
+  margin-bottom: 5px;
+}
+
+.mascot-square {
+  cursor: pointer;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 10px;
+  margin: 10px;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.selected-square {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-arrow {
+  cursor: pointer;
+}
+
+.overlay-style {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+button:disabled {
+  background: #d6dbdf;
+  border-color: #d6dbdf;
+  cursor: not-allowed;
+  border: 1px solid;
+  border-radius: 8px;
+  color: #ffffff;
+}

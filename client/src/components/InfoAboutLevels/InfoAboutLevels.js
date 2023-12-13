@@ -28,7 +28,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
     return (
       <div
         className="icon-circle-container"
-        style={{ position: "absolute", left: "16px" }}
+        style={{ position: "absolute", left: "16px", zIndex: "50" }}
         onClick={() => {
           toggleShowInfoAboutLevels();
         }}

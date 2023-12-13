@@ -162,6 +162,29 @@ export const createPet = (petType, name) => async (dispatch) => {
   }
 };
 
+export const updatePet = (name, color) => async (dispatch) => {
+  try {
+    const queryParams = getQueryParams();
+    const url = `/backend/pet?${queryParams}`;
+
+    const response = await axios.put(url, { name, color });
+    const pet = response?.data?.pet;
+    const visitor = response?.data?.visitor;
+    dispatch(setVisitor(visitor));
+    if (response.status === 200) {
+      if (!pet) {
+        return dispatch(push(`/mascot-selector?${queryParams}`));
+      }
+      dispatch(setPet(pet));
+    }
+  } catch (error) {
+    console.error("error", error);
+    if (error.response && error.response.data) {
+    } else {
+    }
+  }
+};
+
 export const namePet = (name) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
