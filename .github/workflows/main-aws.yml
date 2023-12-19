@@ -25,25 +25,25 @@ jobs:
     environment: ${{ inputs.env || 'dev' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v4.1.1
         
-      - uses: actions/setup-node@master
+      - uses: actions/setup-node@v4.0.1
         with:
           node-version: 20.10
           cache: 'npm'
         
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@master
+        uses: docker/setup-qemu-action@v3.0.0
           
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: arn:aws:iam::368076259134:role/github-actions-role
           aws-region: us-east-1
           
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@master
+        uses: aws-actions/amazon-ecr-login@1.7.1
 
       - name: Build, tag, and push docker image to Amazon ECR
         run: |
