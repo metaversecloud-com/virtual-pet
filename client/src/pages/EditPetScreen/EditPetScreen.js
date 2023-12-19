@@ -3,12 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  Button,
   Row,
   Col,
   Container,
@@ -21,7 +15,7 @@ import {
 import backArrow from "../../assets/backArrow.svg";
 
 import { getPet } from "../../redux/actions/session";
-import MobileMenu from "../../components/mobileMenu/MobileMenu";
+// import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
 import "./EditPetScreen.scss";
 
@@ -29,8 +23,8 @@ import dragonBabyColor0Neutral from "../../assets/dragon/normal/baby-color-0.png
 import dragonBabyColor1Neutral from "../../assets/dragon/normal/baby-color-1.png";
 import dragonBabyColor2Neutral from "../../assets/dragon/normal/baby-color-2.png";
 
-import penguinImg from "../../assets/penguin/normal/baby.png";
-import unicornImg from "../../assets/unicorn/normal/baby.png";
+// import penguinImg from "../../assets/penguin/normal/baby.png";
+// import unicornImg from "../../assets/unicorn/normal/baby.png";
 
 import { getLevel } from "../utils.js";
 
@@ -110,9 +104,9 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedName, setSelectedName] = useState(petNames[0]);
   const [isSaving, setIsSaving] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const pet = useSelector((state) => state?.session?.pet);
-  const visitor = useSelector((state) => state?.session?.visitor);
 
   console.log("pet", pet);
 
@@ -147,6 +141,18 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
     }
   };
 
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleTradePet = () => {
+    console.log("Trading the pet...");
+  };
+
   const handleUpdatePet = async (petColor) => {
     try {
       setIsSaving(true);
@@ -164,7 +170,7 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
         className="icon-with-rounded-border"
         onClick={() => setShowEditPetScreen(false)}
       >
-        <img src={backArrow} />
+        <img src={backArrow} alt="pet" />
       </div>
     );
   }
@@ -185,6 +191,25 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
 
   return (
     <>
+      {isModalVisible && (
+        <div className="my-modal-container">
+          <div className="my-modal">
+            <h4>Trade your pet?</h4>
+            <p>
+              If you continue, your current pet will be deleted and you can pick
+              a new one that will start at Level 1.
+            </p>
+            <div className="actions">
+              <button className="btn-outline" onClick={handleCloseModal}>
+                Cancel
+              </button>
+              <button className="btn-danger" onClick={handleTradePet}>
+                Trade Pet
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* {visitor?.isAdmin && <MobileMenu />} */}
       <div
         className="mascot-selector-wrapper"
@@ -276,6 +301,12 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
           </Row>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
+            <p
+              style={{ color: "red", cursor: "pointer" }}
+              onClick={handleOpenModal}
+            >
+              Trade Pet
+            </p>
             <button
               className="topia-default-button"
               onClick={() => handleUpdatePet(selectedMascot.color)}

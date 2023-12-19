@@ -241,7 +241,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
           setShowEditPetScreen(true);
         }}
       >
-        <img src={pencilSvg} />
+        <img src={pencilSvg} alt="pencil" />
       </div>
     );
   }
@@ -268,7 +268,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       </div>
       <CardBody>
         <ExperienceBar
-          isFeeding={petState.isFeeding}
+          isFeeding={petState?.isFeeding}
           toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
         />
         <div className="general-card-container" style={{ marginTop: "16px" }}>
@@ -353,7 +353,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         </CardBody>
 
         <CardFooter style={{ padding: 0, border: "none" }}>
-          {!pet.isPetInWorld ? (
+          {!pet?.isPetInWorld ? (
             <div className="fixed-bottom">
               <button
                 className={`topia-default-button ${

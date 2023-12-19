@@ -1,20 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  Button,
-  Row,
-  Col,
-  Container,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Card, CardImg } from "reactstrap";
 import backArrowIconSvg from "../../assets/backArrowIcon.svg";
 import petData from "../pets/petData.js";
 import "./InfoAboutLevels.scss";
@@ -34,7 +20,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
         }}
       >
         <div className="icon-circle-text">
-          <img src={backArrowIconSvg} />
+          <img src={backArrowIconSvg} alt="back arrow" />
         </div>
       </div>
     );

@@ -99,7 +99,8 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 
   const { petImgUrlLayer0, petImgUrlLayer1 } = getPetImgUrl(
     pet?.petType,
-    level
+    level,
+    pet?.color
   );
 
   const { moveTo, username } = visitor;
@@ -145,41 +146,119 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 }
 
 // Get the pet's image Url based on the pet's type and level.
-function getPetImgUrl(petType, level) {
+function getPetImgUrl(petType, level, color) {
   let petImgUrlLayer0;
   let petImgUrlLayer1;
   if (petType === "dragon") {
     if (level === 0) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1_Color0.png`;
+      }
+      if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1_Color1.png`;
+      }
+      if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1_Color2.png`;
+      }
     } else if (level === 1) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1_Color0.png`;
+      }
+      if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1_Color1.png`;
+      }
+      if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1_Color2.png`;
+      }
     } else {
-      petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1_Color0.png`;
+      }
+      if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1_Color1.png`;
+      }
+      if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1_Color2.png`;
+      }
     }
   } else if (petType === "penguin") {
     if (level === 0) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1_Color0.png`;
+      } else if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1_Color1.png`;
+      } else if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1_Color2.png`;
+      }
     } else if (level === 1) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1_Color0.png`;
+      } else if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1_Color1.png`;
+      } else if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1_Color2.png`;
+      }
     } else {
-      petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1_Color0.png`;
+      } else if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1_Color1.png`;
+      } else if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1_Color2.png`;
+      }
     }
   } else if (petType === "unicorn") {
     if (level === 0) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1_Color0.png`;
+      } else if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1_Color1.png`;
+      } else if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1_Color2.png`;
+      }
     } else if (level === 1) {
-      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1_Color0.png`;
+      } else if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1_Color1.png`;
+      } else if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1_Color2.png`;
+      }
     } else {
-      petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
-      petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1.png`;
+      if (color === 0) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1_Color0.png`;
+      } else if (color === 1) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1_Color1.png`;
+      } else if (color === 2) {
+        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
+        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1_Color2.png`;
+      }
     }
   }
 

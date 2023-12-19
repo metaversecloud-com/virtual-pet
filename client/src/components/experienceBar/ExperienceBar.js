@@ -41,7 +41,7 @@ const ExperienceBar = ({ toggleShowInfoAboutLevels }) => {
         style={{ position: "absolute", right: "16px" }}
       >
         <div className="icon-circle-text">
-          <img src={infoImg} />
+          <img src={infoImg} alt="info" />
         </div>
       </div>
     );

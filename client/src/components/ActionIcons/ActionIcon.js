@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Bed from "../../assets/actionIcons/bed.svg";
 import PersonRunning from "../../assets/actionIcons/person-running.svg";
 import Play from "../../assets/actionIcons/play.svg";
