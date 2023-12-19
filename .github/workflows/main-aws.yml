@@ -30,7 +30,9 @@ jobs:
       - uses: actions/setup-node@v4.0.1
         with:
           node-version: 20.10
-          # cache: 'npm'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3.0.0

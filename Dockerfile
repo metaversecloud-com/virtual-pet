@@ -1,9 +1,7 @@
 FROM --platform=linux/arm64 node:18-alpine3.17
 WORKDIR /app
 COPY . ./
-RUN npm install
 EXPOSE 3000
-RUN npm run build
 ENV BROWSER=none
 ENV NODE_ENV=production
 ENV PORT=5000
