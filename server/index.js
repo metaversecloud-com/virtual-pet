@@ -23,7 +23,7 @@ app.use(requestID());
 app.use("/backend", router);
 
 app.get("/healthcheck", (req, res) => {
-  return res.send(`Server is running... ${version}`);
+  return res.send(`Server is running... ${version} 4.0`);
 });
 
 if (process.env.NODE_ENV === "production") {
