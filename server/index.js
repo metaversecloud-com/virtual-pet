@@ -13,7 +13,7 @@ import { fileURLToPath } from "url";
 checkEnvVariables();
 const PORT = process.env.PORT || 3000;
 const app = express();
-const version = "3.0";
+const version = "5.0";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,7 +23,7 @@ app.use(requestID());
 app.use("/backend", router);
 
 app.get("/healthcheck", (req, res) => {
-  return res.send(`Server is running... ${version} 4.0`);
+  return res.send(`Server is running... ${version}`);
 });
 
 if (process.env.NODE_ENV === "production") {

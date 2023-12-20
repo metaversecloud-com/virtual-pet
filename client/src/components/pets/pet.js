@@ -304,6 +304,10 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
   console.log("petSelected", petSelected);
   console.log("color", petColor);
+  console.log(
+    "petSelected?.imgPathNeutral?.[petColor]",
+    petSelected?.imgPathNeutral
+  );
 
   return isPetAssetOwner ? (
     <>

@@ -9,6 +9,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
   const visitor = useSelector((state) => state?.session?.visitor);
   const pet = useSelector((state) => state?.session?.pet);
   const petType = pet?.petType;
+  const petColor = pet?.color;
 
   function backArrowIcon() {
     return (
@@ -26,6 +27,8 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
     );
   }
 
+  console.log("11pet data", petData);
+
   return (
     <div
       className={`info-about-levels-wrapper ${
@@ -41,7 +44,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
           >
             <CardImg
               top
-              src={petData?.[petType]?.baby?.imgPathNeutral}
+              src={petData?.[petType]?.baby?.imgPathNeutral?.[petColor]}
               alt="Pet"
               style={{
                 width: "50px",
@@ -60,7 +63,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             <CardImg
               top
               width="100px"
-              src={petData?.[petType]?.teen?.imgPathNeutral}
+              src={petData?.[petType]?.teen?.imgPathNeutral?.[petColor]}
               alt="Pet"
               style={{
                 width: "100px",
@@ -79,7 +82,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             <CardImg
               top
               width="150px"
-              src={petData?.[petType]?.adult?.imgPathNeutral}
+              src={petData?.[petType]?.adult?.imgPathNeutral?.[petColor]}
               alt="Pet"
               style={{
                 width: "140px",
