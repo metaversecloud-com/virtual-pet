@@ -68,7 +68,7 @@
   cursor: pointer;
   border: 1px solid rgb(204, 204, 204);
   border-radius: 10px;
-  margin: 10px;
+  margin: 10px auto;
   width: 100px;
   height: 100px;
   background-size: cover;
@@ -118,7 +118,7 @@ button:disabled {
 
 
 /*** Modal ***/
-.modal-container {
+.my-modal-container {
   visibility: hidden;
   width: 100%;
   height: 100%;
@@ -129,7 +129,7 @@ button:disabled {
   background-color: rgba(10, 37, 64, 0.4);
 }
 
-.my-modal-container.visible {
+.my-modal-container {
   visibility: visible;
 }
 
@@ -162,3 +162,13 @@ button:disabled {
   gap: var(--spacing-4);
 }
 
+.pet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pet-item {
+  width: 48%;
+  margin-bottom: 0px;
+}

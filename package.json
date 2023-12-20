@@ -3,19 +3,15 @@
   "name": "sdk-virtual-pet",
   "dependencies": {
     "@rtsdk/topia": "*",
-    "axios": "^1.5.1",
+    "axios": "^1.6.2",
     "body-parser": "^1.20.2",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-request-id": "^3.0.0",
-    "openai": "^3.3.0",
-    "regenerator-runtime": "^0.13.11",
+    "regenerator-runtime": "^0.14.1",
     "yalc": "^1.0.0-pre.53"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^VERSION"
   },
   "workspaces": [
     "client",
@@ -34,5 +30,8 @@
     "start": "npm start -w server"
   },
   "type": "module",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }

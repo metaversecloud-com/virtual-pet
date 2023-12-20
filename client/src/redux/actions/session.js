@@ -207,10 +207,32 @@ export const namePet = (name) => async (dispatch) => {
   }
 };
 
-export const deleteAll = () => async (dispatch) => {
+export const tradePet = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet?${queryParams}`;
+
+    const response = await axios.delete(url);
+    const pet = response?.data?.pet;
+    if (response.status === 200) {
+      if (!pet) {
+        return dispatch(push(`/mascot-selector?${queryParams}`));
+      }
+      dispatch(setPet(response?.data?.pet));
+      return dispatch(push(`/?${queryParams}`));
+    }
+  } catch (error) {
+    console.error("error", error);
+    if (error.response && error.response.data) {
+    } else {
+    }
+  }
+};
+
+export const deleteAll = () => async (dispatch) => {
+  try {
+    const queryParams = getQueryParams();
+    const url = `/backend/world/pet?${queryParams}`;
 
     const response = await axios.delete(url);
     if (response.status === 200) {

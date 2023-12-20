@@ -259,9 +259,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
           top
           width="100%"
           src={
-            petState.isFeeding
+            petState?.isFeeding
               ? petSelected?.imgPathSmiling
-              : petSelected?.imgPathNeutral[petColor]
+              : petSelected?.imgPathNeutral?.[petColor]
           }
           alt="Pet"
         />
@@ -301,6 +301,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       </CardBody>
     </Card>
   );
+
+  console.log("petSelected", petSelected);
+  console.log("color", petColor);
 
   return isPetAssetOwner ? (
     <>

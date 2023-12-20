@@ -7,6 +7,7 @@ import {
   create,
   update,
   action,
+  deletePet,
 } from "./utils/index.js";
 import express from "express";
 import { validationMiddleware } from "./middleware/validation.js";
@@ -22,9 +23,10 @@ router.get("/visitor", getVisitor);
 router.get("/pet", validationMiddleware, get);
 router.post("/pet", validationMiddleware, create);
 router.put("/pet", validationMiddleware, update);
+router.delete("/pet", validationMiddleware, deletePet);
 router.post("/pet/spawn", validationMiddleware, spawn);
 router.post("/pet/pickup", validationMiddleware, pickup);
 router.post("/pet/action", validationMiddleware, action);
-router.delete("/pet", validationMiddleware, deleteAll);
+router.delete("/world/pet", validationMiddleware, deleteAll);
 
 export default router;

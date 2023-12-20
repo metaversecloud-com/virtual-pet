@@ -14,7 +14,7 @@ import {
 
 import backArrow from "../../assets/backArrow.svg";
 
-import { getPet } from "../../redux/actions/session";
+import { getPet, tradePet } from "../../redux/actions/session";
 // import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
 import "./EditPetScreen.scss";
@@ -149,8 +149,8 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
     setIsModalVisible(false);
   };
 
-  const handleTradePet = () => {
-    console.log("Trading the pet...");
+  const handleTradePet = async () => {
+    await dispatch(tradePet());
   };
 
   const handleUpdatePet = async (petColor) => {
@@ -213,7 +213,11 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
       {/* {visitor?.isAdmin && <MobileMenu />} */}
       <div
         className="mascot-selector-wrapper"
-        style={{ alignItems: "baseline" }}
+        style={{
+          alignItems: "baseline",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+        }}
       >
         <Container>
           <div
@@ -245,38 +249,30 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
 
           <div className="pet-name-selection">
             <span>Name:</span>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle caret>{selectedName}</DropdownToggle>
-              <DropdownMenu>
-                {petNames.map((name, index) => (
-                  <DropdownItem
-                    key={index}
-                    onClick={() => setSelectedName(name)}
-                  >
-                    {name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+            <select
+              value={selectedName}
+              onChange={(e) => setSelectedName(e.target.value)}
+              style={{ width: "100%" }}
+            >
+              {petNames.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
           </div>
-          <div style={{ marginBottom: "8px" }}>
+          <div style={{ marginBottom: "0px", marginTop: "24px" }}>
             <span className="label-text">Select Color:</span>
           </div>
-          <Row
-            className="justify-content-center"
-            style={{ padding: "0px 30px" }}
-          >
+          <div className="pet-grid">
             {petColors.map((mascot) => (
-              <Col
-                key={mascot.id}
-                xs={6}
-                className="mb-4 d-flex justify-content-center"
-              >
+              <div key={mascot.id} className="pet-item">
                 <div
                   className={`mascot-container ${
                     selectedMascot.id === mascot.id ? "selected-container" : ""
                   }`}
                   onClick={() => selectMascot(mascot)}
+                  style={{ padding: "0px" }}
                 >
                   <div
                     className={`mascot-square ${
@@ -296,9 +292,9 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
                     ) : null}
                   </div>
                 </div>
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
             <p

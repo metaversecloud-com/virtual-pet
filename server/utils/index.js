@@ -6,4 +6,5 @@ export * from "./virtualPet/pickup.js";
 export * from "./virtualPet/get.js";
 export * from "./virtualPet/action.js";
 export * from "./virtualPet/create.js";
+export * from "./virtualPet/deletePet.js";
 export * from "./virtualPet/deleteAll.js";
