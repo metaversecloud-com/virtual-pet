@@ -29,9 +29,9 @@ jobs:
         
       - uses: actions/setup-node@v4.0.1
         with:
-          node-version: 18.16
+          node-version: 20.10
           cache: 'npm'
-      - run: npm ci
+      - run: npm i
       - run: npm run build
         
       - name: Set up QEMU
