@@ -108,19 +108,17 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
 
   const pet = useSelector((state) => state?.session?.pet);
 
-  console.log("pet", pet);
-
   const currentPetExperience = pet?.experience || 0;
 
   const { currentLevel } = getLevel(currentPetExperience);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getPet());
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await dispatch(getPet());
+  //   };
 
-    fetchData();
-  }, [dispatch]);
+  //   fetchData();
+  // }, [dispatch]);
 
   useEffect(() => {
     if (pet?.name) {
@@ -150,7 +148,14 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
   };
 
   const handleTradePet = async () => {
-    await dispatch(tradePet());
+    try {
+      setIsSaving(true);
+      await dispatch(tradePet());
+    } catch (error) {
+      console.error("Error trading:", error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleUpdatePet = async (petColor) => {
@@ -158,7 +163,7 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
       setIsSaving(true);
       await dispatch(updatePet(selectedName, petColor));
     } catch (error) {
-      console.error("Erro ao atualizar o pet:", error);
+      console.error("Error updating pet:", error);
     } finally {
       setIsSaving(false);
     }
@@ -195,15 +200,23 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
         <div className="my-modal-container">
           <div className="my-modal">
             <h4>Trade your pet?</h4>
-            <p>
-              If you continue, your current pet will be deleted and you can pick
-              a new one that will start at Level 1.
+            <p className="my-p">
+              You'll get to choose a new pet but lose access to your current
+              pet. Your new pet will start at Level 1.
             </p>
             <div className="actions">
-              <button className="btn-outline" onClick={handleCloseModal}>
+              <button
+                className="btn-outline my-btn"
+                onClick={handleCloseModal}
+                disabled={isSaving}
+              >
                 Cancel
               </button>
-              <button className="btn-danger" onClick={handleTradePet}>
+              <button
+                className="btn-danger my-btn"
+                onClick={handleTradePet}
+                disabled={isSaving}
+              >
                 Trade Pet
               </button>
             </div>
@@ -249,17 +262,21 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
 
           <div className="pet-name-selection">
             <span>Name:</span>
-            <select
-              value={selectedName}
-              onChange={(e) => setSelectedName(e.target.value)}
-              style={{ width: "100%" }}
-            >
-              {petNames.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
+            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+              <DropdownToggle caret style={{ marginBottom: "0px" }}>
+                {selectedName}
+              </DropdownToggle>
+              <DropdownMenu>
+                {petNames.map((name, index) => (
+                  <DropdownItem
+                    key={index}
+                    onClick={() => setSelectedName(name)}
+                  >
+                    {name}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
           </div>
           <div style={{ marginBottom: "0px", marginTop: "24px" }}>
             <span className="label-text">Select Color:</span>

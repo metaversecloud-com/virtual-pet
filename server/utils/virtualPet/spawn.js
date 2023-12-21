@@ -113,10 +113,13 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 
   const asset = await Asset.create(process.env.IMG_ASSET_ID, { credentials });
 
+  const flipped = Math.random() < 0.5;
+
   const petSpawnedDroppedAsset = await DroppedAsset.drop(asset, {
     position,
     uniqueName,
     urlSlug,
+    flipped,
   });
 
   await petSpawnedDroppedAsset?.updateDataObject({

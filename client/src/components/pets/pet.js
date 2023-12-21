@@ -260,7 +260,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
           width="100%"
           src={
             petState?.isFeeding
-              ? petSelected?.imgPathSmiling
+              ? petSelected?.imgPathSmiling?.[petColor]
               : petSelected?.imgPathNeutral?.[petColor]
           }
           alt="Pet"
@@ -302,11 +302,10 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     </Card>
   );
 
-  console.log("petSelected", petSelected);
-  console.log("color", petColor);
+  console.log("petState.isFeeding", petState.isFeeding);
   console.log(
-    "petSelected?.imgPathNeutral?.[petColor]",
-    petSelected?.imgPathNeutral
+    "petSelected?.imgPathSmiling?.[petColor]",
+    petSelected?.imgPathSmiling?.[petColor]
   );
 
   return isPetAssetOwner ? (
@@ -319,7 +318,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             width="100%"
             src={
               petState.isFeeding
-                ? petSelected?.imgPathSmiling
+                ? petSelected?.imgPathSmiling?.[petColor]
                 : petSelected?.imgPathNeutral?.[petColor]
             }
             alt="Pet"
