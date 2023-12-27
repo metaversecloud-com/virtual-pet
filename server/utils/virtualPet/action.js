@@ -54,7 +54,7 @@ export const action = async (req, res) => {
 
     let updatedPet;
 
-    updatedPet = performAction(pet, action, currentTime);
+    updatedPet = await performAction(visitor, pet, action, currentTime);
 
     if (!updatedPet) {
       return res.status(403).json({
@@ -79,7 +79,7 @@ export const action = async (req, res) => {
   }
 };
 
-function performAction(pet, actionKey, now) {
+async function performAction(visitor, pet, actionKey, now) {
   const cooldown = ACTION_COOLDOWNS[actionKey];
   const experienceGain = ACTION_EXPERIENCE_GAIN[actionKey];
 
@@ -92,6 +92,13 @@ function performAction(pet, actionKey, now) {
 
   if (!canPerformAction(pet[actionKey].timestamp, now, cooldown)) {
     return false;
+  }
+
+  const newExperience = (pet.experience || 0) + experienceGain;
+
+  // TODO: replace for the right expression instead of "Eyes"
+  if (newExperience >= 2100 && (!pet.experience || pet.experience < 2100)) {
+    // await visitor.grantExpression({ name: "Eyes" });
   }
 
   return {

@@ -230,6 +230,8 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
           alignItems: "baseline",
           paddingLeft: "16px",
           paddingRight: "16px",
+          overflowY: "auto",
+          maxHeight: "calc(100% - 150px)",
         }}
       >
         <Container>
@@ -240,6 +242,7 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: "16px",
+              marginBottom: "50px",
             }}
           >
             <div style={{ flex: "0 1 auto" }}>{getBackArrow()}</div>

@@ -53,6 +53,8 @@
   background-color: #ffffff;
   position: relative;
   padding-bottom: 50px;
+  overflow-y: auto;
+  max-height: calc(100% - 150px);
 
   .white-overlay {
     background-color: rgba(0, 0, 0, 0.3);
