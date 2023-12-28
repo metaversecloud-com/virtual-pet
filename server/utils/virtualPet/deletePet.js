@@ -27,12 +27,6 @@ export const deletePet = async (req, res) => {
       },
     });
 
-    if (!visitor?.isAdmin) {
-      return res.status(401).json({
-        msg: "Only admins have enough permissions to pick up all pets",
-      });
-    }
-
     const world = await World.create(urlSlug, { credentials });
 
     const allPetAssets = await getAllPetAssets(urlSlug, visitor, world);

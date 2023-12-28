@@ -71,7 +71,7 @@ const petColors = [
     petType: "dragon",
     description: "Sky Talon Dragon",
     image: dragonBabyColor1Neutral,
-    minLevelToUnlock: 4,
+    minLevelToUnlock: 3,
     color: 4,
   },
   {
@@ -80,7 +80,7 @@ const petColors = [
     petType: "dragon",
     description: "Frost Dragon",
     image: dragonBabyColor2Neutral,
-    minLevelToUnlock: 4,
+    minLevelToUnlock: 3,
     color: 5,
   },
 ];
