@@ -1,6 +1,7 @@
 import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
 // import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
 // axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
 
@@ -47,6 +48,19 @@ export const executeAction = (action) => async (dispatch) => {
     const response = await axios.post(url, { action });
 
     if (response.status === 200) {
+      if (response.data.emoteUnlocked) {
+        toast(
+          (t) => (
+            <div style={{ textAlign: "center" }}>
+              <p>🌟 Congratulations! You just unlocked a new emote!</p>
+              <button onClick={() => toast.dismiss(t.id)}>Close</button>
+            </div>
+          ),
+          {
+            duration: Infinity,
+          }
+        );
+      }
       dispatch(setPet(response?.data?.pet));
       return true;
     }

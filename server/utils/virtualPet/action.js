@@ -67,7 +67,11 @@ export const action = async (req, res) => {
 
     await visitor.setDataObject({ pet: updatedPet });
 
-    return res.json({ pet: updatedPet, success: true });
+    return res.json({
+      pet: updatedPet,
+      success: true,
+      emoteUnlocked: updatedPet.emoteUnlocked,
+    });
   } catch (error) {
     logger.error({
       error,
@@ -80,6 +84,7 @@ export const action = async (req, res) => {
 };
 
 async function performAction(visitor, pet, actionKey, now) {
+  let emoteUnlocked = false;
   const cooldown = ACTION_COOLDOWNS[actionKey];
   const experienceGain = ACTION_EXPERIENCE_GAIN[actionKey];
 
@@ -99,6 +104,7 @@ async function performAction(visitor, pet, actionKey, now) {
   // TODO: replace for the right expression instead of "Eyes"
   if (newExperience >= 2100 && (!pet.experience || pet.experience < 2100)) {
     // await visitor.grantExpression({ name: "Eyes" });
+    emoteUnlocked = true;
   }
 
   return {
@@ -109,5 +115,6 @@ async function performAction(visitor, pet, actionKey, now) {
       timestamp: now,
       amount: (pet[actionKey].amount || 0) + 1,
     },
+    emoteUnlocked,
   };
 }
