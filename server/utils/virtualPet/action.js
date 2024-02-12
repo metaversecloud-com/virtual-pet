@@ -99,7 +99,6 @@ async function performAction(visitor, pet, actionKey, now) {
 
   const newExperience = (pet.experience || 0) + experienceGain;
 
-  // TODO: unlock emotes
   if (newExperience >= 2100 && (!pet.experience || pet.experience < 2100)) {
     await visitor.grantExpression({ name: `pet_${pet?.petType}` });
     emoteUnlocked = true;
