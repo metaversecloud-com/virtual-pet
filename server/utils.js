@@ -1,4 +1,3 @@
-import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -24,16 +23,6 @@ export function checkEnvVariables() {
       )}`
     );
   }
-}
-
-export function getAppInfo() {
-  let commit;
-  try {
-    commit = execSync("git rev-parse HEAD").toString().trim();
-  } catch (error) {
-    console.error("Error getting current git commit:", error);
-  }
-  return { commit };
 }
 
 export function getVersion() {

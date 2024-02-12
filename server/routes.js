@@ -8,7 +8,7 @@ import {
   update,
   action,
   deletePet,
-} from "./utils/index.js";
+} from "./api/index.js";
 import express from "express";
 import { validationMiddleware } from "./middleware/validation.js";
 const router = express.Router();

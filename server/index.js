@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import router from "./routes.js";
 import cors from "cors";
-import { checkEnvVariables, getVersion, getAppInfo } from "./utils.js";
+import { checkEnvVariables, getVersion } from "./utils.js";
 dotenv.config();
 
 import { fileURLToPath } from "url";
