@@ -33,7 +33,7 @@ app.get("/api/system/health", (req, res) => {
   });
 });
 
-const assetsPath = path.join(__dirname, "utils/assets");
+const assetsPath = path.join(__dirname, "api/assets");
 app.use("/assets", express.static(assetsPath));
 
 if (process.env.NODE_ENV === "production") {
