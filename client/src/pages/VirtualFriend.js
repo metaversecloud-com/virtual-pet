@@ -35,18 +35,24 @@ const VirtualFriend = () => {
     setLevel(currentLevel);
   }, [pet, petType]);
 
-  const getPetComponent = () => {
+  const getPetAge = () => {
     if (level < 5) {
-      return <Pet petAge="baby" setShowEditPetScreen={setShowEditPetScreen} />;
+      return "baby";
     }
     if (level >= 5 && level < 10) {
-      return <Pet petAge="teen" setShowEditPetScreen={setShowEditPetScreen} />;
+      return "teen";
     }
     if (level >= 10) {
-      return <Pet petAge="adult" setShowEditPetScreen={setShowEditPetScreen} />;
+      return "adult";
     } else {
-      return <Pet />;
+      return "";
     }
+  };
+
+  const getPetComponent = () => {
+    return (
+      <Pet petAge={getPetAge()} setShowEditPetScreen={setShowEditPetScreen} />
+    );
   };
 
   if (loading) {
@@ -54,11 +60,16 @@ const VirtualFriend = () => {
       <div className="loader">
         <ClipLoader color={"#123abc"} loading={loading} size={150} />
       </div>
-    ); // return a loading spinner
+    );
   }
 
   if (showEditPetScreen) {
-    return <EditPetScreen setShowEditPetScreen={setShowEditPetScreen} />;
+    return (
+      <EditPetScreen
+        setShowEditPetScreen={setShowEditPetScreen}
+        petAge={getPetAge()}
+      />
+    );
   }
 
   return (

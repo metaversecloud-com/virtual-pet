@@ -25,7 +25,7 @@ export const spawn = async (req, res) => {
     const port = req.port;
 
     if (host === "localhost") {
-      BASE_URL = `${protocol}://virtual-pet.topia-rtsdk.com`;
+      BASE_URL = `${protocol}://vpet-dev-topia.topia-rtsdk.com`;
     } else {
       BASE_URL = `${protocol}://${host}`;
     }
@@ -99,11 +99,11 @@ async function fetchAllUserPets(urlSlug, visitor, credentials) {
 async function dropImageAsset(urlSlug, credentials, visitor, pet) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
-  const level = calculateLevel(pet?.experience);
+  const level = getLevel(pet?.experience);
 
   const { petImgUrlLayer0, petImgUrlLayer1 } = getPetImgUrl(
     pet?.petType,
-    level,
+    level?.currentLevel,
     pet?.color
   );
 
@@ -153,131 +153,68 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
 
 // Get the pet's image Url based on the pet's type and level.
 function getPetImgUrl(petType, level, color) {
-  let petImgUrlLayer0;
-  let petImgUrlLayer1;
-  if (petType === "dragon") {
-    if (level === 0) {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1_Color0.png`;
-      }
-      if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1_Color1.png`;
-      }
-      if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D3_Layer1_Color2.png`;
-      }
-    } else if (level === 1) {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1_Color0.png`;
-      }
-      if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1_Color1.png`;
-      }
-      if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D2_Layer1_Color2.png`;
-      }
-    } else {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1_Color0.png`;
-      }
-      if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1_Color1.png`;
-      }
-      if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/dragon/world/D1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/dragon/world/D1_Layer1_Color2.png`;
-      }
-    }
-  } else if (petType === "penguin") {
-    if (level === 0) {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1_Color0.png`;
-      } else if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1_Color1.png`;
-      } else if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P3_Layer1_Color2.png`;
-      }
-    } else if (level === 1) {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1_Color0.png`;
-      } else if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1_Color1.png`;
-      } else if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P2_Layer1_Color2.png`;
-      }
-    } else {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1_Color0.png`;
-      } else if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1_Color1.png`;
-      } else if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/penguin/world/P1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/penguin/world/P1_Layer1_Color2.png`;
-      }
-    }
-  } else if (petType === "unicorn") {
-    if (level === 0) {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1_Color0.png`;
-      } else if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1_Color1.png`;
-      } else if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U3_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U3_Layer1_Color2.png`;
-      }
-    } else if (level === 1) {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1_Color0.png`;
-      } else if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1_Color1.png`;
-      } else if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U2_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U2_Layer1_Color2.png`;
-      }
-    } else {
-      if (color === 0) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1_Color0.png`;
-      } else if (color === 1) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1_Color1.png`;
-      } else if (color === 2) {
-        petImgUrlLayer0 = `${BASE_URL}/assets/unicorn/world/U1_Layer0.png`;
-        petImgUrlLayer1 = `${BASE_URL}/assets/unicorn/world/U1_Layer1_Color2.png`;
-      }
-    }
+  let petImgUrlLayer0 = "";
+  let petImgUrlLayer1 = "";
+  let petAge = "";
+  if (level < 5) {
+    petAge = "baby";
+  } else if (level >= 5 && level < 10) {
+    petAge = "teen";
+  } else if (level >= 10) {
+    petAge = "adult";
   }
+
+  petImgUrlLayer1 = `${BASE_URL}/assets/${petType}/world/${petAge}-color-${color}.png`;
 
   return { petImgUrlLayer0, petImgUrlLayer1 };
 }
 
-function calculateLevel(exp) {
-  if (exp >= 0 && exp < 1000) {
-    return 0;
-  } else if (exp < 4500) {
-    return 1;
-  } else if (exp >= 4500) {
-    return 2;
+let level = [];
+level[0] = 100;
+level[1] = 300;
+level[2] = 600;
+level[3] = 1000;
+level[4] = 1500;
+level[5] = 2100;
+level[6] = 2800;
+level[7] = 3600;
+level[8] = 4500;
+level[9] = 5500;
+level[10] = 6600;
+level[11] = 7800;
+level[12] = 9100;
+level[13] = 10500;
+level[14] = 12000;
+level[15] = 13600;
+level[16] = 15300;
+level[17] = 17100;
+level[18] = 19000;
+level[19] = 21000;
+level[20] = 23100;
+level[21] = 25300;
+level[22] = 27600;
+level[23] = 30000;
+level[24] = 32500;
+level[25] = 35100;
+level[26] = 37800;
+level[27] = 40600;
+level[28] = 43500;
+level[29] = 46500;
+level[30] = 49600;
+
+export function getLevel(experience) {
+  for (let i = 0; i < level.length; i++) {
+    if (experience < level[i]) {
+      return {
+        currentLevel: i + 1,
+        experienceNeededForNextLevel: level[i],
+        experienceNeededForTheLevelYouCurrentlyAchieved:
+          i > 0 ? level[i - 1] : 0,
+      };
+    }
   }
-  return 0;
+  return {
+    currentLevel: level.length,
+    experienceNeededForNextLevel: level[level.length - 1],
+  }; // If no experience is match, return max level
 }

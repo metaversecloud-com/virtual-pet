@@ -265,7 +265,10 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
   if (showInfoAboutLevels) {
     return (
-      <InfoAboutLevels toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} />
+      <InfoAboutLevels
+        toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+        petAge={petAge}
+      />
     );
   }
 
