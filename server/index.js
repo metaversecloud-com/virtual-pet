@@ -10,6 +10,9 @@ dotenv.config();
 
 import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 checkEnvVariables();
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -31,6 +34,9 @@ app.get("/api/system/health", (req, res) => {
     commit: appInfo?.commit,
   });
 });
+
+const assetsPath = path.join(__dirname, "utils/assets");
+app.use("/assets", express.static(assetsPath));
 
 if (process.env.NODE_ENV === "production") {
   // Node serves the files for the React app

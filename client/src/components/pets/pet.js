@@ -30,6 +30,8 @@ const TRAIN = "TRAIN";
 const Pet = ({ petAge, setShowEditPetScreen }) => {
   const dispatch = useDispatch();
 
+  const BASE_URL = window.location.origin;
+
   const { isSpawnedDroppedAsset } = useParams();
 
   const initialPetState = {
@@ -116,6 +118,21 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     } else {
       return "";
     }
+  };
+
+  const getActionImage = () => {
+    if (petState?.isFeeding) {
+      const url = `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
+    } else if (petState?.isSleeping) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
+    } else if (petState?.isTraining) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-train.png`;
+    } else if (petState?.isPlaying) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
+    }
+
+    return `/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
   };
 
   // Add the pet to the world
@@ -302,27 +319,12 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     </Card>
   );
 
-  console.log("petState.isFeeding", petState.isFeeding);
-  console.log(
-    "petSelected?.imgPathSmiling?.[petColor]",
-    petSelected?.imgPathSmiling?.[petColor]
-  );
-
   return isPetAssetOwner ? (
     <>
       {getEditButton()}
       <Card className="virtual-friend white-overlay">
         <div className="card-img-container">
-          <CardImg
-            top
-            width="100%"
-            src={
-              petState.isFeeding
-                ? petSelected?.imgPathSmiling?.[petColor]
-                : petSelected?.imgPathNeutral?.[petColor]
-            }
-            alt="Pet"
-          />
+          <CardImg top width="100%" src={getActionImage()} alt="Pet" />
           <CardSubtitle
             tag="h6"
             className="mb-2 text-muted"

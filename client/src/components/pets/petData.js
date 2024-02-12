@@ -28,6 +28,19 @@ import dragonAdultColor0Smiling from "../../assets/dragon/normal/doing-action/ad
 import dragonAdultColor1Smiling from "../../assets/dragon/normal/doing-action/adult-color-1-smiling.png";
 import dragonAdultColor2Smiling from "../../assets/dragon/normal/doing-action/adult-color-2-smiling.png";
 
+// Dragon eating
+// import dragonBabyColor0Feed from "../../assets/dragon/normal/doing-action/baby-color-0-feed.png";
+// import dragonBabyColor1Feed from "../../assets/dragon/normal/doing-action/baby-color-1-feed.png";
+// import dragonBabyColor2Feed from "../../assets/dragon/normal/doing-action/baby-color-2-feed.png";
+
+// import dragonTeenColor0Feed from "../../assets/dragon/normal/doing-action/teen-color-0-feed.png";
+// import dragonTeenColor1Feed from "../../assets/dragon/normal/doing-action/teen-color-1-feed.png";
+// import dragonTeenColor2Feed from "../../assets/dragon/normal/doing-action/teen-color-2-feed.png";
+
+// import dragonAdultColor0Feed from "../../assets/dragon/normal/doing-action/adult-color-0-feed.png";
+// import dragonAdultColor1Feed from "../../assets/dragon/normal/doing-action/adult-color-1-feed.png";
+// import dragonAdultColor2Feed from "../../assets/dragon/normal/doing-action/adult-color-2-feed.png";
+
 // Penguin Neutral
 import penguinBabyColor0Neutral from "../../assets/penguin/normal/baby-color-0.png";
 import penguinBabyColor1Neutral from "../../assets/penguin/normal/baby-color-1.png";
