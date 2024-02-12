@@ -35,9 +35,7 @@ export const action = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials,
-    });
+    const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
 
     await visitor.fetchDataObject();
 
@@ -101,9 +99,8 @@ async function performAction(visitor, pet, actionKey, now) {
 
   const newExperience = (pet.experience || 0) + experienceGain;
 
-  // TODO: replace for the right expression instead of "Eyes"
   if (newExperience >= 2100 && (!pet.experience || pet.experience < 2100)) {
-    // await visitor.grantExpression({ name: "Eyes" });
+    await visitor.grantExpression({ name: `pet_${pet?.petType}` });
     emoteUnlocked = true;
   }
 

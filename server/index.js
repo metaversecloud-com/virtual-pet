@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import router from "./routes.js";
 import cors from "cors";
-import checkEnvVariables from "./utils.js";
+import { checkEnvVariables, getVersion, getAppInfo } from "./utils.js";
 dotenv.config();
 
 import { fileURLToPath } from "url";
@@ -13,17 +13,23 @@ import { fileURLToPath } from "url";
 checkEnvVariables();
 const PORT = process.env.PORT || 3000;
 const app = express();
-const version = "6.0";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(requestID());
 
+const appInfo = getAppInfo();
+const appVersion = getVersion();
+
 app.use("/backend", router);
 
-app.get("/healthcheck", (req, res) => {
-  return res.send(`Server is running... ${version}`);
+app.get("/api/system/health", (req, res) => {
+  return res.json({
+    appVersion,
+    status: "OK",
+    commit: appInfo?.commit,
+  });
 });
 
 if (process.env.NODE_ENV === "production") {
@@ -39,5 +45,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-  console.info(`Server listening on ${PORT}, version ${version}`);
+  console.info(`Server listening on ${PORT}`);
 });

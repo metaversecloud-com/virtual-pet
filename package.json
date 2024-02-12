@@ -2,9 +2,10 @@
   "author": "metaversecloud.com | topia.io",
   "name": "sdk-virtual-pet",
   "dependencies": {
-    "@rtsdk/topia": "^0.8.1",
+    "@rtsdk/topia": "^0.8.3",
     "axios": "^1.6.2",
     "body-parser": "^1.20.2",
+    "child_process": "^1.0.2",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

@@ -9,7 +9,6 @@ let BASE_URL;
  * 2. Deleting any existing pets that the user may have spawned in the world.
  * 3. Creating and configuring a new "Web Image Asset" that represents the pet.
  *    - The pet's image is determined by the pet's type and it's experience level.
- *    - The asset is set up to open in the drawer when clicked.
  */
 export const spawn = async (req, res) => {
   try {
@@ -42,15 +41,19 @@ export const spawn = async (req, res) => {
       credentials,
     });
 
-    // This function loads the visitor's data object, because it's not there by default when we load the visitor
-    await visitor.fetchDataObject();
+    const visitorDataObjectAndFetchAllUserPetsResponse = await Promise.all([
+      visitor.fetchDataObject(),
+      fetchAllUserPets(urlSlug, visitor, credentials),
+    ]);
 
-    // The pet is stored in the vistor's dataObject so it can be used in multiple worlds
+    const userPetAssets = visitorDataObjectAndFetchAllUserPetsResponse?.[1];
+
     const pet = visitor?.dataObject?.pet;
 
-    await removeAllUserPets(urlSlug, visitor, credentials);
-
-    await dropImageAsset(urlSlug, credentials, visitor, pet);
+    await Promise.all([
+      removeAllUserPets(userPetAssets),
+      dropImageAsset(urlSlug, credentials, visitor, pet),
+    ]);
 
     return res.json({ success: true });
   } catch (error) {
@@ -68,22 +71,23 @@ export const spawn = async (req, res) => {
  *   This function removes all pet assets that a user has placed in the world.
  *   Note: As of the current version, a user can only have one pet asset in the world at a time.
  */
-async function removeAllUserPets(urlSlug, visitor, credentials) {
-  const world = await World.create(urlSlug, { credentials });
-
+async function removeAllUserPets(userPetAssets) {
   try {
-    const petAssets = await world.fetchDroppedAssetsWithUniqueName({
-      uniqueName: `petSystem-${visitor?.username}`,
-    });
-
-    if (petAssets && petAssets.length) {
+    if (userPetAssets && userPetAssets.length) {
       await Promise.all(
-        petAssets.map((petAsset) => petAsset.deleteDroppedAsset())
+        userPetAssets.map((petAsset) => petAsset.deleteDroppedAsset())
       );
     }
   } catch (error) {
     console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
   }
+}
+
+async function fetchAllUserPets(urlSlug, visitor, credentials) {
+  const world = await World.create(urlSlug, { credentials });
+  return world.fetchDroppedAssetsWithUniqueName({
+    uniqueName: `petSystem-${visitor?.username}`,
+  });
 }
 
 /*
@@ -122,28 +126,27 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
     flipped,
   });
 
-  await petSpawnedDroppedAsset?.updateDataObject({
-    profileId: visitor?.profileId,
-  });
-
-  await petSpawnedDroppedAsset?.updateClickType({
-    clickType: "link",
-    clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
-    clickableLinkTitle: "Virtual Pet",
-    clickableDisplayTextDescription: "Play with your Virtual Pet",
-    clickableDisplayTextHeadline: "Virtual Pet",
-    isOpenLinkInDrawer: true,
-  });
-
-  await petSpawnedDroppedAsset?.setInteractiveSettings({
-    isInteractive: true,
-    interactivePublicKey: process.env.INTERACTIVE_KEY,
-  });
-
-  await petSpawnedDroppedAsset?.updateWebImageLayers(
-    petImgUrlLayer0,
-    petImgUrlLayer1
-  );
+  await Promise.all([
+    petSpawnedDroppedAsset?.updateDataObject({
+      profileId: visitor?.profileId,
+    }),
+    petSpawnedDroppedAsset?.updateClickType({
+      clickType: "link",
+      clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
+      clickableLinkTitle: "Virtual Pet",
+      clickableDisplayTextDescription: "Play with your Virtual Pet",
+      clickableDisplayTextHeadline: "Virtual Pet",
+      isOpenLinkInDrawer: true,
+    }),
+    petSpawnedDroppedAsset?.setInteractiveSettings({
+      isInteractive: true,
+      interactivePublicKey: process.env.INTERACTIVE_KEY,
+    }),
+    petSpawnedDroppedAsset?.updateWebImageLayers(
+      petImgUrlLayer0,
+      petImgUrlLayer1
+    ),
+  ]);
 
   return petSpawnedDroppedAsset;
 }

@@ -1,6 +1,6 @@
 // import dragonBabyImgPathNeutral from "../../assets/dragon/normal/baby.png";
-import dragonTeenImgPathNeutral from "../../assets/dragon/normal/teen.png";
-import dragonAdultImgPathNeutral from "../../assets/dragon/normal/adult.png";
+// import dragonTeenImgPathNeutral from "../../assets/dragon/normal/teen.png";
+// import dragonAdultImgPathNeutral from "../../assets/dragon/normal/adult.png";
 
 // Dragon Neutral
 import dragonBabyColor0Neutral from "../../assets/dragon/normal/baby-color-0.png";
@@ -80,13 +80,13 @@ import unicornAdultColor0Smiling from "../../assets/unicorn/normal/doing-action/
 import unicornAdultColor1Smiling from "../../assets/unicorn/normal/doing-action/adult-color-1-smiling.png";
 import unicornAdultColor2Smiling from "../../assets/unicorn/normal/doing-action/adult-color-2-smiling.png";
 
-import penguinBabyImgPathSmiling from "../../assets/penguin/normal/baby.png";
-import penguinTeenImgPathSmiling from "../../assets/penguin/normal/teen.png";
-import penguinAdultImgPathSmiling from "../../assets/penguin/normal/adult.png";
+// import penguinBabyImgPathSmiling from "../../assets/penguin/normal/baby.png";
+// import penguinTeenImgPathSmiling from "../../assets/penguin/normal/teen.png";
+// import penguinAdultImgPathSmiling from "../../assets/penguin/normal/adult.png";
 
-import unicornBabyImgPathSmiling from "../../assets/unicorn/normal/baby.png";
-import unicornTeenImgPathSmiling from "../../assets/unicorn/normal/teen.png";
-import unicornAdultImgPathSmiling from "../../assets/unicorn/normal/adult.png";
+// import unicornBabyImgPathSmiling from "../../assets/unicorn/normal/baby.png";
+// import unicornTeenImgPathSmiling from "../../assets/unicorn/normal/teen.png";
+// import unicornAdultImgPathSmiling from "../../assets/unicorn/normal/adult.png";
 
 const dragon = {
   baby: {
