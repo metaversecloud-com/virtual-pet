@@ -66,4 +66,4 @@ jobs:
 
       - name: Publish
         run: |
-          aws ecs update-service --service sdk-virtual-pet0-svc --force-new-deployment --cluster SDK-Example-CLS
+          aws ecs update-service --service topia-dev-vpet0 --force-new-deployment --cluster topia-dev-sdk-apps
