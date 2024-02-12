@@ -22,7 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(requestID());
 
-const appInfo = getAppInfo();
 const appVersion = getVersion();
 
 app.use("/backend", router);
@@ -31,7 +30,6 @@ app.get("/api/system/health", (req, res) => {
   return res.json({
     appVersion,
     status: "OK",
-    commit: appInfo?.commit,
   });
 });
 
@@ -51,5 +49,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-  console.info(`Server listening on ${PORT}`);
+  console.info(`Server listening on ${PORT}, version ${appVersion}`);
 });
