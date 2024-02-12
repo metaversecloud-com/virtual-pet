@@ -132,7 +132,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
     }
 
-    return `/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
+    return `${BASE_URL}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
   };
 
   // Add the pet to the world
