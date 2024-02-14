@@ -109,7 +109,3 @@ Ensure pets evolve correctly, animations function, and admin controls work as ex
    ```
 
 3. Visit `http://localhost:3001` and start your quiz experience!
-
----
-
-Remember to update the URLs and placeholders with actual links and detailed information where necessary. This structure aims to provide a comprehensive overview and quick start guide for both users and developers, ensuring ease of use and development.
