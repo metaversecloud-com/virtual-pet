@@ -1,4 +1,4 @@
-# Virtual Pet Introduction
+# Virtual Pet 🐶🐕🐕‍🦺
 
 Virtual Pet is a captivating mini-game developed using React and Node.js. The game allows users to choose, feed, train, and play with a virtual pet, gaining experience and leveling up as they interact with their pet.
 
