@@ -81,6 +81,35 @@ App mechanics include cooldowns and experience gains for pet actions, influencin
 
 Ensure pets evolve correctly, animations function, and admin controls work as expected.
 
+### Production Mode
+
+1. Install dependencies
+
+   ```
+   npm install
+   ```
+
+2. Start the server
+   ```
+   npm start
+   ```
+
+### Development Mode
+
+1. Start Server
+
+   ```
+   npm start
+   ```
+
+2. Start Client
+
+   ```
+   cd client && npm start
+   ```
+
+3. Visit `http://localhost:3001` and start your quiz experience!
+
 ---
 
 Remember to update the URLs and placeholders with actual links and detailed information where necessary. This structure aims to provide a comprehensive overview and quick start guide for both users and developers, ensuring ease of use and development.
