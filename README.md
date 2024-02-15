@@ -39,6 +39,35 @@ N/A
 
 Clone the repository and ensure Node version 18 or higher is installed.
 
+### Production Mode
+
+1. Install dependencies
+
+   ```
+   npm install
+   ```
+
+2. Start the server
+   ```
+   npm start
+   ```
+
+### Development Mode
+
+1. Start Server
+
+   ```
+   npm start
+   ```
+
+2. Start Client
+
+   ```
+   cd client && npm start
+   ```
+
+3. Visit `http://localhost:3001` and start your quiz experience!
+
 ### .env Variables
 
 Refer to the `.env-example` file for necessary environment variables.
@@ -80,32 +109,3 @@ App mechanics include cooldowns and experience gains for pet actions, influencin
 ### Manual Testing Guide
 
 Ensure pets evolve correctly, animations function, and admin controls work as expected.
-
-### Production Mode
-
-1. Install dependencies
-
-   ```
-   npm install
-   ```
-
-2. Start the server
-   ```
-   npm start
-   ```
-
-### Development Mode
-
-1. Start Server
-
-   ```
-   npm start
-   ```
-
-2. Start Client
-
-   ```
-   cd client && npm start
-   ```
-
-3. Visit `http://localhost:3001` and start your quiz experience!
