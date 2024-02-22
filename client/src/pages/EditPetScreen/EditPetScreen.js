@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import {
-  Row,
-  Col,
   Container,
   Dropdown,
   DropdownToggle,
@@ -15,16 +13,12 @@ import {
 import backArrow from "../../assets/backArrow.svg";
 
 import { getPet, tradePet } from "../../redux/actions/session";
-// import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
 import "./EditPetScreen.scss";
 
 import dragonBabyColor0Neutral from "../../assets/dragon/normal/baby-color-0.png";
 import dragonBabyColor1Neutral from "../../assets/dragon/normal/baby-color-1.png";
 import dragonBabyColor2Neutral from "../../assets/dragon/normal/baby-color-2.png";
-
-// import penguinImg from "../../assets/penguin/normal/baby.png";
-// import unicornImg from "../../assets/unicorn/normal/baby.png";
 
 import { getLevel } from "../utils.js";
 
@@ -65,24 +59,6 @@ const petColors = [
     minLevelToUnlock: 3,
     color: 3,
   },
-  {
-    id: 4,
-    name: "Dragon",
-    petType: "dragon",
-    description: "Sky Talon Dragon",
-    image: dragonBabyColor1Neutral,
-    minLevelToUnlock: 3,
-    color: 4,
-  },
-  {
-    id: 5,
-    name: "Dragon",
-    petType: "dragon",
-    description: "Frost Dragon",
-    image: dragonBabyColor2Neutral,
-    minLevelToUnlock: 3,
-    color: 5,
-  },
 ];
 
 const petNames = [
@@ -98,7 +74,7 @@ const petNames = [
   "Lily",
 ];
 
-const EditPetScreen = ({ setShowEditPetScreen }) => {
+const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const dispatch = useDispatch();
   const [selectedMascot, setSelectedMascot] = useState(petColors[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -106,19 +82,13 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const BASE_URL = window.location.origin;
+
   const pet = useSelector((state) => state?.session?.pet);
 
   const currentPetExperience = pet?.experience || 0;
 
   const { currentLevel } = getLevel(currentPetExperience);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await dispatch(getPet());
-  //   };
-
-  //   fetchData();
-  // }, [dispatch]);
 
   useEffect(() => {
     if (pet?.name) {
@@ -223,7 +193,6 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
           </div>
         </div>
       )}
-      {/* {visitor?.isAdmin && <MobileMenu />} */}
       <div
         className="mascot-selector-wrapper"
         style={{
@@ -232,6 +201,7 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
           paddingRight: "16px",
           overflowY: "auto",
           maxHeight: "calc(100% - 150px)",
+          overflowY: "visible",
         }}
       >
         <Container>
@@ -299,7 +269,7 @@ const EditPetScreen = ({ setShowEditPetScreen }) => {
                       selectedMascot.id === mascot.id ? "selected-square" : ""
                     }`}
                     style={{
-                      backgroundImage: `url(${mascot.image})`,
+                      backgroundImage: `url(${BASE_URL}/assets/${pet?.petType}/normal/${petAge}-color-${mascot.id}.png)`,
                       position: "relative",
                     }}
                   >
