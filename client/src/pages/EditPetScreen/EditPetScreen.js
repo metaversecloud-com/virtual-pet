@@ -56,7 +56,7 @@ const petColors = [
     petType: "dragon",
     description: "Flame Rift Dragon",
     image: dragonBabyColor0Neutral,
-    minLevelToUnlock: 3,
+    minLevelToUnlock: 5,
     color: 3,
   },
 ];
