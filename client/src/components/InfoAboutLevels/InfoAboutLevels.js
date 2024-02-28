@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Card, CardImg } from "reactstrap";
 import backArrowIconSvg from "../../assets/backArrowIcon.svg";
-import petData from "../pets/petData.js";
 import "./InfoAboutLevels.scss";
 
 const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
@@ -27,8 +26,6 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
       </div>
     );
   }
-
-  console.log("11pet data", petData);
 
   return (
     <div

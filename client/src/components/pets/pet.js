@@ -275,16 +275,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const notPetAssetOwnerView = () => (
     <Card className="virtual-friend white-overlay">
       <div className="card-img-container">
-        <CardImg
-          top
-          width="100%"
-          src={
-            petState?.isFeeding
-              ? petSelected?.imgPathSmiling?.[petColor]
-              : petSelected?.imgPathNeutral?.[petColor]
-          }
-          alt="Pet"
-        />
+        <CardImg top width="100%" src={getActionImage()} alt="Pet" />
       </div>
       <CardBody>
         <ExperienceBar
@@ -304,6 +295,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               fontFamily: "'Open Sans'",
             }}
           >
+            {console.log(pet)}
             My owner is {pet?.username}
           </CardSubtitle>
           <CardSubtitle
