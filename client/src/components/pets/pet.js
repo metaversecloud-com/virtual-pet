@@ -122,7 +122,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
   const getActionImage = () => {
     if (petState?.isFeeding) {
-      const url = `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
       return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
     } else if (petState?.isSleeping) {
       return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
@@ -272,10 +271,13 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     );
   }
 
+  const actionImage = getActionImage();
+  const message = getMessage();
+
   const notPetAssetOwnerView = () => (
     <Card className="virtual-friend white-overlay">
       <div className="card-img-container">
-        <CardImg top width="100%" src={getActionImage()} alt="Pet" />
+        <CardImg top width="100%" src={actionImage} alt="Pet" />
       </div>
       <CardBody>
         <ExperienceBar
@@ -295,7 +297,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               fontFamily: "'Open Sans'",
             }}
           >
-            {console.log(pet)}
             My owner is {pet?.username}
           </CardSubtitle>
           <CardSubtitle
@@ -319,7 +320,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       {getEditButton()}
       <Card className="virtual-friend white-overlay">
         <div className="card-img-container">
-          <CardImg top width="100%" src={getActionImage()} alt="Pet" />
+          <CardImg top width="100%" src={actionImage} alt="Pet" />
           <CardSubtitle
             tag="h6"
             className="mb-2 text-muted"
@@ -331,7 +332,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               fontWeight: 600,
             }}
           >
-            {getMessage() || <div style={{ minHeight: "20px" }}></div>}
+            {message || <div style={{ minHeight: "20px" }}></div>}
           </CardSubtitle>
         </div>
 
