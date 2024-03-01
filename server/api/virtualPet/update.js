@@ -1,6 +1,7 @@
 import { DroppedAsset, Visitor, User, World } from "../topiaInit.js";
 import { isPetInWorld } from "./utils.js";
 import { logger } from "../../logs/logger.js";
+import { handleSpawnPet } from "./spawn.js";
 
 export const update = async (req, res) => {
   try {
@@ -77,6 +78,8 @@ export const update = async (req, res) => {
     pet.color = color;
 
     await visitor.updateDataObject({ pet });
+
+    await handleSpawnPet(req);
 
     return res.json({
       pet: visitor?.dataObject?.pet,

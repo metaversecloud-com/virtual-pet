@@ -1,6 +1,8 @@
 import { Visitor } from "../topiaInit.js";
 import { isPetInWorld, canPerformAction } from "./utils.js";
 import { logger } from "../../logs/logger.js";
+import { level } from "./utils.js";
+import { handleSpawnPet } from "./spawn.js";
 
 const ACTION_COOLDOWNS = {
   PLAY: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 15,
@@ -11,7 +13,7 @@ const ACTION_COOLDOWNS = {
 
 const ACTION_EXPERIENCE_GAIN = {
   PLAY: 5,
-  SLEEP: 15,
+  SLEEP: process.env.IS_LOCALHOST ? 200 : 15,
   FEED: process.env.IS_LOCALHOST ? 500 : 20,
   TRAIN: 10,
 };
@@ -52,7 +54,15 @@ export const action = async (req, res) => {
 
     let updatedPet;
 
-    updatedPet = await performAction(visitor, pet, action, currentTime);
+    // req, res, visitor, pet, actionKey, now
+    updatedPet = await performAction({
+      req,
+      res,
+      visitor,
+      pet,
+      actionKey: action,
+      now: currentTime,
+    });
 
     if (!updatedPet) {
       return res.status(403).json({
@@ -65,10 +75,18 @@ export const action = async (req, res) => {
 
     await visitor.setDataObject({ pet: updatedPet });
 
+    const hasEmoteUnlocked = await grantExpression({
+      visitor,
+      pet,
+      newExperience: updatedPet.experience,
+    });
+
+    await respawnPet({ req, pet, newExperience: updatedPet.experience });
+
     return res.json({
       pet: updatedPet,
       success: true,
-      emoteUnlocked: updatedPet.emoteUnlocked,
+      emoteUnlocked: hasEmoteUnlocked,
     });
   } catch (error) {
     logger.error({
@@ -81,8 +99,7 @@ export const action = async (req, res) => {
   }
 };
 
-async function performAction(visitor, pet, actionKey, now) {
-  let emoteUnlocked = false;
+async function performAction({ req, res, visitor, pet, actionKey, now }) {
   const cooldown = ACTION_COOLDOWNS[actionKey];
   const experienceGain = ACTION_EXPERIENCE_GAIN[actionKey];
 
@@ -97,13 +114,6 @@ async function performAction(visitor, pet, actionKey, now) {
     return false;
   }
 
-  const newExperience = (pet.experience || 0) + experienceGain;
-
-  if (newExperience >= 2100 && (!pet.experience || pet.experience < 2100)) {
-    await visitor.grantExpression({ name: `pet_${pet?.petType}` });
-    emoteUnlocked = true;
-  }
-
   return {
     ...pet,
     experience: (pet.experience || 0) + experienceGain,
@@ -112,6 +122,28 @@ async function performAction(visitor, pet, actionKey, now) {
       timestamp: now,
       amount: (pet[actionKey].amount || 0) + 1,
     },
-    emoteUnlocked,
   };
+}
+
+async function grantExpression({ visitor, pet, newExperience }) {
+  let hasEmoteUnlocked = false;
+  if (
+    newExperience >= level[5] &&
+    (!pet.experience || pet.experience < level[5])
+  ) {
+    await visitor.grantExpression({ name: `pet_${pet?.petType}` });
+    hasEmoteUnlocked = true;
+  }
+  return hasEmoteUnlocked;
+}
+
+async function respawnPet({ req, pet, newExperience }) {
+  if (
+    (newExperience >= level[3] &&
+      (!pet.experience || pet.experience < level[3])) ||
+    (newExperience >= level[8] &&
+      (!pet.experience || newExperience >= level[8]))
+  ) {
+    await handleSpawnPet(req);
+  }
 }

@@ -1,5 +1,6 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
+import { getLevel } from "./utils.js";
 
 let BASE_URL;
 /**
@@ -12,49 +13,7 @@ let BASE_URL;
  */
 export const spawn = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-    } = req.query;
-
-    const protocol = process.env.INSTANCE_PROTOCOL;
-    const host = req.host;
-    const port = req.port;
-
-    if (host === "localhost") {
-      BASE_URL = `${protocol}://vpet-dev-topia.topia-rtsdk.com`;
-    } else {
-      BASE_URL = `${protocol}://${host}`;
-    }
-
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
-
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials,
-    });
-
-    const visitorDataObjectAndFetchAllUserPetsResponse = await Promise.all([
-      visitor.fetchDataObject(),
-      fetchAllUserPets(urlSlug, visitor, credentials),
-    ]);
-
-    const userPetAssets = visitorDataObjectAndFetchAllUserPetsResponse?.[1];
-
-    const pet = visitor?.dataObject?.pet;
-
-    await Promise.all([
-      removeAllUserPets(userPetAssets),
-      dropImageAsset(urlSlug, credentials, visitor, pet),
-    ]);
-
+    await handleSpawnPet(req);
     return res.json({ success: true });
   } catch (error) {
     logger.error({
@@ -67,11 +26,56 @@ export const spawn = async (req, res) => {
   }
 };
 
+export async function handleSpawnPet(req) {
+  const {
+    assetId,
+    interactivePublicKey,
+    interactiveNonce,
+    urlSlug,
+    visitorId,
+  } = req.query;
+
+  const protocol = process.env.INSTANCE_PROTOCOL;
+  const host = req.host;
+  const port = req.port;
+
+  if (host === "localhost") {
+    BASE_URL = `${protocol}://vpet-dev-topia.topia-rtsdk.com`;
+  } else {
+    BASE_URL = `${protocol}://${host}`;
+  }
+
+  const credentials = {
+    assetId,
+    interactiveNonce,
+    interactivePublicKey,
+    visitorId,
+  };
+
+  const visitor = await Visitor.get(visitorId, urlSlug, {
+    credentials,
+  });
+
+  const visitorDataObjectAndFetchAllUserPetsResponse = await Promise.all([
+    visitor.fetchDataObject(),
+    fetchAllUserPets(urlSlug, visitor, credentials),
+  ]);
+
+  const userPetAssets = visitorDataObjectAndFetchAllUserPetsResponse?.[1];
+
+  const pet = visitor?.dataObject?.pet;
+
+  await Promise.all([
+    removeAllUserPets(userPetAssets),
+    dropImageAsset(urlSlug, credentials, visitor, pet),
+  ]);
+}
+
 /*
  *   This function removes all pet assets that a user has placed in the world.
  *   Note: As of the current version, a user can only have one pet asset in the world at a time.
  */
-async function removeAllUserPets(userPetAssets) {
+export async function removeAllUserPets(userPetAssets) {
   try {
     if (userPetAssets && userPetAssets.length) {
       await Promise.all(
@@ -167,54 +171,4 @@ function getPetImgUrl(petType, level, color) {
   petImgUrlLayer1 = `${BASE_URL}/assets/${petType}/world/${petAge}-color-${color}.png`;
 
   return { petImgUrlLayer0, petImgUrlLayer1 };
-}
-
-let level = [];
-level[0] = 100;
-level[1] = 300;
-level[2] = 600;
-level[3] = 1000;
-level[4] = 1500;
-level[5] = 2100;
-level[6] = 2800;
-level[7] = 3600;
-level[8] = 4500;
-level[9] = 5500;
-level[10] = 6600;
-level[11] = 7800;
-level[12] = 9100;
-level[13] = 10500;
-level[14] = 12000;
-level[15] = 13600;
-level[16] = 15300;
-level[17] = 17100;
-level[18] = 19000;
-level[19] = 21000;
-level[20] = 23100;
-level[21] = 25300;
-level[22] = 27600;
-level[23] = 30000;
-level[24] = 32500;
-level[25] = 35100;
-level[26] = 37800;
-level[27] = 40600;
-level[28] = 43500;
-level[29] = 46500;
-level[30] = 49600;
-
-export function getLevel(experience) {
-  for (let i = 0; i < level.length; i++) {
-    if (experience < level[i]) {
-      return {
-        currentLevel: i + 1,
-        experienceNeededForNextLevel: level[i],
-        experienceNeededForTheLevelYouCurrentlyAchieved:
-          i > 0 ? level[i - 1] : 0,
-      };
-    }
-  }
-  return {
-    currentLevel: level.length,
-    experienceNeededForNextLevel: level[level.length - 1],
-  }; // If no experience is match, return max level
 }
