@@ -73,7 +73,10 @@ const VirtualFriend = () => {
   }
 
   return (
-    <div className="virtual-friend-wrapper">
+    <div
+      className="virtual-friend-wrapper"
+      style={{ paddingTop: visitor?.isAdmin ? "40px" : "" }}
+    >
       {getPetComponent()}
 
       {visitor?.isAdmin && <MobileMenu />}
