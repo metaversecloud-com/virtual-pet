@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+
 import {
   Container,
   Dropdown,
@@ -279,6 +280,9 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
                       <>
                         <div className="overlay-style"></div>
                         <LockIcon />
+                        <div className="tooltip">
+                          Level up to unlock new colors
+                        </div>
                       </>
                     ) : null}
                   </div>

@@ -47,12 +47,12 @@
 
 .virtual-friend-wrapper {
   height: 100vh;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: #ffffff;
   position: relative;
   padding-bottom: 50px;
+  // padding-top: 50px;
   overflow-y: auto;
   max-height: calc(100% - 150px);
 
@@ -253,4 +253,14 @@
   border: 1px solid var(--navy-100, #EBEDEF);
   margin: 0 auto;
   width: 320px;
+}
+
+@media (max-width: 640px) {
+  // .virtual-friend-wrapper {
+  //   padding-top: 150px;
+  // }
+
+  // .virtual-friend-wrapper .isAdmin {
+  //   padding-top: 250px;
+  // }
 }
