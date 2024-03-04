@@ -9,7 +9,6 @@ export const pickup = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
-      isSpawnedDroppedAsset,
     } = req.query;
 
     const credentials = {
@@ -25,10 +24,6 @@ export const pickup = async (req, res) => {
 
     // This function loads the visitor's data object, because it's not there by default when we load the visitor
     await visitor.fetchDataObject();
-
-    if (isSpawnedDroppedAsset) {
-      await visitor.closeIframe(assetId);
-    }
 
     await removeAllUserPets(urlSlug, visitor, credentials);
 

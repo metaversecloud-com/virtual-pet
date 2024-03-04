@@ -10,6 +10,7 @@ export const {
   setDroppedAsset,
   setPet,
   setPetAssetOwner,
+  setPetInWorld,
   setError,
 } = session.actions;
 
@@ -20,8 +21,9 @@ const getQueryParams = () => {
   const assetId = queryParameters.get("assetId");
   const interactivePublicKey = queryParameters.get("interactivePublicKey");
   const urlSlug = queryParameters.get("urlSlug");
+  const parentAssetId = queryParameters.get("parentAssetId");
 
-  return `visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${assetId}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`;
+  return `visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${assetId}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}`;
 };
 
 export const getVisitor = () => async (dispatch) => {
@@ -81,6 +83,7 @@ export const spawnPet = () => async (dispatch) => {
 
     if (response.status === 200) {
       dispatch(getPet());
+      dispatch(setPetInWorld(true));
     }
   } catch (error) {
     dispatch(setError("There was an error while spawning the pet"));
@@ -100,7 +103,8 @@ export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
     const response = await axios.post(url);
 
     if (response.status === 200) {
-      dispatch(getPet());
+      await dispatch(getPet());
+      await dispatch(setPetInWorld(false));
     }
   } catch (error) {
     dispatch(setError("There was an error while spawning the pet"));

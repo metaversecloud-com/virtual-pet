@@ -3,6 +3,7 @@ import { logger } from "../../logs/logger.js";
 import { getLevel } from "./utils.js";
 
 let BASE_URL;
+let IMAGE_HOST_URL;
 /**
  * This module contains the logic for spawning a virtual pet in the virtual world.
  * It handles the following operations:
@@ -39,14 +40,21 @@ export async function handleSpawnPet(req) {
   const host = req.host;
   const port = req.port;
 
+  let parentAssetId = req.query.parentAssetId;
+  if (parentAssetId == "null" || !parentAssetId) {
+    parentAssetId = assetId;
+  }
+
   if (host === "localhost") {
-    BASE_URL = `${protocol}://vpet-dev-topia.topia-rtsdk.com`;
+    IMAGE_HOST_URL = `${protocol}://vpet-dev-topia.topia-rtsdk.com`;
+    BASE_URL = "http://localhost:3001";
   } else {
+    IMAGE_HOST_URL = `${protocol}://${host}`;
     BASE_URL = `${protocol}://${host}`;
   }
 
   const credentials = {
-    assetId,
+    assetId: parentAssetId ? parentAssetId : assetId,
     interactiveNonce,
     interactivePublicKey,
     visitorId,
@@ -67,7 +75,7 @@ export async function handleSpawnPet(req) {
 
   await Promise.all([
     removeAllUserPets(userPetAssets),
-    dropImageAsset(urlSlug, credentials, visitor, pet),
+    dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId),
   ]);
 }
 
@@ -100,7 +108,13 @@ async function fetchAllUserPets(urlSlug, visitor, credentials) {
  *  2. Place a pet image when Updating the image of the Web Image Asset.
  *  3. Configure the asset to be opened in the drawer when clicked.
  */
-async function dropImageAsset(urlSlug, credentials, visitor, pet) {
+async function dropImageAsset(
+  urlSlug,
+  credentials,
+  visitor,
+  pet,
+  parentAssetId
+) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
   const level = getLevel(pet?.experience);
@@ -136,7 +150,7 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet) {
     }),
     petSpawnedDroppedAsset?.updateClickType({
       clickType: "link",
-      clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`,
+      clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}`,
       clickableLinkTitle: "Virtual Pet",
       clickableDisplayTextDescription: "Play with your Virtual Pet",
       clickableDisplayTextHeadline: "Virtual Pet",
@@ -168,7 +182,7 @@ function getPetImgUrl(petType, level, color) {
     petAge = "adult";
   }
 
-  petImgUrlLayer1 = `${BASE_URL}/assets/${petType}/world/${petAge}-color-${color}.png`;
+  petImgUrlLayer1 = `${IMAGE_HOST_URL}/assets/${petType}/world/${petAge}-color-${color}.png`;
 
   return { petImgUrlLayer0, petImgUrlLayer1 };
 }
