@@ -20,7 +20,7 @@ import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
 import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
 import pencilSvg from "../../assets/pen-to-square-regular.svg";
 
-const DELAY_LONG = 5000;
+const DELAY_LONG = 6000;
 const DELAY_MEDIUM = 3500;
 const FEED = "FEED";
 const SLEEP = "SLEEP";
@@ -74,6 +74,14 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const sleepTimestamp = pet?.sleep?.sleepTimestamp;
   const playTimestamp = pet?.sleep?.playTimestamp;
   const trainTimestamp = pet?.sleep?.trainTimestamp;
+
+  const areAllButtonsDisabled =
+    petState?.isSleeping ||
+    petState?.isFeeding ||
+    petState?.isTraining ||
+    petState?.isPlaying ||
+    petState?.isLoading ||
+    !pet?.isPetInWorld;
 
   // Set pet data based on pet age
   useEffect(() => {
@@ -220,7 +228,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         setActionState(true);
         setTimeout(() => {
           setActionState(false);
-        }, DELAY_MEDIUM);
+        }, DELAY_LONG);
       } else {
         setIsNotReady(true);
       }
@@ -350,6 +358,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             <ActionIconsContainer
               isSleeping={petState.isSleeping}
               isLoading={petState.isLoading}
+              areAllButtonsDisabled={areAllButtonsDisabled}
               pet={pet}
               handlePetAction={handlePetAction}
             />

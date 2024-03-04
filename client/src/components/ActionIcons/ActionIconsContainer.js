@@ -5,6 +5,7 @@ import "./ActionIcon.scss";
 const ActionIconsContainer = ({
   isSleeping,
   isLoading,
+  areAllButtonsDisabled,
   pet,
   handlePetAction,
 }) => {
@@ -18,25 +19,25 @@ const ActionIconsContainer = ({
       id: FEED,
       iconClass: "fa-utensils",
       action: () => handlePetAction(FEED),
-      disabled: isSleeping || isLoading || !pet?.isPetInWorld,
+      disabled: areAllButtonsDisabled,
     },
     {
       id: SLEEP,
       iconClass: "fa-bed",
       action: () => handlePetAction(SLEEP),
-      disabled: isSleeping || isLoading || !pet?.isPetInWorld,
+      disabled: areAllButtonsDisabled,
     },
     {
       id: PLAY,
       iconClass: "fa-play",
       action: () => handlePetAction(PLAY),
-      disabled: isSleeping || isLoading || !pet?.isPetInWorld,
+      disabled: areAllButtonsDisabled,
     },
     {
       id: TRAIN,
       iconClass: "fa-running",
       action: () => handlePetAction(TRAIN),
-      disabled: isSleeping || isLoading || !pet?.isPetInWorld,
+      disabled: areAllButtonsDisabled,
     },
   ];
 
