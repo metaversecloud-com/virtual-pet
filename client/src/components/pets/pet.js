@@ -332,7 +332,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   return isPetAssetOwner ? (
     <>
       {getEditButton()}
-      <Card className="virtual-friend white-overlay">
+      <div className="virtual-friend white-overlay">
         <div className="card-img-container">
           <CardImg top width="100%" src={actionImage} alt="Pet" />
           <CardSubtitle
@@ -351,10 +351,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         </div>
 
         <CardBody>
-          <ExperienceBar
-            isFeeding={petState.isFeeding}
-            toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-          />
           <div className="action-icon-container">
             <CardTitle tag="h5">
               <p style={{ marginBottom: "7px" }}>
@@ -374,6 +370,10 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               handlePetAction={handlePetAction}
             />
           </div>
+          <ExperienceBar
+            isFeeding={petState.isFeeding}
+            toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+          />
         </CardBody>
 
         <CardFooter style={{ padding: 0, border: "none" }}>
@@ -413,7 +413,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             </div>
           )}
         </CardFooter>
-      </Card>
+      </div>
     </>
   ) : (
     notPetAssetOwnerView()

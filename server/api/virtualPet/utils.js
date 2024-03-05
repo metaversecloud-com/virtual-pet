@@ -93,3 +93,21 @@ export function canPerformAction(
   const timeSinceLastAction = currentTime - lastActionTime;
   return !(lastActionTime && timeSinceLastAction < minTimeBetweenActions);
 }
+
+export async function removeAllUserPets(urlSlug, visitor, credentials) {
+  const world = await World.create(urlSlug, { credentials });
+
+  try {
+    const petAssets = await world.fetchDroppedAssetsWithUniqueName({
+      uniqueName: `petSystem-${visitor?.username}`,
+    });
+
+    if (petAssets && petAssets.length) {
+      await Promise.all(
+        petAssets.map((petAsset) => petAsset.deleteDroppedAsset())
+      );
+    }
+  } catch (error) {
+    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
+  }
+}
