@@ -351,9 +351,14 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
           />
           <div className="action-icon-container">
             <CardTitle tag="h5">
-              <b style={{ color: "#0A2540" }}>
-                {petSelected?.petDescription} - {pet?.name}
-              </b>
+              <p style={{ marginBottom: "7px" }}>
+                <b style={{ color: "#0A2540" }}>{pet?.name}</b>
+              </p>
+              <p>
+                <b style={{ color: "#0A2540" }}>
+                  {petSelected?.petDescription}
+                </b>
+              </p>
             </CardTitle>{" "}
             <ActionIconsContainer
               isSleeping={petState.isSleeping}
