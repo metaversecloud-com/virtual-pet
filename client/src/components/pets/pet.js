@@ -19,6 +19,7 @@ import petData from "./petData";
 import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
 import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
 import pencilSvg from "../../assets/pen-to-square-regular.svg";
+import { ReactComponent as PencilIcon } from "../../assets/pen-to-square-regular.svg";
 
 const DELAY_LONG = 6000;
 const DELAY_MEDIUM = 3500;
@@ -259,13 +260,18 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   function getEditButton() {
     return (
       <div
-        style={{ position: "relative", left: "32px", top: "56px" }}
+        style={{
+          position: "relative",
+          left: "32px",
+          top: "56px",
+          background: "#0A2540",
+        }}
         className="icon-with-rounded-border"
         onClick={() => {
           setShowEditPetScreen(true);
         }}
       >
-        <img src={pencilSvg} alt="pencil" />
+        <PencilIcon />
       </div>
     );
   }
