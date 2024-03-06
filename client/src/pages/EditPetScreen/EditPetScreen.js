@@ -269,6 +269,11 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
                   <div
                     className={`mascot-square ${
                       selectedMascot.id === mascot.id ? "selected-square" : ""
+                    } ${
+                      mascot.minLevelToUnlock &&
+                      mascot.minLevelToUnlock > currentLevel
+                        ? "mascot-disabled"
+                        : ""
                     }`}
                     style={{
                       backgroundImage: `url(${BASE_URL}/assets/${pet?.petType}/normal/${petAge}-color-${mascot.id}.png)`,

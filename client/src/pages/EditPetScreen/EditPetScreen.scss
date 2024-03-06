@@ -80,6 +80,11 @@
   }
 }
 
+.mascot-disabled {
+  cursor: default;
+  transform: none !important;
+}
+
 .selected-square {
   background-color: #f0f0f0;
   border-color: #ccc;
