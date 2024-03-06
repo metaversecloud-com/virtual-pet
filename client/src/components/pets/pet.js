@@ -261,9 +261,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return (
       <div
         style={{
-          position: "relative",
+          position: "absolute",
           left: "32px",
-          top: "56px",
+          top: "92px",
           background: "#0A2540",
         }}
         className="icon-with-rounded-border"
@@ -290,15 +290,11 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
   const notPetAssetOwnerView = () => (
     <Card className="virtual-friend white-overlay">
-      <div className="card-img-container">
+      <div className="card-img-container" style={{ marginBottom: "6px" }}>
         <CardImg top width="100%" src={actionImage} alt="Pet" />
       </div>
-      <CardBody>
-        <ExperienceBar
-          isFeeding={petState?.isFeeding}
-          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-        />
-        <div className="general-card-container" style={{ marginTop: "16px" }}>
+      <CardBody style={{ paddingTop: "0px" }}>
+        <div className="general-card-container">
           <CardTitle tag="h5" style={{ marginTop: "16px" }}>
             {pet?.name}
           </CardTitle>
@@ -325,29 +321,20 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             I'm a {petSelected?.petDescription}
           </CardSubtitle>
         </div>
+        <ExperienceBar
+          isFeeding={petState?.isFeeding}
+          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+        />
       </CardBody>
     </Card>
   );
 
   return isPetAssetOwner ? (
     <>
-      {getEditButton()}
       <div className="virtual-friend white-overlay">
         <div className="card-img-container">
+          {getEditButton()}
           <CardImg top width="100%" src={actionImage} alt="Pet" />
-          <CardSubtitle
-            tag="h6"
-            className="mb-2 text-muted"
-            style={{
-              color: "#0A2540 !important",
-              paddingBottom: "20px",
-              fontFamily: "'Quicksand'",
-              fontSize: "16px",
-              fontWeight: 600,
-            }}
-          >
-            {message || <div style={{ minHeight: "20px" }}></div>}
-          </CardSubtitle>
         </div>
 
         <CardBody>
