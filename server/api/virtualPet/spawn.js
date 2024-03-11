@@ -137,12 +137,18 @@ async function dropImageAsset(
 
   const flipped = Math.random() < 0.5;
 
-  const petSpawnedDroppedAsset = await DroppedAsset.drop(asset, {
-    position,
-    uniqueName,
-    urlSlug,
-    flipped,
-  });
+  let petSpawnedDroppedAsset;
+  try {
+    petSpawnedDroppedAsset = await DroppedAsset.drop(asset, {
+      position,
+      uniqueName,
+      urlSlug,
+      flipped,
+    });
+  } catch (error) {
+    // This solves a bug where the asset is not dropped in the world for legacy assets with outdated urls from the old version.
+    await visitor?.closeIframe(credentials?.assetId);
+  }
 
   await Promise.all([
     petSpawnedDroppedAsset?.updateDataObject({
