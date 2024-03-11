@@ -31,7 +31,7 @@
     "start": "npm start -w server"
   },
   "type": "module",
-  "version": "1.5.4",
+  "version": "1.5.7",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
