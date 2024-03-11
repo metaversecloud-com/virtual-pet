@@ -64,7 +64,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const isPetAssetOwner = useSelector(
     (state) => state?.session?.isPetAssetOwner
   );
-  const petColor = pet?.color;
+  const petColor = pet?.color || "0";
   const petType = pet?.petType;
 
   const [petSelected, setPetSelected] = useState({});
