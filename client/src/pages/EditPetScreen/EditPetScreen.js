@@ -13,13 +13,9 @@ import {
 
 import backArrow from "../../assets/backArrow.svg";
 
-import { getPet, tradePet } from "../../redux/actions/session";
+import { tradePet } from "../../redux/actions/session";
 
 import "./EditPetScreen.scss";
-
-import dragonBabyColor0Neutral from "../../assets/dragon/normal/baby-color-0.png";
-import dragonBabyColor1Neutral from "../../assets/dragon/normal/baby-color-1.png";
-import dragonBabyColor2Neutral from "../../assets/dragon/normal/baby-color-2.png";
 
 import { getLevel } from "../utils.js";
 
@@ -28,36 +24,20 @@ import { updatePet } from "../../redux/actions/session";
 const petColors = [
   {
     id: 0,
-    name: "Dragon",
-    petType: "dragon",
-    description: "Flame Rift Dragon",
-    image: dragonBabyColor0Neutral,
     color: 0,
   },
   {
     id: 1,
-    name: "Dragon",
-    petType: "dragon",
-    description: "Sky Talon Dragon",
-    image: dragonBabyColor1Neutral,
     minLevelToUnlock: 2,
     color: 1,
   },
   {
     id: 2,
-    name: "Dragon",
-    petType: "dragon",
-    description: "Frost Dragon",
-    image: dragonBabyColor2Neutral,
     minLevelToUnlock: 3,
     color: 2,
   },
   {
     id: 3,
-    name: "Dragon",
-    petType: "dragon",
-    description: "Flame Rift Dragon",
-    image: dragonBabyColor0Neutral,
     minLevelToUnlock: 4,
     color: 3,
   },
