@@ -9,7 +9,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
   const visitor = useSelector((state) => state?.session?.visitor);
   const pet = useSelector((state) => state?.session?.pet);
   const petType = pet?.petType;
-  const petColor = pet?.color;
+  const petColor = pet?.color || "0";
 
   function backArrowIcon() {
     return (
