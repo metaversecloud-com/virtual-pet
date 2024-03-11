@@ -1,9 +1,7 @@
 import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
-// import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
-// axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
+import { toast } from "react-hot-toast";
 
 export const {
   setVisitor,

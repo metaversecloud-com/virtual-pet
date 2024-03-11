@@ -22,7 +22,6 @@ export const pickup = async (req, res) => {
       credentials,
     });
 
-    // This function loads the visitor's data object, because it's not there by default when we load the visitor
     await visitor.fetchDataObject();
 
     await removeAllUserPets(urlSlug, visitor, credentials);

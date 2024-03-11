@@ -67,9 +67,6 @@ export const get = async (req, res) => {
       credentials
     );
 
-    // reset visitor pet for testing
-    // await visitor.setDataObject({});
-
     return res.json({
       pet: visitor?.dataObject?.pet,
       visitor,

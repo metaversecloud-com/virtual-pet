@@ -19,7 +19,6 @@ router.get("/", (req, res) => {
 
 router.get("/visitor", getVisitor);
 
-// Pet related routes
 router.get("/pet", validationMiddleware, get);
 router.post("/pet", validationMiddleware, create);
 router.put("/pet", validationMiddleware, update);

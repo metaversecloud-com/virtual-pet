@@ -59,7 +59,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     setPetState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  // Using useSelector to get values from redux store
   const pet = useSelector((state) => state?.session?.pet);
   const isPetAssetOwner = useSelector(
     (state) => state?.session?.isPetAssetOwner
@@ -83,7 +82,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     petState?.isLoading ||
     !pet?.isPetInWorld;
 
-  // Set pet data based on pet age
   useEffect(() => {
     const petAgeMap = {
       baby: petData?.[petType]?.baby,
@@ -94,7 +92,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     setPetSelected(petAgeMap[petAge]);
   }, [petAge, pet, petType]);
 
-  // Effect to handle action status
   useEffect(() => {
     if (actionStatus === "SPAWNING") {
       const timer = setTimeout(() => {
@@ -104,29 +101,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       return () => clearTimeout(timer);
     }
   }, [actionStatus]);
-
-  // Gets the message that is displayed in the UI, according to the pet status
-  const getMessage = () => {
-    if (petState.isFeeding) {
-      return petSelected?.beingFedMessage;
-    } else if (petState.isSleeping) {
-      return "Zzz...";
-    } else if (petState.isTraining) {
-      return "Training!";
-    } else if (petState.isPlaying) {
-      return "I love to play!";
-    } else if (petState.isNotHungry) {
-      return petSelected?.notHungryMessage;
-    } else if (petState.isNotSleepy) {
-      return "I'm not sleepy";
-    } else if (petState.dontWantToPlay) {
-      return "I need a break from playing.";
-    } else if (petState.dontWantToTrain) {
-      return "I don’t want to train anymore.";
-    } else {
-      return "";
-    }
-  };
 
   const getActionImage = () => {
     if (petState?.isFeeding) {
