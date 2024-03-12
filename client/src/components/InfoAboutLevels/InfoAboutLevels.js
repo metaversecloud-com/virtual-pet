@@ -1,40 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  Button,
-  Row,
-  Col,
-  Container,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Card, CardImg } from "reactstrap";
 import backArrowIconSvg from "../../assets/backArrowIcon.svg";
-import petData from "../pets/petData.js";
 import "./InfoAboutLevels.scss";
 
 const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
+  const BASE_URL = window.location.origin;
   const visitor = useSelector((state) => state?.session?.visitor);
   const pet = useSelector((state) => state?.session?.pet);
   const petType = pet?.petType;
+  const petColor = pet?.color || "0";
 
   function backArrowIcon() {
     return (
       <div
         className="icon-circle-container"
-        style={{ position: "absolute", left: "16px" }}
+        style={{ position: "absolute", left: "16px", zIndex: "50" }}
         onClick={() => {
           toggleShowInfoAboutLevels();
         }}
       >
         <div className="icon-circle-text">
-          <img src={backArrowIconSvg} />
+          <img src={backArrowIconSvg} alt="back arrow" />
         </div>
       </div>
     );
@@ -55,7 +42,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
           >
             <CardImg
               top
-              src={petData?.[petType]?.baby?.imgPathNeutral}
+              src={`${BASE_URL}/assets/${pet?.petType}/normal/baby-color-${petColor}.png`}
               alt="Pet"
               style={{
                 width: "50px",
@@ -74,7 +61,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             <CardImg
               top
               width="100px"
-              src={petData?.[petType]?.teen?.imgPathNeutral}
+              src={`${BASE_URL}/assets/${pet?.petType}/normal/teen-color-${petColor}.png`}
               alt="Pet"
               style={{
                 width: "100px",
@@ -93,7 +80,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             <CardImg
               top
               width="150px"
-              src={petData?.[petType]?.adult?.imgPathNeutral}
+              src={`${BASE_URL}/assets/${pet?.petType}/normal/adult-color-${petColor}.png`}
               alt="Pet"
               style={{
                 width: "140px",

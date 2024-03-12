@@ -9,7 +9,6 @@ const ExperienceBar = ({ toggleShowInfoAboutLevels }) => {
   const [experiencePercentage, setExperiencePercentage] = useState(0);
   const [level, setLevel] = useState(0);
   const pet = useSelector((state) => state?.session?.pet);
-  console.log("Pet Experience", pet?.experience);
 
   useEffect(() => {
     const currentPetExperience = pet?.experience || 0;
@@ -41,7 +40,7 @@ const ExperienceBar = ({ toggleShowInfoAboutLevels }) => {
         style={{ position: "absolute", right: "16px" }}
       >
         <div className="icon-circle-text">
-          <img src={infoImg} />
+          <img src={infoImg} alt="info" />
         </div>
       </div>
     );

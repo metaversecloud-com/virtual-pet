@@ -16,9 +16,9 @@ function MobileMenu() {
 
   const nav = (
     <nav className="nav-header-mobile">
-      <ul className="upperMenuBar">
+      {/* <ul className="upperMenuBar">
         <li>Admin Panel</li>
-      </ul>
+      </ul> */}
       <ul>
         <li>
           <Link to={`/?${getQueryParams()}`}>
@@ -28,19 +28,19 @@ function MobileMenu() {
               </span>
             </div>
             <div className="labelMenu">
-              <p>Home</p>
+              <p style={{ margin: "0px" }}>Home</p>
             </div>
           </Link>
         </li>
         <li>
           <Link to={`/settings?${getQueryParams()}`}>
             <div className="labelIcon">
-              <span>
+              <span style={{ margin: "0px" }}>
                 <i className="fa-solid fa-gear"></i>
               </span>
             </div>
             <div className="labelMenu">
-              <p>Settings</p>
+              <p style={{ margin: "0px" }}>Settings</p>
             </div>
           </Link>
         </li>

@@ -3,7 +3,7 @@ $medium: 1000px;
 
 body {
   display: block;
-  margin: 0px;
+  margin: 0px !important;
 }
 
 html,
@@ -12,7 +12,7 @@ body,
 .App {
   height: 100%;
   width: 100%;
-  margin: 0;
+  margin: 0 !important;
 }
 
 .App-header {
@@ -74,4 +74,16 @@ body,
 
 .app-container iframe.discord-iframe-noadmin {
   height: 50%;
+}
+
+.icon-with-rounded-border {
+  border-radius: 50px;
+  border: 1px solid #EBEDEF;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer !important;
+  z-index: 30;
 }

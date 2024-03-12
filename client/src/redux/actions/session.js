@@ -1,14 +1,14 @@
 import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
-// import { SERVICE_HTTP_ADDRESS } from "../../utils/constants";
-// axios.defaults.baseURL = SERVICE_HTTP_ADDRESS;
+import { toast } from "react-hot-toast";
 
 export const {
   setVisitor,
   setDroppedAsset,
   setPet,
   setPetAssetOwner,
+  setPetInWorld,
   setError,
 } = session.actions;
 
@@ -19,8 +19,9 @@ const getQueryParams = () => {
   const assetId = queryParameters.get("assetId");
   const interactivePublicKey = queryParameters.get("interactivePublicKey");
   const urlSlug = queryParameters.get("urlSlug");
+  const parentAssetId = queryParameters.get("parentAssetId");
 
-  return `visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${assetId}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}`;
+  return `visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${assetId}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}`;
 };
 
 export const getVisitor = () => async (dispatch) => {
@@ -47,6 +48,19 @@ export const executeAction = (action) => async (dispatch) => {
     const response = await axios.post(url, { action });
 
     if (response.status === 200) {
+      if (response.data.emoteUnlocked) {
+        toast(
+          (t) => (
+            <div style={{ textAlign: "center" }}>
+              <p>🌟 Congratulations! You just unlocked a new emote!</p>
+              <button onClick={() => toast.dismiss(t.id)}>Close</button>
+            </div>
+          ),
+          {
+            duration: Infinity,
+          }
+        );
+      }
       dispatch(setPet(response?.data?.pet));
       return true;
     }
@@ -67,6 +81,7 @@ export const spawnPet = () => async (dispatch) => {
 
     if (response.status === 200) {
       dispatch(getPet());
+      dispatch(setPetInWorld(true));
     }
   } catch (error) {
     dispatch(setError("There was an error while spawning the pet"));
@@ -86,7 +101,8 @@ export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
     const response = await axios.post(url);
 
     if (response.status === 200) {
-      dispatch(getPet());
+      await dispatch(getPet());
+      await dispatch(setPetInWorld(false));
     }
   } catch (error) {
     dispatch(setError("There was an error while spawning the pet"));
@@ -124,12 +140,12 @@ export const getPet = () => async (dispatch) => {
     const pet = response?.data?.pet;
     const visitor = response?.data?.visitor;
     const isPetAssetOwner = response?.data?.isPetAssetOwner;
+    dispatch(setVisitor(visitor));
     if (response.status === 200) {
       if (!pet) {
         return dispatch(push(`/mascot-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
-      dispatch(setVisitor(visitor));
       dispatch(setPetAssetOwner(isPetAssetOwner));
     }
   } catch (error) {
@@ -162,6 +178,29 @@ export const createPet = (petType, name) => async (dispatch) => {
   }
 };
 
+export const updatePet = (name, color) => async (dispatch) => {
+  try {
+    const queryParams = getQueryParams();
+    const url = `/backend/pet?${queryParams}`;
+
+    const response = await axios.put(url, { name, color });
+    const pet = response?.data?.pet;
+    const visitor = response?.data?.visitor;
+    dispatch(setVisitor(visitor));
+    if (response.status === 200) {
+      if (!pet) {
+        return dispatch(push(`/mascot-selector?${queryParams}`));
+      }
+      dispatch(setPet(pet));
+    }
+  } catch (error) {
+    console.error("error", error);
+    if (error.response && error.response.data) {
+    } else {
+    }
+  }
+};
+
 export const namePet = (name) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
@@ -184,10 +223,32 @@ export const namePet = (name) => async (dispatch) => {
   }
 };
 
-export const deleteAll = () => async (dispatch) => {
+export const tradePet = () => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet?${queryParams}`;
+
+    const response = await axios.delete(url);
+    const pet = response?.data?.pet;
+    if (response.status === 200) {
+      if (!pet) {
+        return dispatch(push(`/mascot-selector?${queryParams}`));
+      }
+      dispatch(setPet(response?.data?.pet));
+      return dispatch(push(`/?${queryParams}`));
+    }
+  } catch (error) {
+    console.error("error", error);
+    if (error.response && error.response.data) {
+    } else {
+    }
+  }
+};
+
+export const deleteAll = () => async (dispatch) => {
+  try {
+    const queryParams = getQueryParams();
+    const url = `/backend/world/pet?${queryParams}`;
 
     const response = await axios.delete(url);
     if (response.status === 200) {

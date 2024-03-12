@@ -4,6 +4,7 @@ import { ClipLoader } from "react-spinners";
 import "./VirtualFriend.scss";
 import { getPet } from "../redux/actions/session";
 import { getLevel } from "./utils.js";
+import EditPetScreen from "../pages/EditPetScreen/EditPetScreen.js";
 
 import Pet from "../components/pets/pet";
 import MobileMenu from "../components/mobileMenu/MobileMenu";
@@ -12,6 +13,7 @@ const VirtualFriend = () => {
   const dispatch = useDispatch();
   const [level, setLevel] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showEditPetScreen, setShowEditPetScreen] = useState(false);
 
   const pet = useSelector((state) => state?.session?.pet);
   const visitor = useSelector((state) => state?.session?.visitor);
@@ -33,18 +35,24 @@ const VirtualFriend = () => {
     setLevel(currentLevel);
   }, [pet, petType]);
 
-  const getPetComponent = () => {
+  const getPetAge = () => {
     if (level < 5) {
-      return <Pet petAge="baby" />;
+      return "baby";
     }
     if (level >= 5 && level < 10) {
-      return <Pet petAge="teen" />;
+      return "teen";
     }
     if (level >= 10) {
-      return <Pet petAge="adult" />;
+      return "adult";
     } else {
-      return <Pet />;
+      return "";
     }
+  };
+
+  const getPetComponent = () => {
+    return (
+      <Pet petAge={getPetAge()} setShowEditPetScreen={setShowEditPetScreen} />
+    );
   };
 
   if (loading) {
@@ -52,11 +60,23 @@ const VirtualFriend = () => {
       <div className="loader">
         <ClipLoader color={"#123abc"} loading={loading} size={150} />
       </div>
-    ); // return a loading spinner
+    );
+  }
+
+  if (showEditPetScreen) {
+    return (
+      <EditPetScreen
+        setShowEditPetScreen={setShowEditPetScreen}
+        petAge={getPetAge()}
+      />
+    );
   }
 
   return (
-    <div className="virtual-friend-wrapper">
+    <div
+      className="virtual-friend-wrapper"
+      style={{ paddingTop: visitor?.isAdmin ? "80px" : "" }}
+    >
       {getPetComponent()}
 
       {visitor?.isAdmin && <MobileMenu />}

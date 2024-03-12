@@ -40,6 +40,9 @@ const reducers = {
   setPetState: (state, action) => {
     state.petState = { ...state.petState, ...action.payload };
   },
+  setPetInWorld: (state, action) => {
+    state.pet.isPetInWorld = action.payload;
+  },
 };
 
 export const session = createSlice({

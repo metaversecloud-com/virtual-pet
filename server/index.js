@@ -5,26 +5,36 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import router from "./routes.js";
 import cors from "cors";
-import checkEnvVariables from "./utils.js";
+import { checkEnvVariables, getVersion } from "./utils.js";
 dotenv.config();
 
 import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 checkEnvVariables();
 const PORT = process.env.PORT || 3000;
 const app = express();
-const version = "3.0";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(requestID());
 
+const appVersion = getVersion();
+
 app.use("/backend", router);
 
-app.get("/healthcheck", (req, res) => {
-  return res.send(`Server is running... ${version}`);
+app.get("/api/system/health", (req, res) => {
+  return res.json({
+    appVersion,
+    status: "OK",
+  });
 });
+
+const assetsPath = path.join(__dirname, "api/assets");
+app.use("/assets", express.static(assetsPath));
 
 if (process.env.NODE_ENV === "production") {
   // Node serves the files for the React app
@@ -39,5 +49,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-  console.info(`Server listening on ${PORT}, version ${version}`);
+  console.info(`Server listening on ${PORT}, version ${appVersion}`);
 });

@@ -18,19 +18,21 @@ import ExperienceBar from "../experienceBar/ExperienceBar";
 import petData from "./petData";
 import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
 import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
+import { ReactComponent as PencilIcon } from "../../assets/pen-to-square-regular.svg";
 
-const DELAY_LONG = 5000;
+const DELAY_LONG = 6000;
 const DELAY_MEDIUM = 3500;
 const FEED = "FEED";
 const SLEEP = "SLEEP";
 const PLAY = "PLAY";
 const TRAIN = "TRAIN";
 
-const Pet = ({ petAge }) => {
+const Pet = ({ petAge, setShowEditPetScreen }) => {
   const dispatch = useDispatch();
 
+  const BASE_URL = window.location.origin;
+
   const { isSpawnedDroppedAsset } = useParams();
-  console.log("isSpawnedDroppedAsset1", isSpawnedDroppedAsset);
 
   const initialPetState = {
     isFeeding: false,
@@ -57,11 +59,11 @@ const Pet = ({ petAge }) => {
     setPetState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  // Using useSelector to get values from redux store
   const pet = useSelector((state) => state?.session?.pet);
   const isPetAssetOwner = useSelector(
     (state) => state?.session?.isPetAssetOwner
   );
+  const petColor = pet?.color || "0";
   const petType = pet?.petType;
 
   const [petSelected, setPetSelected] = useState({});
@@ -72,7 +74,14 @@ const Pet = ({ petAge }) => {
   const playTimestamp = pet?.sleep?.playTimestamp;
   const trainTimestamp = pet?.sleep?.trainTimestamp;
 
-  // Set pet data based on pet age
+  const areAllButtonsDisabled =
+    petState?.isSleeping ||
+    petState?.isFeeding ||
+    petState?.isTraining ||
+    petState?.isPlaying ||
+    petState?.isLoading ||
+    !pet?.isPetInWorld;
+
   useEffect(() => {
     const petAgeMap = {
       baby: petData?.[petType]?.baby,
@@ -83,7 +92,6 @@ const Pet = ({ petAge }) => {
     setPetSelected(petAgeMap[petAge]);
   }, [petAge, pet, petType]);
 
-  // Effect to handle action status
   useEffect(() => {
     if (actionStatus === "SPAWNING") {
       const timer = setTimeout(() => {
@@ -94,27 +102,18 @@ const Pet = ({ petAge }) => {
     }
   }, [actionStatus]);
 
-  // Gets the message that is displayed in the UI, according to the pet status
-  const getMessage = () => {
-    if (petState.isFeeding) {
-      return petSelected?.beingFedMessage;
-    } else if (petState.isSleeping) {
-      return "Zzz...";
-    } else if (petState.isTraining) {
-      return "Training!";
-    } else if (petState.isPlaying) {
-      return "I love to play!";
-    } else if (petState.isNotHungry) {
-      return petSelected?.notHungryMessage;
-    } else if (petState.isNotSleepy) {
-      return "I'm not sleepy";
-    } else if (petState.dontWantToPlay) {
-      return "I need a break from playing.";
-    } else if (petState.dontWantToTrain) {
-      return "I don’t want to train anymore.";
-    } else {
-      return "";
+  const getActionImage = () => {
+    if (petState?.isFeeding) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
+    } else if (petState?.isSleeping) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
+    } else if (petState?.isTraining) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-train.png`;
+    } else if (petState?.isPlaying) {
+      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
     }
+
+    return `${BASE_URL}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
   };
 
   // Add the pet to the world
@@ -203,7 +202,7 @@ const Pet = ({ petAge }) => {
         setActionState(true);
         setTimeout(() => {
           setActionState(false);
-        }, DELAY_MEDIUM);
+        }, DELAY_LONG);
       } else {
         setIsNotReady(true);
       }
@@ -231,32 +230,43 @@ const Pet = ({ petAge }) => {
     setShowInfoAboutLevels(!showInfoAboutLevels);
   }
 
-  if (showInfoAboutLevels) {
+  function getEditButton() {
     return (
-      <InfoAboutLevels toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} />
+      <div
+        style={{
+          position: "absolute",
+          left: "32px",
+          top: "92px",
+          background: "#0A2540",
+        }}
+        className="icon-with-rounded-border"
+        onClick={() => {
+          setShowEditPetScreen(true);
+        }}
+      >
+        <PencilIcon />
+      </div>
     );
   }
 
+  if (showInfoAboutLevels) {
+    return (
+      <InfoAboutLevels
+        toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+        petAge={petAge}
+      />
+    );
+  }
+
+  const actionImage = getActionImage();
+
   const notPetAssetOwnerView = () => (
     <Card className="virtual-friend white-overlay">
-      <div className="card-img-container">
-        <CardImg
-          top
-          width="100%"
-          src={
-            petState.isFeeding
-              ? petSelected?.imgPathSmiling
-              : petSelected?.imgPathNeutral
-          }
-          alt="Pet"
-        />
+      <div className="card-img-container" style={{ marginBottom: "6px" }}>
+        <CardImg top width="100%" src={actionImage} alt="Pet" />
       </div>
-      <CardBody>
-        <ExperienceBar
-          isFeeding={petState.isFeeding}
-          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-        />
-        <div className="general-card-container" style={{ marginTop: "16px" }}>
+      <CardBody style={{ paddingTop: "0px" }}>
+        <div className="general-card-container">
           <CardTitle tag="h5" style={{ marginTop: "16px" }}>
             {pet?.name}
           </CardTitle>
@@ -283,96 +293,87 @@ const Pet = ({ petAge }) => {
             I'm a {petSelected?.petDescription}
           </CardSubtitle>
         </div>
+        <ExperienceBar
+          isFeeding={petState?.isFeeding}
+          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+        />
       </CardBody>
     </Card>
   );
 
   return isPetAssetOwner ? (
-    <Card className="virtual-friend white-overlay">
-      <div className="card-img-container">
-        <CardImg
-          top
-          width="100%"
-          src={
-            petState.isFeeding
-              ? petSelected?.imgPathSmiling
-              : petSelected?.imgPathNeutral
-          }
-          alt="Pet"
-        />
-        <CardSubtitle
-          tag="h6"
-          className="mb-2 text-muted"
-          style={{
-            color: "#0A2540 !important",
-            paddingBottom: "20px",
-            fontFamily: "'Quicksand'",
-            fontSize: "16px",
-            fontWeight: 600,
-          }}
-        >
-          {getMessage() || <div style={{ minHeight: "20px" }}></div>}
-        </CardSubtitle>
-      </div>
-
-      <CardBody>
-        <ExperienceBar
-          isFeeding={petState.isFeeding}
-          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-        />
-        <div className="action-icon-container">
-          <CardTitle tag="h5">
-            <b style={{ color: "#0A2540" }}>
-              {petSelected?.petDescription} - {pet?.name}
-            </b>
-          </CardTitle>{" "}
-          <ActionIconsContainer
-            isSleeping={petState.isSleeping}
-            isLoading={petState.isLoading}
-            pet={pet}
-            handlePetAction={handlePetAction}
-          />
+    <>
+      <div className="virtual-friend white-overlay">
+        <div className="card-img-container">
+          {getEditButton()}
+          <CardImg top width="100%" src={actionImage} alt="Pet" />
         </div>
-      </CardBody>
 
-      <CardFooter style={{ padding: 0, border: "none" }}>
-        {!pet.isPetInWorld ? (
-          <div className="fixed-bottom">
-            <button
-              className={`topia-default-button ${
-                petState.spawnPetButtonIsDisabled ||
-                petState.isSleeping ||
-                petState.isLoading
-                  ? "disabled"
-                  : ""
-              }`}
-              onClick={
-                !petState.spawnPetButtonIsDisabled ? handleSpawnPet : null
-              }
-            >
-              Call Pet
-            </button>
+        <CardBody>
+          <div className="action-icon-container">
+            <CardTitle tag="h5">
+              <p style={{ marginBottom: "7px" }}>
+                <b style={{ color: "#0A2540" }}>{pet?.name}</b>
+              </p>
+              <p>
+                <b style={{ color: "#0A2540" }}>
+                  {petSelected?.petDescription}
+                </b>
+              </p>
+            </CardTitle>{" "}
+            <ActionIconsContainer
+              isSleeping={petState.isSleeping}
+              isLoading={petState.isLoading}
+              areAllButtonsDisabled={areAllButtonsDisabled}
+              pet={pet}
+              handlePetAction={handlePetAction}
+            />
           </div>
-        ) : (
-          <div className="fixed-bottom" style={{ background: "white" }}>
-            <button
-              className={`topia-default-button ${
-                petState.spawnPetButtonIsDisabled ||
-                petState.isSleeping ||
-                petState.isLoading
-                  ? "disabled"
-                  : ""
-              }`}
-              onClick={
-                !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
-              }
-            >
-              Pick up Pet
-            </button>
-          </div>
-        )}
-      </CardFooter>
-    </Card>
+          <ExperienceBar
+            isFeeding={petState.isFeeding}
+            toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
+          />
+        </CardBody>
+
+        <CardFooter style={{ padding: 0, border: "none" }}>
+          {!pet?.isPetInWorld ? (
+            <div className="fixed-bottom">
+              <button
+                className={`topia-default-button ${
+                  petState.spawnPetButtonIsDisabled ||
+                  petState.isSleeping ||
+                  petState.isLoading
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={
+                  !petState.spawnPetButtonIsDisabled ? handleSpawnPet : null
+                }
+              >
+                Call Pet
+              </button>
+            </div>
+          ) : (
+            <div className="fixed-bottom" style={{ background: "white" }}>
+              <button
+                className={`topia-default-button ${
+                  petState.spawnPetButtonIsDisabled ||
+                  petState.isSleeping ||
+                  petState.isLoading
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={
+                  !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
+                }
+              >
+                Pick up Pet
+              </button>
+            </div>
+          )}
+        </CardFooter>
+      </div>
+    </>
   ) : (
     notPetAssetOwnerView()
   );
