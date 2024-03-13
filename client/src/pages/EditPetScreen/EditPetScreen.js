@@ -17,7 +17,7 @@ import { tradePet } from "../../redux/actions/session";
 
 import "./EditPetScreen.scss";
 
-import { getLevel } from "../utils.js";
+import { getLevel, getS3URL } from "../utils.js";
 
 import { updatePet } from "../../redux/actions/session";
 

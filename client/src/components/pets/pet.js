@@ -19,7 +19,7 @@ import petData from "./petData";
 import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
 import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
 import { ReactComponent as PencilIcon } from "../../assets/pen-to-square-regular.svg";
-import { getS3URL } from "../../utils/utils";
+import { getS3URL } from "../../pages/utils";
 
 const DELAY_LONG = 6000;
 const DELAY_MEDIUM = 3500;

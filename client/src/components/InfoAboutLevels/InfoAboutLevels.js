@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Card, CardImg } from "reactstrap";
 import backArrowIconSvg from "../../assets/backArrowIcon.svg";
-import { getS3URL } from "../../utils/utils";
+import { getS3URL } from "../../pages/utils";
 import "./InfoAboutLevels.scss";
 
 const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
