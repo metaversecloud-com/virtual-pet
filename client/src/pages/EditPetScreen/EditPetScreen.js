@@ -64,8 +64,6 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const BASE_URL = window.location.origin;
-
   const pet = useSelector((state) => state?.session?.pet);
 
   const currentPetExperience = pet?.experience || 0;
@@ -256,7 +254,9 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
                         : ""
                     }`}
                     style={{
-                      backgroundImage: `url(${BASE_URL}/assets/${pet?.petType}/normal/${petAge}-color-${mascot.id}.png)`,
+                      backgroundImage: `url(${getS3URL()}/assets/${
+                        pet?.petType
+                      }/normal/${petAge}-color-${mascot.id}.png)`,
                       position: "relative",
                     }}
                   >

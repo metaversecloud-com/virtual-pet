@@ -2,13 +2,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Card, CardImg } from "reactstrap";
 import backArrowIconSvg from "../../assets/backArrowIcon.svg";
+import { getS3URL } from "../../utils/utils";
 import "./InfoAboutLevels.scss";
 
 const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
-  const BASE_URL = window.location.origin;
   const visitor = useSelector((state) => state?.session?.visitor);
   const pet = useSelector((state) => state?.session?.pet);
-  const petType = pet?.petType;
   const petColor = pet?.color || "0";
 
   function backArrowIcon() {
@@ -42,7 +41,9 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
           >
             <CardImg
               top
-              src={`${BASE_URL}/assets/${pet?.petType}/normal/baby-color-${petColor}.png`}
+              src={`${getS3URL()}/assets/${
+                pet?.petType
+              }/normal/baby-color-${petColor}.png`}
               alt="Pet"
               style={{
                 width: "50px",
@@ -61,7 +62,9 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             <CardImg
               top
               width="100px"
-              src={`${BASE_URL}/assets/${pet?.petType}/normal/teen-color-${petColor}.png`}
+              src={`${getS3URL()}/assets/${
+                pet?.petType
+              }/normal/teen-color-${petColor}.png`}
               alt="Pet"
               style={{
                 width: "100px",
@@ -80,7 +83,9 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             <CardImg
               top
               width="150px"
-              src={`${BASE_URL}/assets/${pet?.petType}/normal/adult-color-${petColor}.png`}
+              src={`${getS3URL()}/assets/${
+                pet?.petType
+              }/normal/adult-color-${petColor}.png`}
               alt="Pet"
               style={{
                 width: "140px",

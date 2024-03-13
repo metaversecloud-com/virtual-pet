@@ -4,7 +4,6 @@ import { getLevel } from "./utils.js";
 import { getS3URL } from "../../utils.js";
 
 let BASE_URL;
-let IMAGE_HOST_URL;
 /**
  * This module contains the logic for spawning a virtual pet in the virtual world.
  * It handles the following operations:
