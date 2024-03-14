@@ -131,6 +131,11 @@ async function grantExpression({ visitor, pet, newExperience }) {
     (!pet.experience || pet.experience < level[5])
   ) {
     await visitor.grantExpression({ name: `pet_${pet?.petType}` });
+    await visitor.fireToast({
+      groupId: "virtual-pet",
+      title: "🌟 Congratulations! You just unlocked a new emote!",
+      text: "You just unlocked a new emote! Check it out by clicking in your Topia character",
+    });
     hasEmoteUnlocked = true;
   }
   return hasEmoteUnlocked;

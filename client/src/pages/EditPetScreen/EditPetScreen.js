@@ -2,24 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  Container,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-
 import backArrow from "../../assets/backArrow.svg";
-
 import { tradePet } from "../../redux/actions/session";
-
-import "./EditPetScreen.scss";
-
 import { getLevel, getS3URL } from "../utils.js";
-
 import { updatePet } from "../../redux/actions/session";
+import "./EditPetScreen.scss";
 
 const petColors = [
   {
@@ -186,7 +173,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           overflowY: "visible",
         }}
       >
-        <Container>
+        <div>
           <div
             className="title-container"
             style={{
@@ -217,21 +204,16 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
 
           <div className="pet-name-selection">
             <span>Name:</span>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle caret style={{ marginBottom: "0px" }}>
-                {selectedName}
-              </DropdownToggle>
-              <DropdownMenu>
-                {petNames.map((name, index) => (
-                  <DropdownItem
-                    key={index}
-                    onClick={() => setSelectedName(name)}
-                  >
-                    {name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+            <select
+              value={selectedName}
+              onChange={(e) => setSelectedName(e.target.value)}
+            >
+              {petNames.map((name, index) => (
+                <option key={index} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
           </div>
           <div style={{ marginBottom: "0px", marginTop: "24px" }}>
             <span className="label-text">Select Color:</span>
@@ -294,7 +276,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
               {isSaving ? "Saving..." : "Save"}
             </button>
           </div>
-        </Container>
+        </div>
       </div>
     </>
   );

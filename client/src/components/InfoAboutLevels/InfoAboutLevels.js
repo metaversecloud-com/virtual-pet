@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Card, CardImg } from "reactstrap";
 import backArrowIconSvg from "../../assets/backArrowIcon.svg";
 import { getS3URL } from "../../pages/utils";
 import "./InfoAboutLevels.scss";
@@ -33,14 +32,13 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
       }`}
     >
       {backArrowIcon()}
-      <Card className="virtual-friend white-overlay">
+      <div className="virtual-friend-container white-overlay">
         <div className="pet-info">
           <div
             className="pet-info-img-container"
             style={{ width: "80px", height: "80px" }}
           >
-            <CardImg
-              top
+            <img
               src={`${getS3URL()}/assets/${
                 pet?.petType
               }/normal/baby-color-${petColor}.png`}
@@ -59,9 +57,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             className="pet-info-img-container"
             style={{ width: "130px", height: "130px" }}
           >
-            <CardImg
-              top
-              width="100px"
+            <img
               src={`${getS3URL()}/assets/${
                 pet?.petType
               }/normal/teen-color-${petColor}.png`}
@@ -80,9 +76,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
             className="pet-info-img-container"
             style={{ width: "180px", height: "180px" }}
           >
-            <CardImg
-              top
-              width="150px"
+            <img
               src={`${getS3URL()}/assets/${
                 pet?.petType
               }/normal/adult-color-${petColor}.png`}
@@ -95,7 +89,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
           <h5>Level 10+</h5>
           <p>Adult</p>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

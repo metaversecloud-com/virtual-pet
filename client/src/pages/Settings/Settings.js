@@ -1,8 +1,7 @@
-import { Container, Row, Col, InputGroup, Button } from "reactstrap";
-import "./Settings.scss";
-import { deleteAll } from "../../redux/actions/session";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteAll } from "../../redux/actions/session";
+import "./Settings.scss";
 import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
 const Settings = () => {
@@ -26,23 +25,25 @@ const Settings = () => {
 
   return (
     <div className="settings-wrapper">
-      <Container>
-        <Row className="justify-content-center align-items-center">
-          <Col md="6" className="mx-auto">
+      <div className="container">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-md-6 mx-auto">
             <h3 className="text-center">Settings</h3>
-            <InputGroup>
-              <Button
-                color="primary"
+            <div className="input-group">
+              <button
+                className="btn btn-primary topia-default-button"
                 onClick={handleDeleteAllPets}
                 disabled={isLoading}
                 style={{ margin: "0 auto" }}
-                className="topia-default-button"
               >
                 {isLoading ? "Loading..." : "Pick up all pets"}
-              </Button>
-            </InputGroup>
+              </button>
+            </div>
             {isSuccess && !error && (
-              <div className="mt-2 text-success">
+              <div
+                className="mt-2 text-success"
+                style={{ textAlign: "center" }}
+              >
                 All pets removed from world!
               </div>
             )}
@@ -51,9 +52,9 @@ const Settings = () => {
                 There was an error deleting all pets
               </div>
             )}
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+      </div>
       <MobileMenu />
     </div>
   );
