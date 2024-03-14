@@ -42,7 +42,7 @@ const PetNaming = () => {
     <div className="pet-naming-wrapper">
       <Container>
         <div className="pet-naming-title">
-          <h1>Name Your Virtual Mascot</h1>
+          <h1>Name Your Virtual Pet</h1>
         </div>
         <Row className="justify-content-center">
           {petNames.map((name, index) => (

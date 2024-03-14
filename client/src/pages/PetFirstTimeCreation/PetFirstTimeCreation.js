@@ -18,7 +18,7 @@ import {
 import { getPet } from "../../redux/actions/session";
 import MobileMenu from "../../components/mobileMenu/MobileMenu";
 
-import "./MascotFirstTimeCreation.scss";
+import "./PetFirstTimeCreation.scss";
 
 import dragonImg from "../../assets/dragon/normal/baby.png";
 import penguinImg from "../../assets/penguin/normal/baby.png";
@@ -26,7 +26,7 @@ import unicornImg from "../../assets/unicorn/normal/baby.png";
 
 import { createPet } from "../../redux/actions/session";
 
-const mascots = [
+const pets = [
   {
     id: 0,
     name: "Dragon",
@@ -65,9 +65,9 @@ const petNames = [
   "Lily",
 ];
 
-const MascotFirstTimeCreation = () => {
+const PetFirstTimeCreation = () => {
   const dispatch = useDispatch();
-  const [selectedMascot, setSelectedMascot] = useState(mascots[0]);
+  const [selectedPet, setSelectedPet] = useState(pets[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedName, setSelectedName] = useState(petNames[0]);
 
@@ -83,24 +83,24 @@ const MascotFirstTimeCreation = () => {
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  const selectMascot = (mascot) => {
-    setSelectedMascot(mascot);
+  const selectPet = (pet) => {
+    setSelectedPet(pet);
   };
 
   const handleSelection = () => {
-    dispatch(createPet(selectedMascot?.petType, selectedName));
+    dispatch(createPet(selectedPet?.petType, selectedName));
   };
 
   return (
     <>
       {visitor?.isAdmin && <MobileMenu />}
       <div
-        className="mascot-selector-wrapper"
+        className="pet-selector-wrapper"
         style={{ paddingTop: visitor?.isAdmin ? "126px" : undefined }}
       >
         <Container>
-          <div className="mascot-title">
-            <h1>Choose Your Virtual Mascot</h1>
+          <div className="pet-title">
+            <h1>Choose Your Virtual Pet</h1>
           </div>
           <div className="pet-name-selection">
             <span>Name:</span>
@@ -119,26 +119,26 @@ const MascotFirstTimeCreation = () => {
             </Dropdown>
           </div>
           <Row className="justify-content-center">
-            {mascots.map((mascot) => (
-              <Col key={mascot.id} xs={12} sm={6} md={4} className="mb-4">
+            {pets.map((pet) => (
+              <Col key={pet.id} xs={12} sm={6} md={4} className="mb-4">
                 <Card
-                  onClick={() => selectMascot(mascot)}
-                  className={`mascot-card ${
-                    selectedMascot.id === mascot.id ? "selected" : ""
+                  onClick={() => selectPet(pet)}
+                  className={`pet-card ${
+                    selectedPet.id === pet.id ? "selected" : ""
                   }`}
                 >
                   <Row className="no-gutters">
-                    <Col xs={4} className="mascot-image-container">
+                    <Col xs={4} className="pet-image-container">
                       <CardImg
-                        src={mascot.image}
-                        alt={mascot.name}
-                        className="mascot-image"
+                        src={pet.image}
+                        alt={pet.name}
+                        className="pet-image"
                       />
                     </Col>
                     <Col xs={7}>
                       <CardBody>
-                        <CardTitle tag="h5">{mascot.name}</CardTitle>
-                        <CardText>{mascot.description}</CardText>
+                        <CardTitle tag="h5">{pet.name}</CardTitle>
+                        <CardText>{pet.description}</CardText>
                       </CardBody>
                     </Col>
                   </Row>
@@ -148,7 +148,7 @@ const MascotFirstTimeCreation = () => {
           </Row>
           <div className="fixed-bottom" style={{ background: "white" }}>
             <button className="topia-default-button" onClick={handleSelection}>
-              Choose {selectedMascot.name}
+              Choose {selectedPet.name}
             </button>
           </div>
         </Container>
@@ -157,4 +157,4 @@ const MascotFirstTimeCreation = () => {
   );
 };
 
-export default MascotFirstTimeCreation;
+export default PetFirstTimeCreation;

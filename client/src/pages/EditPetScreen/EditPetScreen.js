@@ -58,13 +58,15 @@ const petNames = [
 
 const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const dispatch = useDispatch();
-  const [selectedMascot, setSelectedMascot] = useState(petColors[0]);
+  const [selectedPet, setSelectedPet] = useState(petColors[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedName, setSelectedName] = useState(petNames[0]);
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const pet = useSelector((state) => state?.session?.pet);
+
+  console.log("edit pet", pet);
 
   const currentPetExperience = pet?.experience || 0;
 
@@ -76,16 +78,16 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
     }
 
     if (pet?.color !== undefined) {
-      const foundMascot = petColors.find((m) => m.color === pet.color);
-      if (foundMascot) setSelectedMascot(foundMascot);
+      const foundPet = petColors.find((m) => m.color === pet.color);
+      if (foundPet) setSelectedPet(foundPet);
     }
   }, [pet]);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  const selectMascot = (mascot) => {
-    if (!mascot.minLevelToUnlock || mascot.minLevelToUnlock <= currentLevel) {
-      setSelectedMascot(mascot);
+  const selectPet = (pet) => {
+    if (!pet.minLevelToUnlock || pet.minLevelToUnlock <= currentLevel) {
+      setSelectedPet(pet);
     }
   };
 
@@ -174,7 +176,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
         </div>
       )}
       <div
-        className="mascot-selector-wrapper"
+        className="pet-selector-wrapper"
         style={{
           alignItems: "baseline",
           paddingLeft: "16px",
@@ -197,7 +199,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           >
             <div style={{ flex: "0 1 auto" }}>{getBackArrow()}</div>
             <div
-              className="mascot-title"
+              className="pet-title"
               style={{
                 flex: "1 0 auto",
                 textAlign: "center",
@@ -235,33 +237,33 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
             <span className="label-text">Select Color:</span>
           </div>
           <div className="pet-grid">
-            {petColors.map((mascot) => (
-              <div key={mascot.id} className="pet-item">
+            {petColors.map((petElement) => (
+              <div key={petElement.id} className="pet-item">
                 <div
-                  className={`mascot-container ${
-                    selectedMascot.id === mascot.id ? "selected-container" : ""
+                  className={`pet-container ${
+                    selectedPet.id === petElement.id ? "selected-container" : ""
                   }`}
-                  onClick={() => selectMascot(mascot)}
+                  onClick={() => selectPet(petElement)}
                   style={{ padding: "0px" }}
                 >
                   <div
-                    className={`mascot-square ${
-                      selectedMascot.id === mascot.id ? "selected-square" : ""
+                    className={`pet-square ${
+                      selectedPet.id === petElement.id ? "selected-square" : ""
                     } ${
-                      mascot.minLevelToUnlock &&
-                      mascot.minLevelToUnlock > currentLevel
-                        ? "mascot-disabled"
+                      petElement.minLevelToUnlock &&
+                      petElement.minLevelToUnlock > currentLevel
+                        ? "pet-disabled"
                         : ""
                     }`}
                     style={{
                       backgroundImage: `url(${getS3URL()}/assets/${
                         pet?.petType
-                      }/normal/${petAge}-color-${mascot.id}.png)`,
+                      }/normal/${petAge}-color-${petElement.id}.png)`,
                       position: "relative",
                     }}
                   >
-                    {mascot.minLevelToUnlock &&
-                    mascot.minLevelToUnlock > currentLevel ? (
+                    {petElement.minLevelToUnlock &&
+                    petElement.minLevelToUnlock > currentLevel ? (
                       <>
                         <div className="overlay-style"></div>
                         <LockIcon />
@@ -285,7 +287,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
             </p>
             <button
               className="topia-default-button"
-              onClick={() => handleUpdatePet(selectedMascot.color)}
+              onClick={() => handleUpdatePet(selectedPet.color)}
               style={{ width: "100%" }}
               disabled={isSaving}
             >

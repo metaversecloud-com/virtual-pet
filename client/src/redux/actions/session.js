@@ -142,7 +142,7 @@ export const getPet = () => async (dispatch) => {
     dispatch(setVisitor(visitor));
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
       dispatch(setPetAssetOwner(isPetAssetOwner));
@@ -164,7 +164,7 @@ export const createPet = (petType, name) => async (dispatch) => {
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(response?.data?.pet));
       return dispatch(push(`/?${queryParams}`));
@@ -188,7 +188,7 @@ export const updatePet = (name, color) => async (dispatch) => {
     dispatch(setVisitor(visitor));
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
     }
@@ -209,7 +209,7 @@ export const namePet = (name) => async (dispatch) => {
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(response?.data?.pet));
       return dispatch(push(`/?${queryParams}`));
@@ -231,7 +231,7 @@ export const tradePet = () => async (dispatch) => {
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(response?.data?.pet));
       return dispatch(push(`/?${queryParams}`));
