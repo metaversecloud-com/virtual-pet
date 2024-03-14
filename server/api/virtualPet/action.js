@@ -54,7 +54,6 @@ export const action = async (req, res) => {
 
     let updatedPet;
 
-    // req, res, visitor, pet, actionKey, now
     updatedPet = await performAction({
       req,
       res,

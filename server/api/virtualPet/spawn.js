@@ -173,7 +173,6 @@ async function dropImageAsset(
   return petSpawnedDroppedAsset;
 }
 
-// Get the pet's image Url based on the pet's type and level.
 function getPetImgUrl(petType, level, color) {
   let petImgUrlLayer0 = "";
   let petImgUrlLayer1 = "";

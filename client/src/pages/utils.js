@@ -42,7 +42,7 @@ export function getLevel(experience) {
       };
     }
   }
-  // If no experience is match, return max level
+
   return {
     currentLevel: level.length,
     experienceNeededForNextLevel: level[level.length - 1],

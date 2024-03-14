@@ -54,7 +54,6 @@ export const update = async (req, res) => {
       });
     }
 
-    // User has no pet yet
     if (!visitor.dataObject.pet) {
       return res.json({
         pet: null,
@@ -69,9 +68,6 @@ export const update = async (req, res) => {
       visitor,
       credentials
     );
-
-    // reset visitor pet for testing
-    // await visitor.setDataObject({});
 
     let pet = visitor?.dataObject?.pet;
     pet.name = name;

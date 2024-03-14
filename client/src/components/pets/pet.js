@@ -115,7 +115,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
   };
 
-  // Add the pet to the world
   const handleSpawnPet = async () => {
     resetPetState();
     updatePetState({ spawnPetButtonIsDisabled: true });
@@ -126,7 +125,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return () => clearTimeout(timer);
   };
 
-  // Remove the pet to the world
   const handlePickupPet = async () => {
     resetPetState();
     updatePetState({
