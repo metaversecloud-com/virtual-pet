@@ -19,6 +19,7 @@ import petData from "./petData";
 import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
 import InfoAboutLevels from "../../components/InfoAboutLevels/InfoAboutLevels";
 import { ReactComponent as PencilIcon } from "../../assets/pen-to-square-regular.svg";
+import { getS3URL } from "../../pages/utils";
 
 const DELAY_LONG = 6000;
 const DELAY_MEDIUM = 3500;
@@ -29,8 +30,6 @@ const TRAIN = "TRAIN";
 
 const Pet = ({ petAge, setShowEditPetScreen }) => {
   const dispatch = useDispatch();
-
-  const BASE_URL = window.location.origin;
 
   const { isSpawnedDroppedAsset } = useParams();
 
@@ -104,16 +103,16 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
   const getActionImage = () => {
     if (petState?.isFeeding) {
-      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
+      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
     } else if (petState?.isSleeping) {
-      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
+      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
     } else if (petState?.isTraining) {
-      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-train.png`;
+      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-train.png`;
     } else if (petState?.isPlaying) {
-      return `${BASE_URL}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
+      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
     }
 
-    return `${BASE_URL}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
+    return `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
   };
 
   // Add the pet to the world

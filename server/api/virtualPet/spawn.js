@@ -1,9 +1,9 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
 import { getLevel } from "./utils.js";
+import { getS3URL } from "../../utils.js";
 
 let BASE_URL;
-let IMAGE_HOST_URL;
 /**
  * This module contains the logic for spawning a virtual pet in the virtual world.
  * It handles the following operations:
@@ -46,10 +46,8 @@ export async function handleSpawnPet(req) {
   }
 
   if (host === "localhost") {
-    IMAGE_HOST_URL = `${protocol}://vpet-dev-topia.topia-rtsdk.com`;
     BASE_URL = "http://localhost:3001";
   } else {
-    IMAGE_HOST_URL = `${protocol}://${host}`;
     BASE_URL = `${protocol}://${host}`;
   }
 
@@ -188,7 +186,7 @@ function getPetImgUrl(petType, level, color) {
     petAge = "adult";
   }
 
-  petImgUrlLayer1 = `${IMAGE_HOST_URL}/assets/${petType}/world/${petAge}-color-${color}.png`;
+  petImgUrlLayer1 = `${getS3URL()}/assets/${petType}/world/${petAge}-color-${color}.png`;
 
   return { petImgUrlLayer0, petImgUrlLayer1 };
 }

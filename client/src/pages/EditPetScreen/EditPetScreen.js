@@ -17,7 +17,7 @@ import { tradePet } from "../../redux/actions/session";
 
 import "./EditPetScreen.scss";
 
-import { getLevel } from "../utils.js";
+import { getLevel, getS3URL } from "../utils.js";
 
 import { updatePet } from "../../redux/actions/session";
 
@@ -63,8 +63,6 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const [selectedName, setSelectedName] = useState(petNames[0]);
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const BASE_URL = window.location.origin;
 
   const pet = useSelector((state) => state?.session?.pet);
 
@@ -256,7 +254,9 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
                         : ""
                     }`}
                     style={{
-                      backgroundImage: `url(${BASE_URL}/assets/${pet?.petType}/normal/${petAge}-color-${mascot.id}.png)`,
+                      backgroundImage: `url(${getS3URL()}/assets/${
+                        pet?.petType
+                      }/normal/${petAge}-color-${mascot.id}.png)`,
                       position: "relative",
                     }}
                   >
