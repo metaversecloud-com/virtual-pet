@@ -137,11 +137,19 @@ async function dropImageAsset(
 
   let petSpawnedDroppedAsset;
   try {
+    // assetScale, flipped, interactivePublicKey, isInteractive, layer0, layer1,
+    // position: { x, y }, sceneDropId, text, textColor, textSize,
+    // textWeight, textWidth, uniqueName, urlSlug, yOrderAdjust
+
     petSpawnedDroppedAsset = await DroppedAsset.drop(asset, {
       position,
       uniqueName,
       urlSlug,
       flipped,
+      isInteractive: true,
+      interactivePublicKey: process.env.INTERACTIVE_KEY,
+      layer0: petImgUrlLayer0,
+      layer1: petImgUrlLayer1,
     });
   } catch (error) {
     // This solves a bug where the asset is not dropped in the world for legacy assets with outdated urls from the old version.
@@ -160,14 +168,6 @@ async function dropImageAsset(
       clickableDisplayTextHeadline: "Virtual Pet",
       isOpenLinkInDrawer: true,
     }),
-    petSpawnedDroppedAsset?.setInteractiveSettings({
-      isInteractive: true,
-      interactivePublicKey: process.env.INTERACTIVE_KEY,
-    }),
-    petSpawnedDroppedAsset?.updateWebImageLayers(
-      petImgUrlLayer0,
-      petImgUrlLayer1
-    ),
   ]);
 
   return petSpawnedDroppedAsset;

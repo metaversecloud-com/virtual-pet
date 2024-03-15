@@ -28,8 +28,13 @@ const Settings = () => {
       <div className="container">
         <div className="row justify-content-center align-items-center">
           <div className="col-md-6 mx-auto">
-            <h3 className="text-center">Settings</h3>
-            <div className="input-group">
+            <h3 className="text-center" style={{ textAlign: "center" }}>
+              Settings
+            </h3>
+            <div
+              className="input-group"
+              style={{ textAlign: "center", margin: "10px 0px" }}
+            >
               <button
                 className="btn btn-primary topia-default-button"
                 onClick={handleDeleteAllPets}

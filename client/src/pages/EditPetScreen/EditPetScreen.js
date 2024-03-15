@@ -136,10 +136,13 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   return (
     <>
       {isModalVisible && (
-        <div className="my-modal-container">
-          <div className="my-modal">
+        <div
+          className="modal-container visible"
+          style={{ display: "block", visibility: "visible" }}
+        >
+          <div className="modal">
             <h4>Trade your pet?</h4>
-            <p className="my-p">
+            <p className="p">
               You'll get to choose a new pet but lose access to your current
               pet. Your new pet will start at Level 1.
             </p>
