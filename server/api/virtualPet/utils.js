@@ -113,7 +113,7 @@ export async function deleteAllPets({
   });
 }
 
-export async function getVisitorWithDataObject(credentials, urlSlug) {
+export async function getVisitorWithDataObject({ credentials, urlSlug }) {
   const visitor = Visitor.create(credentials?.visitorId, urlSlug, {
     credentials,
   });

@@ -21,7 +21,7 @@ export const create = async (req, res) => {
 
     const { petType, name } = req.body;
 
-    const visitor = await getVisitorWithDataObject(credentials, urlSlug);
+    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     let pet;
     if (!visitor?.dataObject?.pet) {

@@ -1,6 +1,10 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
-import { getLevel, removeAllUserPets } from "./utils.js";
+import {
+  getLevel,
+  removeAllUserPets,
+  getVisitorWithDataObject,
+} from "./utils.js";
 import { getS3URL } from "../../utils.js";
 
 let BASE_URL;
@@ -58,28 +62,12 @@ export async function handleSpawnPet(req) {
     visitorId,
   };
 
-  const visitor = await Visitor.get(visitorId, urlSlug, {
-    credentials,
-  });
-
-  const visitorDataObjectAndFetchAllUserPetsResponse = await Promise.all([
-    visitor.fetchDataObject(),
-    fetchAllUserPets(urlSlug, visitor, credentials),
-  ]);
-
-  const userPetAssets = visitorDataObjectAndFetchAllUserPetsResponse?.[1];
+  const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
   const pet = visitor?.dataObject?.pet;
 
   await removeAllUserPets(urlSlug, visitor, credentials);
   await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId);
-}
-
-async function fetchAllUserPets(urlSlug, visitor, credentials) {
-  const world = await World.create(urlSlug, { credentials });
-  return world.fetchDroppedAssetsWithUniqueName({
-    uniqueName: `petSystem-${visitor?.username}`,
-  });
 }
 
 /*

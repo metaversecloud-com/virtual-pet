@@ -259,12 +259,21 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           </div>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
-            <p
+            {/* <p
               style={{ color: "red", cursor: "pointer" }}
               onClick={handleOpenModal}
             >
               Trade Pet
-            </p>
+            </p> */}
+            <div style={{ marginBottom: "6px" }}>
+              <button
+                className="btn-danger-outline"
+                onClick={handleOpenModal}
+                disabled={isSaving}
+              >
+                Trade Pet
+              </button>
+            </div>
             <button
               className="topia-default-button"
               onClick={() => handleUpdatePet(selectedPet.color)}

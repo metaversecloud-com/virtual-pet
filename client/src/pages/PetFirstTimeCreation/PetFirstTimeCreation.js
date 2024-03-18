@@ -99,7 +99,13 @@ const PetFirstTimeCreation = () => {
           </div>
           <div className="justify-content-center row">
             {pets.map((pet) => (
-              <div key={pet.id} xs={12} sm={6} md={4} className="mb-4">
+              <div
+                key={pet.id}
+                xs={12}
+                sm={6}
+                md={4}
+                className="mb-4 pet-card-margins"
+              >
                 <div
                   onClick={() => selectPet(pet)}
                   className={`card pet-card ${

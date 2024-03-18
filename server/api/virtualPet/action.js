@@ -41,7 +41,7 @@ export const action = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await getVisitorWithDataObject(credentials, urlSlug);
+    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     const pet = visitor?.dataObject?.pet;
 
