@@ -1,5 +1,6 @@
-import { Visitor, World, DroppedAsset } from "../topiaInit.js";
+import { Visitor, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
+import { deleteAllPets } from "./utils.js";
 
 export const deleteAll = async (req, res) => {
   try {
@@ -30,9 +31,9 @@ export const deleteAll = async (req, res) => {
 
     const world = await World.create(urlSlug, { credentials });
 
-    const allPetAssets = await getAllPetAssets(urlSlug, visitor, world);
+    const allPetAssets = await getAllPetAssets(world);
 
-    await deleteAllPets(urlSlug, allPetAssets, credentials);
+    await deleteAllPets({ urlSlug, allPetAssets, interactivePublicKey });
 
     return res.json({ success: true });
   } catch (error) {
@@ -46,23 +47,7 @@ export const deleteAll = async (req, res) => {
   }
 };
 
-async function deleteAllPets(urlSlug, petAssets, credentials) {
-  await Promise.all(
-    petAssets.map((petAsset) =>
-      deletePetRequest(urlSlug, petAsset, credentials)
-    )
-  );
-}
-
-async function deletePetRequest(urlSlug, petAsset, credentials) {
-  const droppedAsset = await DroppedAsset.get(petAsset?.id, urlSlug, {
-    credentials,
-  });
-
-  await droppedAsset.deleteDroppedAsset();
-}
-
-async function getAllPetAssets(urlSlug, visitor, world) {
+async function getAllPetAssets(world) {
   await world.fetchDroppedAssets();
   const allAssets = world.droppedAssets;
 

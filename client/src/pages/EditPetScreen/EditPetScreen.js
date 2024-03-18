@@ -50,11 +50,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const [selectedName, setSelectedName] = useState(petNames[0]);
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const pet = useSelector((state) => state?.session?.pet);
-
-  console.log("edit pet", pet);
-
   const currentPetExperience = pet?.experience || 0;
 
   const { currentLevel } = getLevel(currentPetExperience);
@@ -69,8 +65,6 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
       if (foundPet) setSelectedPet(foundPet);
     }
   }, [pet]);
-
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const selectPet = (pet) => {
     if (!pet.minLevelToUnlock || pet.minLevelToUnlock <= currentLevel) {
@@ -105,6 +99,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
       console.error("Error updating pet:", error);
     } finally {
       setIsSaving(false);
+      setShowEditPetScreen(false);
     }
   };
 

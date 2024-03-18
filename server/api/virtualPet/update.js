@@ -15,17 +15,26 @@ export const update = async (req, res) => {
 
     const { name, color } = req?.body;
 
+    let parentAssetId = req.query.parentAssetId;
+    if (parentAssetId == "null" || !parentAssetId) {
+      parentAssetId = assetId;
+    }
+
     const credentials = {
-      assetId,
+      assetId: parentAssetId ? parentAssetId : assetId,
       interactiveNonce,
       interactivePublicKey,
       visitorId,
     };
 
     const visitor = Visitor.create(visitorId, urlSlug, { credentials });
-    const petSpawnedDroppedAsset = DroppedAsset.create(assetId, urlSlug, {
-      credentials,
-    });
+    const petSpawnedDroppedAsset = DroppedAsset.create(
+      credentials?.assetId,
+      urlSlug,
+      {
+        credentials,
+      }
+    );
     await Promise.all([
       petSpawnedDroppedAsset.fetchDroppedAssetById(),
       petSpawnedDroppedAsset.fetchDataObject(),

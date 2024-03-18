@@ -1,6 +1,6 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
-import { getLevel } from "./utils.js";
+import { getLevel, removeAllUserPets } from "./utils.js";
 import { getS3URL } from "../../utils.js";
 
 let BASE_URL;
@@ -71,26 +71,8 @@ export async function handleSpawnPet(req) {
 
   const pet = visitor?.dataObject?.pet;
 
-  await Promise.all([
-    removeAllUserPets(userPetAssets),
-    dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId),
-  ]);
-}
-
-/*
- *   This function removes all pet assets that a user has placed in the world.
- *   Note: As of the current version, a user can only have one pet asset in the world at a time.
- */
-export async function removeAllUserPets(userPetAssets) {
-  try {
-    if (userPetAssets && userPetAssets.length) {
-      await Promise.all(
-        userPetAssets.map((petAsset) => petAsset.deleteDroppedAsset())
-      );
-    }
-  } catch (error) {
-    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
-  }
+  await removeAllUserPets(urlSlug, visitor, credentials);
+  await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId);
 }
 
 async function fetchAllUserPets(urlSlug, visitor, credentials) {
@@ -137,10 +119,6 @@ async function dropImageAsset(
 
   let petSpawnedDroppedAsset;
   try {
-    // assetScale, flipped, interactivePublicKey, isInteractive, layer0, layer1,
-    // position: { x, y }, sceneDropId, text, textColor, textSize,
-    // textWeight, textWidth, uniqueName, urlSlug, yOrderAdjust
-
     petSpawnedDroppedAsset = await DroppedAsset.drop(asset, {
       position,
       uniqueName,

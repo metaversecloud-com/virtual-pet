@@ -165,6 +165,7 @@ export const createPet = (petType, name) => async (dispatch) => {
 
 export const updatePet = (name, color) => async (dispatch) => {
   try {
+    console.log("hello");
     const queryParams = getQueryParams();
     const url = `/backend/pet?${queryParams}`;
 
@@ -177,6 +178,7 @@ export const updatePet = (name, color) => async (dispatch) => {
         return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
+      dispatch(setPetInWorld(true));
     }
   } catch (error) {
     console.error("error", error);

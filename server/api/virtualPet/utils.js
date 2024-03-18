@@ -1,4 +1,4 @@
-import { World } from "../topiaInit.js";
+import { World, Visitor } from "../topiaInit.js";
 
 export let level = [];
 level[0] = 100;
@@ -88,12 +88,37 @@ export async function removeAllUserPets(urlSlug, visitor, credentials) {
       uniqueName: `petSystem-${visitor?.username}`,
     });
 
-    if (petAssets && petAssets.length) {
-      await Promise.all(
-        petAssets.map((petAsset) => petAsset.deleteDroppedAsset())
-      );
-    }
+    await deleteAllPets({
+      urlSlug,
+      allPetAssets: petAssets,
+      interactivePublicKey: credentials.interactivePublicKey,
+    });
   } catch (error) {
     console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
   }
+}
+
+export async function deleteAllPets({
+  urlSlug,
+  allPetAssets,
+  interactivePublicKey,
+}) {
+  let droppedAssetIds = [];
+  for (const petAsset in allPetAssets) {
+    droppedAssetIds.push(allPetAssets[petAsset].id);
+  }
+  await World.deleteDroppedAssets(urlSlug, droppedAssetIds, {
+    interactivePublicKey,
+    interactiveSecret: process.env.INTERACTIVE_SECRET,
+  });
+}
+
+export async function getVisitorWithDataObject(credentials, urlSlug) {
+  const visitor = Visitor.create(credentials?.visitorId, urlSlug, {
+    credentials,
+  });
+
+  await Promise.all([visitor.fetchVisitor(), visitor.fetchDataObject()]);
+
+  return visitor;
 }
