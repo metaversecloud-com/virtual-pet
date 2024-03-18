@@ -136,8 +136,8 @@ async function grantExpression({ visitor, pet, newExperience }) {
       name: `pet_${pet?.petType}`,
     });
 
-    let title = "🌟 Congratulations! You just unlocked a new emote!";
-    let text = "Check it out your new emote by clicking in your character";
+    let title = "🔎 New Emote Unlocked";
+    let text = "🌟 Congratulations! You just unlocked a new emote!";
     hasEmoteUnlocked = true;
 
     if (grantExpressionResponse.data?.statusCode === 409) {
