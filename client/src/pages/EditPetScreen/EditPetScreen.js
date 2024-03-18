@@ -259,12 +259,6 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           </div>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
-            {/* <p
-              style={{ color: "red", cursor: "pointer" }}
-              onClick={handleOpenModal}
-            >
-              Trade Pet
-            </p> */}
             <div style={{ marginBottom: "6px" }}>
               <button
                 className="btn-danger-outline"

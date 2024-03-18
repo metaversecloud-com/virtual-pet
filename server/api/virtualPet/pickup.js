@@ -1,6 +1,6 @@
 import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
-import { removeAllUserPets } from "./utils.js";
+import { removeAllUserPets, getVisitorWithDataObject } from "./utils.js";
 
 export const pickup = async (req, res) => {
   try {
@@ -19,11 +19,7 @@ export const pickup = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials,
-    });
-
-    await visitor.fetchDataObject();
+    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     await removeAllUserPets(urlSlug, visitor, credentials);
 
