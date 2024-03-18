@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import "./VirtualFriend.scss";
-import { getPet } from "../redux/actions/session";
-import { getLevel } from "./utils.js";
-import EditPetScreen from "../pages/EditPetScreen/EditPetScreen.js";
+import "./VirtualPetMainScreen.scss";
+import { getPet } from "../../redux/actions/session.js";
+import { getLevel } from "../utils.js";
+import EditPetScreen from "../EditPetScreen/EditPetScreen.js";
 
-import Pet from "../components/pets/pet";
-import MobileMenu from "../components/mobileMenu/MobileMenu";
+import Pet from "../../components/pets/pet.js";
+import MobileMenu from "../../components/mobileMenu/MobileMenu.js";
 
 const VirtualFriend = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ const VirtualFriend = () => {
 
   return (
     <div
-      className="virtual-friend-wrapper"
+      className="virtual-pet-wrapper"
       style={{ paddingTop: visitor?.isAdmin ? "80px" : "" }}
     >
       {getPetComponent()}

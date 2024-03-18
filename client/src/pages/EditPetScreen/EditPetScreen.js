@@ -2,24 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  Container,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-
 import backArrow from "../../assets/backArrow.svg";
-
 import { tradePet } from "../../redux/actions/session";
-
-import "./EditPetScreen.scss";
-
 import { getLevel, getS3URL } from "../utils.js";
-
 import { updatePet } from "../../redux/actions/session";
+import "./EditPetScreen.scss";
 
 const petColors = [
   {
@@ -58,14 +45,12 @@ const petNames = [
 
 const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const dispatch = useDispatch();
-  const [selectedMascot, setSelectedMascot] = useState(petColors[0]);
+  const [selectedPet, setSelectedPet] = useState(petColors[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedName, setSelectedName] = useState(petNames[0]);
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const pet = useSelector((state) => state?.session?.pet);
-
   const currentPetExperience = pet?.experience || 0;
 
   const { currentLevel } = getLevel(currentPetExperience);
@@ -76,16 +61,14 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
     }
 
     if (pet?.color !== undefined) {
-      const foundMascot = petColors.find((m) => m.color === pet.color);
-      if (foundMascot) setSelectedMascot(foundMascot);
+      const foundPet = petColors.find((m) => m.color === pet.color);
+      if (foundPet) setSelectedPet(foundPet);
     }
   }, [pet]);
 
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
-
-  const selectMascot = (mascot) => {
-    if (!mascot.minLevelToUnlock || mascot.minLevelToUnlock <= currentLevel) {
-      setSelectedMascot(mascot);
+  const selectPet = (pet) => {
+    if (!pet.minLevelToUnlock || pet.minLevelToUnlock <= currentLevel) {
+      setSelectedPet(pet);
     }
   };
 
@@ -116,6 +99,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
       console.error("Error updating pet:", error);
     } finally {
       setIsSaving(false);
+      setShowEditPetScreen(false);
     }
   };
 
@@ -147,10 +131,13 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   return (
     <>
       {isModalVisible && (
-        <div className="my-modal-container">
-          <div className="my-modal">
+        <div
+          className="modal-container visible"
+          style={{ display: "block", visibility: "visible" }}
+        >
+          <div className="modal">
             <h4>Trade your pet?</h4>
-            <p className="my-p">
+            <p className="p">
               You'll get to choose a new pet but lose access to your current
               pet. Your new pet will start at Level 1.
             </p>
@@ -174,7 +161,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
         </div>
       )}
       <div
-        className="mascot-selector-wrapper"
+        className="pet-selector-wrapper"
         style={{
           alignItems: "baseline",
           paddingLeft: "16px",
@@ -184,7 +171,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           overflowY: "visible",
         }}
       >
-        <Container>
+        <div>
           <div
             className="title-container"
             style={{
@@ -197,7 +184,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           >
             <div style={{ flex: "0 1 auto" }}>{getBackArrow()}</div>
             <div
-              className="mascot-title"
+              className="pet-title"
               style={{
                 flex: "1 0 auto",
                 textAlign: "center",
@@ -215,53 +202,48 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
 
           <div className="pet-name-selection">
             <span>Name:</span>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle caret style={{ marginBottom: "0px" }}>
-                {selectedName}
-              </DropdownToggle>
-              <DropdownMenu>
-                {petNames.map((name, index) => (
-                  <DropdownItem
-                    key={index}
-                    onClick={() => setSelectedName(name)}
-                  >
-                    {name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+            <select
+              value={selectedName}
+              onChange={(e) => setSelectedName(e.target.value)}
+            >
+              {petNames.map((name, index) => (
+                <option key={index} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
           </div>
           <div style={{ marginBottom: "0px", marginTop: "24px" }}>
             <span className="label-text">Select Color:</span>
           </div>
           <div className="pet-grid">
-            {petColors.map((mascot) => (
-              <div key={mascot.id} className="pet-item">
+            {petColors.map((petElement) => (
+              <div key={petElement.id} className="pet-item">
                 <div
-                  className={`mascot-container ${
-                    selectedMascot.id === mascot.id ? "selected-container" : ""
+                  className={`pet-container ${
+                    selectedPet.id === petElement.id ? "selected-container" : ""
                   }`}
-                  onClick={() => selectMascot(mascot)}
+                  onClick={() => selectPet(petElement)}
                   style={{ padding: "0px" }}
                 >
                   <div
-                    className={`mascot-square ${
-                      selectedMascot.id === mascot.id ? "selected-square" : ""
+                    className={`pet-square ${
+                      selectedPet.id === petElement.id ? "selected-square" : ""
                     } ${
-                      mascot.minLevelToUnlock &&
-                      mascot.minLevelToUnlock > currentLevel
-                        ? "mascot-disabled"
+                      petElement.minLevelToUnlock &&
+                      petElement.minLevelToUnlock > currentLevel
+                        ? "pet-disabled"
                         : ""
                     }`}
                     style={{
                       backgroundImage: `url(${getS3URL()}/assets/${
                         pet?.petType
-                      }/normal/${petAge}-color-${mascot.id}.png)`,
+                      }/normal/${petAge}-color-${petElement.id}.png)`,
                       position: "relative",
                     }}
                   >
-                    {mascot.minLevelToUnlock &&
-                    mascot.minLevelToUnlock > currentLevel ? (
+                    {petElement.minLevelToUnlock &&
+                    petElement.minLevelToUnlock > currentLevel ? (
                       <>
                         <div className="overlay-style"></div>
                         <LockIcon />
@@ -277,22 +259,25 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           </div>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
-            <p
-              style={{ color: "red", cursor: "pointer" }}
-              onClick={handleOpenModal}
-            >
-              Trade Pet
-            </p>
+            <div style={{ marginBottom: "6px" }}>
+              <button
+                className="btn-danger-outline"
+                onClick={handleOpenModal}
+                disabled={isSaving}
+              >
+                Trade Pet
+              </button>
+            </div>
             <button
               className="topia-default-button"
-              onClick={() => handleUpdatePet(selectedMascot.color)}
+              onClick={() => handleUpdatePet(selectedPet.color)}
               style={{ width: "100%" }}
               disabled={isSaving}
             >
               {isSaving ? "Saving..." : "Save"}
             </button>
           </div>
-        </Container>
+        </div>
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { Visitor, World, DroppedAsset } from "../topiaInit.js";
+import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
 import { removeAllUserPets } from "./utils.js";
 

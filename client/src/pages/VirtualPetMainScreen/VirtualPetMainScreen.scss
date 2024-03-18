@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Quicksand';
-  src: url('../../public/fonts/Quicksand-Light.ttf') format('truetype');
+  src: url('../../../public/fonts/Quicksand-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'Quicksand';
-  src: url('../../public/fonts/Quicksand-Regular.ttf') format('truetype');
+  src: url('../../../public/fonts/Quicksand-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: 'Quicksand';
-  src: url('../../public/fonts/Quicksand-Medium.ttf') format('truetype');
+  src: url('../../../public/fonts/Quicksand-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -24,7 +24,7 @@
 
 @font-face {
   font-family: 'Quicksand';
-  src: url('../../public/fonts/Quicksand-SemiBold.ttf') format('truetype');
+  src: url('../../../public/fonts/Quicksand-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -32,7 +32,7 @@
 
 @font-face {
   font-family: 'Quicksand';
-  src: url('../../public/fonts/Quicksand-Bold.ttf') format('truetype');
+  src: url('../../../public/fonts/Quicksand-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -45,7 +45,7 @@
   height: 100vh;
 }
 
-.virtual-friend-wrapper {
+.virtual-pet-wrapper {
   height: 100vh;
   flex-direction: column;
   justify-content: center;
@@ -115,12 +115,12 @@
     letter-spacing: 0.25px;
   }
 
-  .virtual-friend .sleeping {
+  .virtual-pet-container .sleeping {
     filter: grayscale(100%);
     opacity: 0.8;
   }
 
-  .virtual-friend {
+  .virtual-pet-container {
     border: none;
     max-width: 500px;
     width: 100%;
@@ -130,7 +130,7 @@
     border-radius: 5px;
     background: none !important;
     padding: 0px;
-    color: rgba(0, 0, 0, 0.8);  // changed to black
+    color: rgba(0, 0, 0, 0.8);
   }  
 
   .card-img-container {
@@ -241,7 +241,11 @@
   padding: 16px;
   border-radius: 8px;
   border: 1px solid var(--navy-100, #EBEDEF);
-  margin: 0 auto;
+  margin: 16px auto 16px;
   margin-bottom: 16px;
   width: 320px;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
 }

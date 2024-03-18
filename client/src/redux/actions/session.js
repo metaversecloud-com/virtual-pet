@@ -1,7 +1,6 @@
 import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
-import { toast } from "react-hot-toast";
 
 export const {
   setVisitor,
@@ -48,19 +47,6 @@ export const executeAction = (action) => async (dispatch) => {
     const response = await axios.post(url, { action });
 
     if (response.status === 200) {
-      if (response.data.emoteUnlocked) {
-        toast(
-          (t) => (
-            <div style={{ textAlign: "center" }}>
-              <p>🌟 Congratulations! You just unlocked a new emote!</p>
-              <button onClick={() => toast.dismiss(t.id)}>Close</button>
-            </div>
-          ),
-          {
-            duration: Infinity,
-          }
-        );
-      }
       dispatch(setPet(response?.data?.pet));
       return true;
     }
@@ -96,7 +82,6 @@ export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
   try {
     console.log("isSpawnedDroppedAsset pickupPet", isSpawnedDroppedAsset);
     const queryParams = getQueryParams();
-    // isSpawnedDroppedAsset is a variable that shows if the asset being pickup is the spawned asset (like dragon). If it's empty or undefined, it's value is the Pet House.
     const url = `/backend/pet/pickup?${queryParams}&isSpawnedDroppedAsset=${isSpawnedDroppedAsset}`;
     const response = await axios.post(url);
 
@@ -143,7 +128,7 @@ export const getPet = () => async (dispatch) => {
     dispatch(setVisitor(visitor));
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
       dispatch(setPetAssetOwner(isPetAssetOwner));
@@ -165,7 +150,7 @@ export const createPet = (petType, name) => async (dispatch) => {
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(response?.data?.pet));
       return dispatch(push(`/?${queryParams}`));
@@ -189,9 +174,10 @@ export const updatePet = (name, color) => async (dispatch) => {
     dispatch(setVisitor(visitor));
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(pet));
+      dispatch(setPetInWorld(true));
     }
   } catch (error) {
     console.error("error", error);
@@ -210,7 +196,7 @@ export const namePet = (name) => async (dispatch) => {
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(response?.data?.pet));
       return dispatch(push(`/?${queryParams}`));
@@ -232,7 +218,7 @@ export const tradePet = () => async (dispatch) => {
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
-        return dispatch(push(`/mascot-selector?${queryParams}`));
+        return dispatch(push(`/pet-selector?${queryParams}`));
       }
       dispatch(setPet(response?.data?.pet));
       return dispatch(push(`/?${queryParams}`));

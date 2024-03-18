@@ -1,5 +1,9 @@
 import { Visitor } from "../topiaInit.js";
-import { isPetInWorld, canPerformAction } from "./utils.js";
+import {
+  isPetInWorld,
+  canPerformAction,
+  getVisitorWithDataObject,
+} from "./utils.js";
 import { logger } from "../../logs/logger.js";
 import { level } from "./utils.js";
 import { handleSpawnPet } from "./spawn.js";
@@ -37,9 +41,7 @@ export const action = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
-
-    await visitor.fetchDataObject();
+    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     const pet = visitor?.dataObject?.pet;
 
@@ -54,7 +56,6 @@ export const action = async (req, res) => {
 
     let updatedPet;
 
-    // req, res, visitor, pet, actionKey, now
     updatedPet = await performAction({
       req,
       res,
@@ -73,7 +74,7 @@ export const action = async (req, res) => {
 
     updatedPet.isPetInWorld = await isPetInWorld(urlSlug, visitor, credentials);
 
-    await visitor.setDataObject({ pet: updatedPet });
+    await visitor.updateDataObject({ pet: updatedPet });
 
     const hasEmoteUnlocked = await grantExpression({
       visitor,
@@ -131,8 +132,26 @@ async function grantExpression({ visitor, pet, newExperience }) {
     newExperience >= level[5] &&
     (!pet.experience || pet.experience < level[5])
   ) {
-    await visitor.grantExpression({ name: `pet_${pet?.petType}` });
+    const grantExpressionResponse = await visitor.grantExpression({
+      name: `pet_${pet?.petType}`,
+    });
+
+    let title = "🔎 New Emote Unlocked";
+    let text = "🌟 Congratulations! You just unlocked a new emote!";
     hasEmoteUnlocked = true;
+
+    if (grantExpressionResponse.data?.statusCode === 409) {
+      title = `Congratulations! You've leveled up!`;
+      text =
+        "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
+      hasEmoteUnlocked = false;
+    }
+
+    await visitor.fireToast({
+      groupId: "VirtualPetExpression",
+      title,
+      text,
+    });
   }
   return hasEmoteUnlocked;
 }
