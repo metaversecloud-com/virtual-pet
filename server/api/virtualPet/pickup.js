@@ -1,5 +1,6 @@
-import { Visitor, World } from "../topiaInit.js";
+import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
+import { removeAllUserPets, getVisitorWithDataObject } from "./utils.js";
 
 export const pickup = async (req, res) => {
   try {
@@ -18,11 +19,7 @@ export const pickup = async (req, res) => {
       visitorId,
     };
 
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials,
-    });
-
-    await visitor.fetchDataObject();
+    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     await removeAllUserPets(urlSlug, visitor, credentials);
 
@@ -37,25 +34,3 @@ export const pickup = async (req, res) => {
     return res.status(500).send({ error: error?.message, success: false });
   }
 };
-
-/*
- *   This function removes all pet assets that a user has placed in the world.
- *   Note: As of the current version, a user can only have one pet asset in the world at a time.
- */
-async function removeAllUserPets(urlSlug, visitor, credentials) {
-  const world = await World.create(urlSlug, { credentials });
-
-  try {
-    const petAssets = await world.fetchDroppedAssetsWithUniqueName({
-      uniqueName: `petSystem-${visitor?.username}`,
-    });
-
-    if (petAssets && petAssets.length) {
-      await Promise.all(
-        petAssets.map((petAsset) => petAsset.deleteDroppedAsset())
-      );
-    }
-  } catch (error) {
-    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
-  }
-}

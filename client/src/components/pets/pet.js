@@ -2,14 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardFooter,
-} from "reactstrap";
-import {
   spawnPet,
   pickupPet,
   executeAction,
@@ -115,7 +107,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
   };
 
-  // Add the pet to the world
   const handleSpawnPet = async () => {
     resetPetState();
     updatePetState({ spawnPetButtonIsDisabled: true });
@@ -126,7 +117,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return () => clearTimeout(timer);
   };
 
-  // Remove the pet to the world
   const handlePickupPet = async () => {
     resetPetState();
     updatePetState({
@@ -260,16 +250,16 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const actionImage = getActionImage();
 
   const notPetAssetOwnerView = () => (
-    <Card className="virtual-friend white-overlay">
+    <div className="virtual-friend-container white-overlay">
       <div className="card-img-container" style={{ marginBottom: "6px" }}>
-        <CardImg top width="100%" src={actionImage} alt="Pet" />
+        <img top width="100%" src={actionImage} alt="Pet" />
       </div>
-      <CardBody style={{ paddingTop: "0px" }}>
+      <div style={{ paddingTop: "0px" }}>
         <div className="general-card-container">
-          <CardTitle tag="h5" style={{ marginTop: "16px" }}>
+          <div tag="h5" style={{ marginTop: "16px" }}>
             {pet?.name}
-          </CardTitle>
-          <CardSubtitle
+          </div>
+          <div
             tag="h6"
             className="mb-2 text-muted"
             style={{
@@ -279,8 +269,8 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             }}
           >
             My owner is {pet?.username}
-          </CardSubtitle>
-          <CardSubtitle
+          </div>
+          <div
             tag="h6"
             className="mb-2 text-muted"
             style={{
@@ -290,27 +280,27 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             }}
           >
             I'm a {petSelected?.petDescription}
-          </CardSubtitle>
+          </div>
         </div>
         <ExperienceBar
           isFeeding={petState?.isFeeding}
           toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
         />
-      </CardBody>
-    </Card>
+      </div>
+    </div>
   );
 
   return isPetAssetOwner ? (
     <>
-      <div className="virtual-friend white-overlay">
+      <div className="virtual-friend-container white-overlay">
         <div className="card-img-container">
           {getEditButton()}
-          <CardImg top width="100%" src={actionImage} alt="Pet" />
+          <img top width="100%" src={actionImage} alt="Pet" />
         </div>
 
-        <CardBody>
+        <div>
           <div className="action-icon-container">
-            <CardTitle tag="h5">
+            <div tag="h5">
               <p style={{ marginBottom: "7px" }}>
                 <b style={{ color: "#0A2540" }}>{pet?.name}</b>
               </p>
@@ -319,7 +309,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
                   {petSelected?.petDescription}
                 </b>
               </p>
-            </CardTitle>{" "}
+            </div>{" "}
             <ActionIconsContainer
               isSleeping={petState.isSleeping}
               isLoading={petState.isLoading}
@@ -332,9 +322,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             isFeeding={petState.isFeeding}
             toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
           />
-        </CardBody>
+        </div>
 
-        <CardFooter style={{ padding: 0, border: "none" }}>
+        <div style={{ padding: 0, border: "none" }}>
           {!pet?.isPetInWorld ? (
             <div className="fixed-bottom">
               <button
@@ -370,7 +360,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               </button>
             </div>
           )}
-        </CardFooter>
+        </div>
       </div>
     </>
   ) : (

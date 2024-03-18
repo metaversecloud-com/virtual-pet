@@ -4,19 +4,20 @@ import { history } from "../redux/store";
 
 import { Route, Routes } from "react-router-dom";
 
-import VirtualFriend from "./VirtualFriend";
-import MascotFirstTimeCreation from "./MascotFirstTimeCreation/MascotFirstTimeCreation";
-import PetNaming from "./MascotFirstTimeCreation/PetNaming";
+import VirtualPetMainScreen from "./VirtualPetMainScreen/VirtualPetMainScreen";
+import PetFirstTimeCreation from "./PetFirstTimeCreation/PetFirstTimeCreation";
 import Settings from "./Settings/Settings";
 
 const PageRoutes = () => {
   return (
     <Router history={history}>
       <Routes>
-        <Route path="/" element={<VirtualFriend />} />
-        <Route path="/asset-type/:isSpawnedDroppedAsset" element={<VirtualFriend />} />
-        <Route path="/mascot-selector" element={<MascotFirstTimeCreation />} />
-        <Route path="/pet-naming" element={<PetNaming />} />
+        <Route path="/" element={<VirtualPetMainScreen />} />
+        <Route
+          path="/asset-type/:isSpawnedDroppedAsset"
+          element={<VirtualPetMainScreen />}
+        />
+        <Route path="/pet-selector" element={<PetFirstTimeCreation />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>

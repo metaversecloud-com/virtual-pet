@@ -1,6 +1,10 @@
 import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
-import { getLevel } from "./utils.js";
+import {
+  getLevel,
+  removeAllUserPets,
+  getVisitorWithDataObject,
+} from "./utils.js";
 import { getS3URL } from "../../utils.js";
 
 let BASE_URL;
@@ -58,46 +62,12 @@ export async function handleSpawnPet(req) {
     visitorId,
   };
 
-  const visitor = await Visitor.get(visitorId, urlSlug, {
-    credentials,
-  });
-
-  const visitorDataObjectAndFetchAllUserPetsResponse = await Promise.all([
-    visitor.fetchDataObject(),
-    fetchAllUserPets(urlSlug, visitor, credentials),
-  ]);
-
-  const userPetAssets = visitorDataObjectAndFetchAllUserPetsResponse?.[1];
+  const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
   const pet = visitor?.dataObject?.pet;
 
-  await Promise.all([
-    removeAllUserPets(userPetAssets),
-    dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId),
-  ]);
-}
-
-/*
- *   This function removes all pet assets that a user has placed in the world.
- *   Note: As of the current version, a user can only have one pet asset in the world at a time.
- */
-export async function removeAllUserPets(userPetAssets) {
-  try {
-    if (userPetAssets && userPetAssets.length) {
-      await Promise.all(
-        userPetAssets.map((petAsset) => petAsset.deleteDroppedAsset())
-      );
-    }
-  } catch (error) {
-    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
-  }
-}
-
-async function fetchAllUserPets(urlSlug, visitor, credentials) {
-  const world = await World.create(urlSlug, { credentials });
-  return world.fetchDroppedAssetsWithUniqueName({
-    uniqueName: `petSystem-${visitor?.username}`,
-  });
+  await removeAllUserPets(urlSlug, visitor, credentials);
+  await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId);
 }
 
 /*
@@ -142,6 +112,10 @@ async function dropImageAsset(
       uniqueName,
       urlSlug,
       flipped,
+      isInteractive: true,
+      interactivePublicKey: process.env.INTERACTIVE_KEY,
+      layer0: petImgUrlLayer0,
+      layer1: petImgUrlLayer1,
     });
   } catch (error) {
     // This solves a bug where the asset is not dropped in the world for legacy assets with outdated urls from the old version.
@@ -160,20 +134,11 @@ async function dropImageAsset(
       clickableDisplayTextHeadline: "Virtual Pet",
       isOpenLinkInDrawer: true,
     }),
-    petSpawnedDroppedAsset?.setInteractiveSettings({
-      isInteractive: true,
-      interactivePublicKey: process.env.INTERACTIVE_KEY,
-    }),
-    petSpawnedDroppedAsset?.updateWebImageLayers(
-      petImgUrlLayer0,
-      petImgUrlLayer1
-    ),
   ]);
 
   return petSpawnedDroppedAsset;
 }
 
-// Get the pet's image Url based on the pet's type and level.
 function getPetImgUrl(petType, level, color) {
   let petImgUrlLayer0 = "";
   let petImgUrlLayer1 = "";

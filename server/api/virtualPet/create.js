@@ -1,5 +1,6 @@
 import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
+import { getVisitorWithDataObject } from "./utils.js";
 
 export const create = async (req, res) => {
   try {
@@ -11,18 +12,16 @@ export const create = async (req, res) => {
       visitorId,
     } = req.query;
 
+    const credentials = {
+      assetId,
+      interactiveNonce,
+      interactivePublicKey,
+      visitorId,
+    };
+
     const { petType, name } = req.body;
 
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials: {
-        assetId,
-        interactiveNonce,
-        interactivePublicKey,
-        visitorId,
-      },
-    });
-
-    await visitor.fetchDataObject();
+    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     let pet;
     if (!visitor?.dataObject?.pet) {
