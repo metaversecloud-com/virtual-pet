@@ -165,7 +165,6 @@ export const createPet = (petType, name) => async (dispatch) => {
 
 export const updatePet = (name, color) => async (dispatch) => {
   try {
-    console.log("hello");
     const queryParams = getQueryParams();
     const url = `/backend/pet?${queryParams}`;
 
