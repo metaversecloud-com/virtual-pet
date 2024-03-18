@@ -250,7 +250,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const actionImage = getActionImage();
 
   const notPetAssetOwnerView = () => (
-    <div className="virtual-friend-container white-overlay">
+    <div className="virtual-pet-container white-overlay">
       <div className="card-img-container" style={{ marginBottom: "6px" }}>
         <img top width="100%" src={actionImage} alt="Pet" />
       </div>
@@ -292,7 +292,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
   return isPetAssetOwner ? (
     <>
-      <div className="virtual-friend-container white-overlay">
+      <div className="virtual-pet-container white-overlay">
         <div className="card-img-container">
           {getEditButton()}
           <img top width="100%" src={actionImage} alt="Pet" />

@@ -45,7 +45,7 @@
   height: 100vh;
 }
 
-.virtual-friend-wrapper {
+.virtual-pet-wrapper {
   height: 100vh;
   flex-direction: column;
   justify-content: center;
@@ -115,12 +115,12 @@
     letter-spacing: 0.25px;
   }
 
-  .virtual-friend-container .sleeping {
+  .virtual-pet-container .sleeping {
     filter: grayscale(100%);
     opacity: 0.8;
   }
 
-  .virtual-friend-container {
+  .virtual-pet-container {
     border: none;
     max-width: 500px;
     width: 100%;

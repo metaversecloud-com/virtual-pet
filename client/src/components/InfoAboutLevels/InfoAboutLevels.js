@@ -32,7 +32,7 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
       }`}
     >
       {backArrowIcon()}
-      <div className="virtual-friend-container white-overlay">
+      <div className="virtual-pet-container white-overlay">
         <div className="pet-info">
           <div
             className="pet-info-img-container"
