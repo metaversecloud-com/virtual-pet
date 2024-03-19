@@ -93,6 +93,28 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     }
   }, [actionStatus]);
 
+  const getMessage = () => {
+    if (petState.isFeeding) {
+      return petSelected?.beingFedMessage;
+    } else if (petState.isSleeping) {
+      return "Zzz...";
+    } else if (petState.isTraining) {
+      return "Training!";
+    } else if (petState.isPlaying) {
+      return "I love to play!";
+    } else if (petState.isNotHungry) {
+      return petSelected?.notHungryMessage;
+    } else if (petState.isNotSleepy) {
+      return "I'm not sleepy";
+    } else if (petState.dontWantToPlay) {
+      return "I need a break from playing.";
+    } else if (petState.dontWantToTrain) {
+      return "I don't want to train anymore.";
+    } else {
+      return "";
+    }
+  };
+
   const getActionImage = () => {
     if (petState?.isFeeding) {
       return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
@@ -296,6 +318,12 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         <div className="card-img-container">
           {getEditButton()}
           <img top width="100%" src={actionImage} alt="Pet" />
+          <div
+            className="pet-message"
+            style={{ position: "relative", top: "-25px" }}
+          >
+            {getMessage() || <div style={{ minHeight: "20px" }}></div>}
+          </div>
         </div>
 
         <div>
