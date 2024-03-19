@@ -255,9 +255,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return (
       <div
         style={{
-          position: "absolute",
-          left: "32px",
-          top: "92px",
+          position: "relative",
+          left: "18px",
+          top: "14px",
           background: "#0A2540",
         }}
         className="icon-with-rounded-border"
