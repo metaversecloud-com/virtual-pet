@@ -92,8 +92,14 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       return () => clearTimeout(timer);
     }
   }, [actionStatus]);
+  useEffect(() => {
+    setActionImage(
+      `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+    );
+  }, [petAge, petColor, petType]);
 
   const getMessage = () => {
+    console.log("petState", petState);
     if (petState.isFeeding) {
       return petSelected?.beingFedMessage;
     } else if (petState.isSleeping) {
@@ -115,19 +121,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     }
   };
 
-  const getActionImage = () => {
-    if (petState?.isFeeding) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
-    } else if (petState?.isSleeping) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
-    } else if (petState?.isTraining) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-train.png`;
-    } else if (petState?.isPlaying) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
-    }
-
-    return `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
-  };
+  const [actionImage, setActionImage] = useState(
+    `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+  );
 
   const handleSpawnPet = async () => {
     resetPetState();
@@ -201,31 +197,38 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
       if (timeSinceLastAction < actionInterval) {
         setIsNotReady(true);
+        setTimeout(() => {
+          setIsNotReady(false);
+        }, actionInterval - timeSinceLastAction);
         return;
       }
 
       updatePetState({ isLoading: true });
+
       const success = await dispatch(executeAction(action));
-      updatePetState({ isLoading: false });
 
       if (success) {
-        setIsNotReady(false);
         setActionState(true);
+        setActionImage(
+          `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-${actionType.toLowerCase()}.png`
+        );
+
         setTimeout(() => {
           setActionState(false);
+          setActionImage(
+            `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+          );
+          updatePetState({ isLoading: false });
         }, DELAY_LONG);
       } else {
+        updatePetState({ isLoading: false });
         setIsNotReady(true);
+        setTimeout(() => {
+          setIsNotReady(false);
+        }, DELAY_LONG);
       }
     },
-    [
-      foodTimestamp,
-      sleepTimestamp,
-      playTimestamp,
-      trainTimestamp,
-      dispatch,
-      actionConfig,
-    ]
+    [dispatch, actionConfig, petAge, petColor, petType]
   );
 
   const resetErrors = () => {
@@ -268,8 +271,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       />
     );
   }
-
-  const actionImage = getActionImage();
 
   const notPetAssetOwnerView = () => (
     <div className="virtual-pet-container white-overlay">
