@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -22,6 +22,8 @@ const TRAIN = "TRAIN";
 
 const Pet = ({ petAge, setShowEditPetScreen }) => {
   const dispatch = useDispatch();
+
+  const currentPetAgeRef = useRef(petAge);
 
   const { isSpawnedDroppedAsset } = useParams();
 
@@ -92,14 +94,17 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       return () => clearTimeout(timer);
     }
   }, [actionStatus]);
+
   useEffect(() => {
     setActionImage(
       `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
     );
   }, [petAge, petColor, petType]);
+  useEffect(() => {
+    currentPetAgeRef.current = petAge;
+  }, [petAge]);
 
   const getMessage = () => {
-    console.log("petState", petState);
     if (petState.isFeeding) {
       return petSelected?.beingFedMessage;
     } else if (petState.isSleeping) {
@@ -216,7 +221,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         setTimeout(() => {
           setActionState(false);
           setActionImage(
-            `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+            `${getS3URL()}/assets/${petType}/normal/${
+              currentPetAgeRef.current
+            }-color-${petColor}.png`
           );
           updatePetState({ isLoading: false });
         }, DELAY_LONG);
