@@ -75,6 +75,8 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     petState?.isLoading ||
     !pet?.isPetInWorld;
 
+  console.log("pet", pet);
+
   useEffect(() => {
     const petAgeMap = {
       baby: petData?.[petType]?.baby,
@@ -103,28 +105,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   useEffect(() => {
     currentPetAgeRef.current = petAge;
   }, [petAge]);
-
-  const getMessage = () => {
-    if (petState.isFeeding) {
-      return petSelected?.beingFedMessage;
-    } else if (petState.isSleeping) {
-      return "Zzz...";
-    } else if (petState.isTraining) {
-      return "Training!";
-    } else if (petState.isPlaying) {
-      return "I love to play!";
-    } else if (petState.isNotHungry) {
-      return petSelected?.notHungryMessage;
-    } else if (petState.isNotSleepy) {
-      return "I'm not sleepy";
-    } else if (petState.dontWantToPlay) {
-      return "I need a break from playing.";
-    } else if (petState.dontWantToTrain) {
-      return "I don't want to train anymore.";
-    } else {
-      return "";
-    }
-  };
 
   const [actionImage, setActionImage] = useState(
     `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
@@ -329,9 +309,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
           <div
             className="pet-message"
             style={{ position: "relative", top: "-25px" }}
-          >
-            {getMessage() || <div style={{ minHeight: "20px" }}></div>}
-          </div>
+          ></div>
         </div>
 
         <div>
