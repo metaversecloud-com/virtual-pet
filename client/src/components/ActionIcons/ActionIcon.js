@@ -1,4 +1,5 @@
-import React from "react";
+// ActionIcon.js
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Bed from "../../assets/actionIcons/bed.svg";
 import PersonRunning from "../../assets/actionIcons/person-running.svg";
@@ -27,21 +28,37 @@ function capitalize(str) {
 const ActionIcon = ({ id, iconClass, action, disabled }) => {
   const pet = useSelector((state) => state?.session?.pet);
   const iconSrc = icons[id];
+  const [remainingTime, setRemainingTime] = useState(0);
 
-  const isCooldownActive = (actionType) => {
-    const currentTime = Date.now();
-    const lastActionTime = pet?.[actionType]?.timestamp;
-    const cooldownTime = ACTION_COOLDOWNS[actionType];
-    return lastActionTime && currentTime - lastActionTime < cooldownTime;
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const currentTime = Date.now();
+      const lastActionTime = pet?.[id]?.timestamp;
+      const cooldownTime = ACTION_COOLDOWNS[id];
+      const elapsedTime = currentTime - lastActionTime;
+      const remainingTimePercentage = Math.max(
+        0,
+        ((cooldownTime - elapsedTime) / cooldownTime) * 100
+      );
+      setRemainingTime(remainingTimePercentage);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [pet, id]);
+
+  const isCooldownActive = () => {
+    return remainingTime > 0;
   };
 
-  const getTooltipText = (actionType) => {
+  const getTooltipText = () => {
     if (!pet?.isPetInWorld) {
       return "Call pet to take any action.";
     }
 
-    if (isCooldownActive(actionType)) {
-      switch (actionType) {
+    if (isCooldownActive()) {
+      switch (id) {
         case "FEED":
           return "I'm not hungry";
         case "SLEEP":
@@ -55,7 +72,7 @@ const ActionIcon = ({ id, iconClass, action, disabled }) => {
       }
     }
 
-    return capitalize(actionType);
+    return capitalize(id);
   };
 
   if (!iconSrc) {
@@ -65,12 +82,18 @@ const ActionIcon = ({ id, iconClass, action, disabled }) => {
   return (
     <div
       className={`action-icon-wrapper ${
-        disabled || isCooldownActive(id) ? "disabled" : ""
+        disabled || isCooldownActive() ? "disabled" : ""
       }`}
-      onClick={disabled || isCooldownActive(id) ? null : action}
+      onClick={disabled || isCooldownActive() ? null : action}
     >
       <img id={id} src={iconSrc} alt={iconClass} className="action-icon" />
-      <span className="tooltip-text">{getTooltipText(id)}</span>
+      <span className="tooltip-text">{getTooltipText()}</span>
+      <div
+        className="cooldown-progress"
+        style={{
+          background: `conic-gradient(#4CAF50 ${remainingTime}%, #DEE2E5 ${remainingTime}%)`,
+        }}
+      ></div>
     </div>
   );
 };
