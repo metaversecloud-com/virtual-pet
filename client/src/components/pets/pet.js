@@ -75,8 +75,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     petState?.isLoading ||
     !pet?.isPetInWorld;
 
-  console.log("pet", pet);
-
   useEffect(() => {
     const petAgeMap = {
       baby: petData?.[petType]?.baby,
