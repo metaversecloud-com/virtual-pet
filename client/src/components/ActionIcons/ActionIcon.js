@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Bed from "../../assets/actionIcons/bed.svg";
 import PersonRunning from "../../assets/actionIcons/person-running.svg";
@@ -24,22 +24,29 @@ function capitalize(str) {
   return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
 }
 
-const ActionIcon = ({ id, iconClass, action, disabled }) => {
+const ActionIcon = ({ id, iconClass, action, disabled, onAnimationEnd }) => {
   const pet = useSelector((state) => state?.session?.pet);
   const iconSrc = icons[id];
+  const [showTooltipText, setShowTooltipText] = useState(true);
 
   const isCooldownActive = (actionType) => {
     const currentTime = Date.now();
     const lastActionTime = pet?.[actionType]?.timestamp;
     const cooldownTime = ACTION_COOLDOWNS[actionType];
-    return lastActionTime && currentTime - lastActionTime < cooldownTime;
+    const isActionInProgress = pet?.[actionType]?.isInProgress;
+    return (
+      (lastActionTime && currentTime - lastActionTime < cooldownTime) ||
+      isActionInProgress
+    );
   };
 
   const getTooltipText = (actionType) => {
     if (!pet?.isPetInWorld) {
       return "Call pet to take any action.";
     }
-
+    if (pet?.[actionType]?.isInProgress) {
+      return "";
+    }
     if (isCooldownActive(actionType)) {
       switch (actionType) {
         case "FEED":
@@ -54,8 +61,18 @@ const ActionIcon = ({ id, iconClass, action, disabled }) => {
           return "";
       }
     }
-
     return capitalize(actionType);
+  };
+
+  const handleAction = async () => {
+    if (disabled || isCooldownActive(id)) {
+      return;
+    }
+    setShowTooltipText(false);
+    await action(() => {
+      setShowTooltipText(true);
+      onAnimationEnd();
+    });
   };
 
   if (!iconSrc) {
@@ -67,10 +84,12 @@ const ActionIcon = ({ id, iconClass, action, disabled }) => {
       className={`action-icon-wrapper ${
         disabled || isCooldownActive(id) ? "disabled" : ""
       }`}
-      onClick={disabled || isCooldownActive(id) ? null : action}
+      onClick={handleAction}
     >
       <img id={id} src={iconSrc} alt={iconClass} className="action-icon" />
-      <span className="tooltip-text">{getTooltipText(id)}</span>
+      {showTooltipText && (
+        <span className="tooltip-text">{getTooltipText(id)}</span>
+      )}
     </div>
   );
 };

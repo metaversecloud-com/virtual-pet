@@ -171,7 +171,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   };
 
   const handlePetAction = useCallback(
-    async (actionType) => {
+    async (actionType, onAnimationEnd) => {
       resetErrors();
       const { timestamp, setActionState, setIsNotReady, action } =
         actionConfig[actionType];
@@ -206,6 +206,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             }-color-${petColor}.png`
           );
           updatePetState({ isLoading: false });
+          onAnimationEnd();
         }, DELAY_LONG);
       } else {
         updatePetState({ isLoading: false });
