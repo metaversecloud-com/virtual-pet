@@ -161,7 +161,7 @@ async function respawnPet({ req, pet, newExperience }) {
     (newExperience >= level[3] &&
       (!pet.experience || pet.experience < level[3])) ||
     (newExperience >= level[8] &&
-      (!pet.experience || newExperience >= level[8]))
+      (!pet.experience || pet.experience < level[8]))
   ) {
     await handleSpawnPet(req);
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -22,6 +22,8 @@ const TRAIN = "TRAIN";
 
 const Pet = ({ petAge, setShowEditPetScreen }) => {
   const dispatch = useDispatch();
+
+  const currentPetAgeRef = useRef(petAge);
 
   const { isSpawnedDroppedAsset } = useParams();
 
@@ -93,19 +95,18 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     }
   }, [actionStatus]);
 
-  const getActionImage = () => {
-    if (petState?.isFeeding) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-feed.png`;
-    } else if (petState?.isSleeping) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-sleep.png`;
-    } else if (petState?.isTraining) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-train.png`;
-    } else if (petState?.isPlaying) {
-      return `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-play.png`;
-    }
+  useEffect(() => {
+    setActionImage(
+      `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+    );
+  }, [petAge, petColor, petType]);
+  useEffect(() => {
+    currentPetAgeRef.current = petAge;
+  }, [petAge]);
 
-    return `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`;
-  };
+  const [actionImage, setActionImage] = useState(
+    `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+  );
 
   const handleSpawnPet = async () => {
     resetPetState();
@@ -168,7 +169,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   };
 
   const handlePetAction = useCallback(
-    async (actionType) => {
+    async (actionType, onAnimationEnd) => {
       resetErrors();
       const { timestamp, setActionState, setIsNotReady, action } =
         actionConfig[actionType];
@@ -179,31 +180,41 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
       if (timeSinceLastAction < actionInterval) {
         setIsNotReady(true);
+        setTimeout(() => {
+          setIsNotReady(false);
+        }, actionInterval - timeSinceLastAction);
         return;
       }
 
       updatePetState({ isLoading: true });
+
       const success = await dispatch(executeAction(action));
-      updatePetState({ isLoading: false });
 
       if (success) {
-        setIsNotReady(false);
         setActionState(true);
+        setActionImage(
+          `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-${actionType.toLowerCase()}.png`
+        );
+
         setTimeout(() => {
           setActionState(false);
+          setActionImage(
+            `${getS3URL()}/assets/${petType}/normal/${
+              currentPetAgeRef.current
+            }-color-${petColor}.png`
+          );
+          updatePetState({ isLoading: false });
+          onAnimationEnd();
         }, DELAY_LONG);
       } else {
+        updatePetState({ isLoading: false });
         setIsNotReady(true);
+        setTimeout(() => {
+          setIsNotReady(false);
+        }, DELAY_LONG);
       }
     },
-    [
-      foodTimestamp,
-      sleepTimestamp,
-      playTimestamp,
-      trainTimestamp,
-      dispatch,
-      actionConfig,
-    ]
+    [dispatch, actionConfig, petAge, petColor, petType]
   );
 
   const resetErrors = () => {
@@ -223,9 +234,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     return (
       <div
         style={{
-          position: "absolute",
-          left: "32px",
-          top: "92px",
+          position: "relative",
+          left: "18px",
+          top: "14px",
           background: "#0A2540",
         }}
         className="icon-with-rounded-border"
@@ -246,8 +257,6 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       />
     );
   }
-
-  const actionImage = getActionImage();
 
   const notPetAssetOwnerView = () => (
     <div className="virtual-pet-container white-overlay">
@@ -296,6 +305,10 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         <div className="card-img-container">
           {getEditButton()}
           <img top width="100%" src={actionImage} alt="Pet" />
+          <div
+            className="pet-message"
+            style={{ position: "relative", top: "-25px" }}
+          ></div>
         </div>
 
         <div>

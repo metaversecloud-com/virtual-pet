@@ -80,7 +80,6 @@ export const spawnPet = () => async (dispatch) => {
 
 export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
   try {
-    console.log("isSpawnedDroppedAsset pickupPet", isSpawnedDroppedAsset);
     const queryParams = getQueryParams();
     const url = `/backend/pet/pickup?${queryParams}&isSpawnedDroppedAsset=${isSpawnedDroppedAsset}`;
     const response = await axios.post(url);

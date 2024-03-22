@@ -1,13 +1,15 @@
 let level = [];
-level[0] = 100;
+// Level 1 has 0 exp to 100 exp
+
+level[0] = 100; // Level 2 has 100 exp to 300 exp
 level[1] = 300;
 level[2] = 600;
-level[3] = 1000;
+level[3] = 1000; // Level 5 has 1000 exp to 1500 exp
 level[4] = 1500;
 level[5] = 2100;
 level[6] = 2800;
 level[7] = 3600;
-level[8] = 4500;
+level[8] = 4500; // Level 10 has 4500 exp to 5500 exp
 level[9] = 5500;
 level[10] = 6600;
 level[11] = 7800;

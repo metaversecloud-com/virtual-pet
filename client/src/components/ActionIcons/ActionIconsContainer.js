@@ -2,13 +2,7 @@ import React from "react";
 import ActionIcon from "./ActionIcon";
 import "./ActionIcon.scss";
 
-const ActionIconsContainer = ({
-  isSleeping,
-  isLoading,
-  areAllButtonsDisabled,
-  pet,
-  handlePetAction,
-}) => {
+const ActionIconsContainer = ({ areAllButtonsDisabled, handlePetAction }) => {
   const FEED = "FEED";
   const SLEEP = "SLEEP";
   const PLAY = "PLAY";
@@ -18,25 +12,25 @@ const ActionIconsContainer = ({
     {
       id: FEED,
       iconClass: "fa-utensils",
-      action: () => handlePetAction(FEED),
+      action: (onAnimationEnd) => handlePetAction(FEED, onAnimationEnd),
       disabled: areAllButtonsDisabled,
     },
     {
       id: SLEEP,
       iconClass: "fa-bed",
-      action: () => handlePetAction(SLEEP),
+      action: (onAnimationEnd) => handlePetAction(SLEEP, onAnimationEnd),
       disabled: areAllButtonsDisabled,
     },
     {
       id: PLAY,
       iconClass: "fa-play",
-      action: () => handlePetAction(PLAY),
+      action: (onAnimationEnd) => handlePetAction(PLAY, onAnimationEnd),
       disabled: areAllButtonsDisabled,
     },
     {
       id: TRAIN,
       iconClass: "fa-running",
-      action: () => handlePetAction(TRAIN),
+      action: (onAnimationEnd) => handlePetAction(TRAIN, onAnimationEnd),
       disabled: areAllButtonsDisabled,
     },
   ];
@@ -44,7 +38,7 @@ const ActionIconsContainer = ({
   return (
     <div>
       {actionIcons.map((icon) => (
-        <ActionIcon key={icon.id} {...icon} pet />
+        <ActionIcon key={icon.id} {...icon} pet onAnimationEnd={() => {}} />
       ))}
     </div>
   );
