@@ -31,11 +31,21 @@ app.get("/api/system/health", (req, res) => {
     appVersion,
     status: "OK",
     envs: {
-      NODE_ENV: process.env.NODE_ENV,
-      INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN,
-      INTERACTIVE_KEY: process.env.INTERACTIVE_KEY,
-      S3_BUCKET: process.env.S3_BUCKET,
-      IS_LOCALHOST: process.env.IS_LOCALHOST,
+      NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : "NOT SET",
+      INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN
+        ? process.env.INSTANCE_DOMAIN
+        : "NOT SET",
+      INTERACTIVE_KEY: process.env.INTERACTIVE_KEY
+        ? process.env.INTERACTIVE_KEY
+        : "NOT SET",
+      INTERACTIVE_SECRET: process.env.INTERACTIVE_SECRET ? "SET" : "NOT SET",
+      S3_BUCKET: process.env.S3_BUCKET ? process.env.S3_BUCKET : "NOT SET",
+      IS_LOCALHOST: process.env.IS_LOCALHOST
+        ? process.env.IS_LOCALHOST
+        : "NOT SET",
+      COMMIT_HASH: process.env.COMMIT_HASH
+        ? process.env.COMMIT_HASH
+        : "NOT SET",
     },
   });
 });
