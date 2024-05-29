@@ -67,10 +67,13 @@ export const get = async (req, res) => {
       credentials
     );
 
-    await visitor.updateDataObject(
-      {},
-      { analytics: [`join`], uniqueKey: profileId }
-    );
+    visitor
+      .updateDataObject(
+        {},
+        { analytics: [`interactions`], uniqueKey: profileId }
+      )
+      .then()
+      .catch(() => console.error("Error sending interactions analytics"));
 
     return res.json({
       pet: visitor?.dataObject?.pet,

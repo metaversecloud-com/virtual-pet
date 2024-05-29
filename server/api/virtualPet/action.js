@@ -142,10 +142,13 @@ async function grantExpression({ visitor, pet, newExperience }) {
       name: expressionName,
     });
 
-    await visitor.updateDataObject(
-      {},
-      { analytics: [`${expressionName}-Unlocked`], uniqueKey: profileId }
-    );
+    visitor
+      .updateDataObject(
+        {},
+        { analytics: [`${expressionName}-Unlocked`], uniqueKey: profileId }
+      )
+      .then()
+      .catch(() => console.error("Error analytics when granting expressions"));
 
     let title = "🔎 New Emote Unlocked";
     let text = "🌟 Congratulations! You just unlocked a new emote!";
@@ -173,10 +176,15 @@ async function respawnPet({ req, pet, newExperience, visitor }) {
   for (const level of levels) {
     if (newExperience >= level && (!pet.experience || pet.experience < level)) {
       await handleSpawnPet(req);
-      await visitor.updateDataObject(
-        {},
-        { analytics: [`level${level + 2}Reached`], uniqueKey: profileId }
-      );
+      visitor
+        .updateDataObject(
+          {},
+          { analytics: [`level${level + 2}Reached`], uniqueKey: profileId }
+        )
+        .then()
+        .catch(() =>
+          console.error("Error sending level up data for analytics")
+        );
     }
   }
 }
