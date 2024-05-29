@@ -10,6 +10,7 @@ export const create = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      profileId,
     } = req.query;
 
     const credentials = {
@@ -32,7 +33,10 @@ export const create = async (req, res) => {
         name,
         color: 0,
       };
-      await visitor.setDataObject({ pet });
+      await visitor.setDataObject(
+        { pet },
+        { analytics: [`starts`], uniqueKey: profileId }
+      );
     }
 
     return res.json({ pet: visitor?.dataObject?.pet, success: true });

@@ -67,6 +67,11 @@ export const get = async (req, res) => {
       credentials
     );
 
+    await visitor.updateDataObject(
+      {},
+      { analytics: [`join`], uniqueKey: profileId }
+    );
+
     return res.json({
       pet: visitor?.dataObject?.pet,
       visitor,

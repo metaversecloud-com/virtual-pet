@@ -34,6 +34,7 @@ export const deleteAll = async (req, res) => {
     const allPetAssets = await getAllPetAssets(world);
 
     await deleteAllPets({ urlSlug, allPetAssets, interactivePublicKey });
+    await visitor.updateDataObject({}, { analytics: [`adminPickupAllPets`] });
 
     return res.json({ success: true });
   } catch (error) {

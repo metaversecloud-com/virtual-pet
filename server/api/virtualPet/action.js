@@ -82,7 +82,12 @@ export const action = async (req, res) => {
       newExperience: updatedPet.experience,
     });
 
-    await respawnPet({ req, pet, newExperience: updatedPet.experience });
+    await respawnPet({
+      req,
+      pet,
+      newExperience: updatedPet.experience,
+      visitor,
+    });
 
     return res.json({
       pet: updatedPet,
@@ -132,9 +137,15 @@ async function grantExpression({ visitor, pet, newExperience }) {
     newExperience >= level[5] &&
     (!pet.experience || pet.experience < level[5])
   ) {
+    const expressionName = `pet_${pet?.petType}`;
     const grantExpressionResponse = await visitor.grantExpression({
-      name: `pet_${pet?.petType}`,
+      name: expressionName,
     });
+
+    await visitor.updateDataObject(
+      {},
+      { analytics: [`${expressionName}-Unlocked`], uniqueKey: profileId }
+    );
 
     let title = "🔎 New Emote Unlocked";
     let text = "🌟 Congratulations! You just unlocked a new emote!";
@@ -156,13 +167,16 @@ async function grantExpression({ visitor, pet, newExperience }) {
   return hasEmoteUnlocked;
 }
 
-async function respawnPet({ req, pet, newExperience }) {
-  if (
-    (newExperience >= level[3] &&
-      (!pet.experience || pet.experience < level[3])) ||
-    (newExperience >= level[8] &&
-      (!pet.experience || pet.experience < level[8]))
-  ) {
-    await handleSpawnPet(req);
+async function respawnPet({ req, pet, newExperience, visitor }) {
+  const levels = [3, 8];
+
+  for (const level of levels) {
+    if (newExperience >= level && (!pet.experience || pet.experience < level)) {
+      await handleSpawnPet(req);
+      await visitor.updateDataObject(
+        {},
+        { analytics: [`level${level + 2}Reached`], uniqueKey: profileId }
+      );
+    }
   }
 }
