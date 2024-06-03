@@ -46,6 +46,7 @@ app.get("/api/system/health", (req, res) => {
       COMMIT_HASH: process.env.COMMIT_HASH
         ? process.env.COMMIT_HASH
         : "NOT SET",
+      LAST_SERVER_STARTED_DATE: new Date(),
     },
   });
 });

@@ -33,7 +33,11 @@ export const deletePet = async (req, res) => {
 
     await visitor.setDataObject(
       {},
-      { analytics: [`trades`], uniqueKey: profileId }
+      {
+        analytics: [
+          { analyticName: `trades`, uniqueKey: profileId, profileId },
+        ],
+      }
     );
     await visitor.fetchDataObject();
 

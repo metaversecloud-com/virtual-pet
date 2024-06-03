@@ -35,7 +35,7 @@ export const create = async (req, res) => {
       };
       await visitor.setDataObject(
         { pet },
-        { analytics: [`starts`], uniqueKey: profileId }
+        { analytics: [{ analyticName: `starts`, uniqueKey: profileId }] }
       );
     }
 

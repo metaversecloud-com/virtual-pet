@@ -85,7 +85,15 @@ export const update = async (req, res) => {
 
     await visitor.updateDataObject(
       { pet },
-      { analytics: [`name/colorUpdated`], uniqueKey: profileId }
+      {
+        analytics: [
+          {
+            analyticName: `nameOrColorUpdated`,
+            uniqueKey: profileId,
+            profileId,
+          },
+        ],
+      }
     );
 
     await handleSpawnPet(req);

@@ -134,6 +134,9 @@ async function dropImageAsset(
       clickableDisplayTextHeadline: "Virtual Pet",
       isOpenLinkInDrawer: true,
     }),
+    visitor.updateDataObject({
+      petSpawnedDroppedAssetId: petSpawnedDroppedAsset?.id,
+    }),
   ]);
 
   return petSpawnedDroppedAsset;

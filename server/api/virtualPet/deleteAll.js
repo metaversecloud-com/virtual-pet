@@ -35,7 +35,10 @@ export const deleteAll = async (req, res) => {
 
     await deleteAllPets({ urlSlug, allPetAssets, interactivePublicKey });
     visitor
-      .updateDataObject({}, { analytics: [`adminPickupAllPets`] })
+      .updateDataObject(
+        {},
+        { analytics: [{ analyticName: `adminPickupAllPets`, urlSlug }] }
+      )
       .then()
       .catch(() =>
         console.error("Error sending analytics for adminPickupAllPets")

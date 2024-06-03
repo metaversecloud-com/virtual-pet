@@ -1,4 +1,4 @@
-import { Visitor } from "../topiaInit.js";
+import { Visitor, World, DroppedAsset } from "../topiaInit.js";
 import {
   isPetInWorld,
   canPerformAction,
@@ -30,6 +30,7 @@ export const action = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      parentAssetId,
     } = req?.query;
 
     const { action } = req?.body;
@@ -73,6 +74,13 @@ export const action = async (req, res) => {
     }
 
     updatedPet.isPetInWorld = await isPetInWorld(urlSlug, visitor, credentials);
+
+    await executeParticleEffect({
+      parentAssetId,
+      assetId,
+      urlSlug,
+      credentials,
+    });
 
     await visitor.updateDataObject({ pet: updatedPet });
 
@@ -145,7 +153,14 @@ async function grantExpression({ visitor, pet, newExperience }) {
     visitor
       .updateDataObject(
         {},
-        { analytics: [`${expressionName}-Unlocked`], uniqueKey: profileId }
+        {
+          analytics: [
+            {
+              analyticName: `${expressionName}-emoteUnlocked`,
+              uniqueKey: profileId,
+            },
+          ],
+        }
       )
       .then()
       .catch(() => console.error("Error analytics when granting expressions"));
@@ -186,5 +201,29 @@ async function respawnPet({ req, pet, newExperience, visitor }) {
           console.error("Error sending level up data for analytics")
         );
     }
+  }
+}
+
+async function executeParticleEffect({
+  parentAssetId,
+  assetId,
+  urlSlug,
+  credentials,
+}) {
+  if (parentAssetId && !parentAssetId == "null") {
+    const droppedAsset = await DroppedAsset.get(assetId, urlSlug, {
+      credentials,
+    });
+
+    const world = World.create(urlSlug, { credentials });
+
+    await world.triggerParticle({
+      name: process.env.PARTICLE_EFFECT_NAME_FOR_PET_ACTION || "Snow",
+      duration: 3,
+      position: {
+        x: droppedAsset?.position?.x,
+        y: droppedAsset?.position?.y,
+      },
+    });
   }
 }

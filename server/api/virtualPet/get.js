@@ -10,6 +10,7 @@ export const get = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      profileId,
     } = req.query;
 
     const credentials = {
@@ -70,7 +71,16 @@ export const get = async (req, res) => {
     visitor
       .updateDataObject(
         {},
-        { analytics: [`interactions`], uniqueKey: profileId }
+        {
+          analytics: [
+            {
+              analyticName: `interactions`,
+              uniqueKey: profileId,
+              urlSlug,
+              profileId,
+            },
+          ],
+        }
       )
       .then()
       .catch(() => console.error("Error sending interactions analytics"));
