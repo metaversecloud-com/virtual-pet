@@ -31,6 +31,7 @@ app.get("/api/system/health", (req, res) => {
     appVersion,
     status: "OK",
     envs: {
+      DEPLOY_DATE: new Date(),
       NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : "NOT SET",
       INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN
         ? process.env.INSTANCE_DOMAIN
@@ -46,7 +47,6 @@ app.get("/api/system/health", (req, res) => {
       COMMIT_HASH: process.env.COMMIT_HASH
         ? process.env.COMMIT_HASH
         : "NOT SET",
-      LAST_SERVER_STARTED_DATE: new Date(),
     },
   });
 });
