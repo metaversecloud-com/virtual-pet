@@ -33,7 +33,7 @@ export const deleteAll = async (req, res) => {
 
     const allPetAssets = await getAllPetAssets(world);
 
-    await deleteAllPets({ urlSlug, allPetAssets, interactivePublicKey });
+    await deleteAllPets({ urlSlug, allPetAssets, credentials });
 
     return res.json({ success: true });
   } catch (error) {

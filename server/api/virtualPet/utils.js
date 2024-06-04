@@ -91,26 +91,28 @@ export async function removeAllUserPets(urlSlug, visitor, credentials) {
     await deleteAllPets({
       urlSlug,
       allPetAssets: petAssets,
-      interactivePublicKey: credentials.interactivePublicKey,
+      credentials,
     });
   } catch (error) {
     console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
   }
 }
 
-export async function deleteAllPets({
-  urlSlug,
-  allPetAssets,
-  interactivePublicKey,
-}) {
+export async function deleteAllPets({ urlSlug, allPetAssets, credentials }) {
   let droppedAssetIds = [];
   for (const petAsset in allPetAssets) {
     droppedAssetIds.push(allPetAssets[petAsset].id);
   }
-  await World.deleteDroppedAssets(urlSlug, droppedAssetIds, {
-    interactivePublicKey,
-    interactiveSecret: process.env.INTERACTIVE_SECRET,
-  });
+  await World.deleteDroppedAssets(
+    urlSlug,
+    droppedAssetIds,
+    process.env.INTERACTIVE_SECRET,
+    {
+      interactiveNonce: credentials.interactiveNonce,
+      interactivePublicKey: credentials.interactivePublicKey,
+      visitorId: credentials.visitorId,
+    }
+  );
 }
 
 export async function getVisitorWithDataObject({ credentials, urlSlug }) {
