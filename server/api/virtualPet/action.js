@@ -194,7 +194,14 @@ async function respawnPet({ req, pet, newExperience, visitor }) {
       visitor
         .updateDataObject(
           {},
-          { analytics: [`level${level + 2}Reached`], uniqueKey: profileId }
+          {
+            analytics: [
+              {
+                analyticName: `level${level + 2}Reached`,
+                uniqueKey: profileId,
+              },
+            ],
+          }
         )
         .then()
         .catch(() =>
