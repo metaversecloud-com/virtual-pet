@@ -19,7 +19,10 @@ const InfoAboutLevels = ({ toggleShowInfoAboutLevels }) => {
         }}
       >
         <div className="icon-circle-text">
-          <img src={backArrowIconSvg} alt="back arrow" />
+          <img
+            src="https://sdk-style.s3.amazonaws.com/icons/arrow.svg"
+            alt="back arrow"
+          />
         </div>
       </div>
     );
