@@ -76,6 +76,7 @@ export const action = async (req, res) => {
     updatedPet.isPetInWorld = await isPetInWorld(urlSlug, visitor, credentials);
 
     await executeParticleEffect({
+      visitor,
       parentAssetId,
       assetId,
       urlSlug,
@@ -212,18 +213,32 @@ async function respawnPet({ req, pet, newExperience, visitor }) {
 }
 
 async function executeParticleEffect({
+  visitor,
   parentAssetId,
   assetId,
   urlSlug,
   credentials,
 }) {
-  if (parentAssetId && !parentAssetId == "null") {
+  const world = World.create(urlSlug, { credentials });
+  if (parentAssetId && parentAssetId != "null") {
     const droppedAsset = await DroppedAsset.get(assetId, urlSlug, {
       credentials,
     });
 
-    const world = World.create(urlSlug, { credentials });
-
+    await world.triggerParticle({
+      name: process.env.PARTICLE_EFFECT_NAME_FOR_PET_ACTION || "Snow",
+      duration: 3,
+      position: {
+        x: droppedAsset?.position?.x,
+        y: droppedAsset?.position?.y,
+      },
+    });
+  } else if (visitor?.dataObject?.petSpawnedDroppedAssetId) {
+    const droppedAsset = await DroppedAsset.get(
+      visitor?.dataObject?.petSpawnedDroppedAssetId,
+      urlSlug,
+      { credentials }
+    );
     await world.triggerParticle({
       name: process.env.PARTICLE_EFFECT_NAME_FOR_PET_ACTION || "Snow",
       duration: 3,
