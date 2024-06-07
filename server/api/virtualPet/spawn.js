@@ -67,7 +67,13 @@ export async function handleSpawnPet(req) {
   const pet = visitor?.dataObject?.pet;
 
   await removeAllUserPets(urlSlug, visitor, credentials);
-  await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId);
+  return await dropImageAsset(
+    urlSlug,
+    credentials,
+    visitor,
+    pet,
+    parentAssetId
+  );
 }
 
 /*
@@ -133,6 +139,9 @@ async function dropImageAsset(
       clickableDisplayTextDescription: "Play with your Virtual Pet",
       clickableDisplayTextHeadline: "Virtual Pet",
       isOpenLinkInDrawer: true,
+    }),
+    visitor.updateDataObject({
+      [`pet.petSpawnedDroppedAssetId`]: petSpawnedDroppedAsset?.id,
     }),
   ]);
 

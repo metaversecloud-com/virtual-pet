@@ -1,6 +1,7 @@
 import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
 import { getVisitorWithDataObject } from "./utils.js";
+import { addNewRowToGoogleSheets } from "../utils/addNewRowToGoogleSheets.js";
 
 export const create = async (req, res) => {
   try {
@@ -10,6 +11,9 @@ export const create = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      profileId,
+      identityId,
+      displayName,
     } = req.query;
 
     const credentials = {
@@ -32,7 +36,19 @@ export const create = async (req, res) => {
         name,
         color: 0,
       };
-      await visitor.setDataObject({ pet });
+      await visitor.setDataObject(
+        { pet },
+        { analytics: [{ analyticName: `starts`, uniqueKey: profileId }] }
+      );
+
+      addNewRowToGoogleSheets({
+        identityId: identityId,
+        displayName: displayName,
+        appName: "Virtual Pet",
+        event: "starts",
+      })
+        .then()
+        .catch();
     }
 
     return res.json({ pet: visitor?.dataObject?.pet, success: true });

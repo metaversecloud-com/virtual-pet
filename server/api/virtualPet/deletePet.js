@@ -10,6 +10,7 @@ export const deletePet = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      profileId,
     } = req.query;
 
     const credentials = {
@@ -30,7 +31,14 @@ export const deletePet = async (req, res) => {
 
     await removeAllUserPets(urlSlug, visitor, credentials);
 
-    await visitor.setDataObject({});
+    await visitor.setDataObject(
+      {},
+      {
+        analytics: [
+          { analyticName: `trades`, uniqueKey: profileId, profileId },
+        ],
+      }
+    );
     await visitor.fetchDataObject();
 
     return res.json({ pet: visitor?.dataObject?.pet });

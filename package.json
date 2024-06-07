@@ -2,7 +2,8 @@
   "author": "metaversecloud.com | topia.io",
   "name": "sdk-virtual-pet",
   "dependencies": {
-    "@rtsdk/topia": "^0.11.7",
+    "@googleapis/sheets": "^8.0.0",
+    "@rtsdk/topia": "^0.11.8",
     "axios": "^1.6.2",
     "body-parser": "^1.20.2",
     "child_process": "^1.0.2",
@@ -11,6 +12,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-request-id": "^3.0.0",
+    "google-auth-library": "^9.10.0",
     "regenerator-runtime": "^0.14.1",
     "yalc": "^1.0.0-pre.53"
   },
@@ -28,7 +30,8 @@
     "unlink-sdk": "yalc remove @rtsdk/topia",
     "server": "npm start -w server",
     "client": "npm start -w client",
-    "start": "npm start -w server"
+    "dev": "npm start -w server",
+    "start": "source commit_info.txt; npm start -w server"
   },
   "type": "module",
   "version": "1.5.7",

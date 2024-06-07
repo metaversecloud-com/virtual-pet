@@ -1,4 +1,4 @@
-import { Visitor } from "../topiaInit.js";
+import { Visitor, World, DroppedAsset } from "../topiaInit.js";
 import {
   isPetInWorld,
   canPerformAction,
@@ -22,6 +22,13 @@ const ACTION_EXPERIENCE_GAIN = {
   TRAIN: 10,
 };
 
+const ACTION_PARTICLE_EFFECTS = {
+  SLEEP: "Snow",
+  PLAY: "Snow",
+  FEED: "Snow",
+  TRAIN: "Snow",
+};
+
 export const action = async (req, res) => {
   try {
     const {
@@ -30,6 +37,8 @@ export const action = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      parentAssetId,
+      profileId,
     } = req?.query;
 
     const { action } = req?.body;
@@ -74,15 +83,45 @@ export const action = async (req, res) => {
 
     updatedPet.isPetInWorld = await isPetInWorld(urlSlug, visitor, credentials);
 
-    await visitor.updateDataObject({ pet: updatedPet });
+    executeParticleEffect({
+      visitor,
+      parentAssetId,
+      assetId,
+      urlSlug,
+      credentials,
+      actionKey: action,
+    })
+      .then()
+      .catch((error) => console.error(error));
+
+    await visitor.updateDataObject(
+      { [`pet`]: updatedPet },
+      {
+        analytics: [
+          {
+            analyticName: `interactions`,
+            uniqueKey: profileId,
+            urlSlug,
+            profileId,
+          },
+        ],
+      }
+    );
 
     const hasEmoteUnlocked = await grantExpression({
+      req,
       visitor,
       pet,
       newExperience: updatedPet.experience,
     });
 
-    await respawnPet({ req, pet, newExperience: updatedPet.experience });
+    await levelUpHandler({
+      req,
+      pet,
+      newExperience: updatedPet.experience,
+      visitor,
+      credentials,
+    });
 
     return res.json({
       pet: updatedPet,
@@ -126,22 +165,45 @@ async function performAction({ req, res, visitor, pet, actionKey, now }) {
   };
 }
 
-async function grantExpression({ visitor, pet, newExperience }) {
+async function grantExpression({ req, visitor, pet, newExperience }) {
+  const { profileId } = req?.query;
+
   let hasEmoteUnlocked = false;
   if (
     newExperience >= level[5] &&
     (!pet.experience || pet.experience < level[5])
   ) {
+    const expressionName = `pet_${pet?.petType}`;
     const grantExpressionResponse = await visitor.grantExpression({
-      name: `pet_${pet?.petType}`,
+      name: expressionName,
     });
+
+    await visitor.triggerParticle({
+      name: "firework2_purple",
+      duration: 7,
+    });
+
+    visitor
+      .updateDataObject(
+        {},
+        {
+          analytics: [
+            {
+              analyticName: `${expressionName}-emoteUnlocked`,
+              uniqueKey: profileId,
+            },
+          ],
+        }
+      )
+      .then()
+      .catch(() => console.error("Error analytics when granting expressions"));
 
     let title = "🔎 New Emote Unlocked";
     let text = "🌟 Congratulations! You just unlocked a new emote!";
     hasEmoteUnlocked = true;
 
     if (grantExpressionResponse.data?.statusCode === 409) {
-      title = `Congratulations! You've leveled up!`;
+      title = `🌟 Congratulations! You've leveled up!`;
       text =
         "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
       hasEmoteUnlocked = false;
@@ -156,13 +218,96 @@ async function grantExpression({ visitor, pet, newExperience }) {
   return hasEmoteUnlocked;
 }
 
-async function respawnPet({ req, pet, newExperience }) {
-  if (
-    (newExperience >= level[3] &&
-      (!pet.experience || pet.experience < level[3])) ||
-    (newExperience >= level[8] &&
-      (!pet.experience || pet.experience < level[8]))
-  ) {
-    await handleSpawnPet(req);
+async function levelUpHandler({ req, pet, newExperience, visitor }) {
+  const { profileId } = req?.query;
+
+  const levelsThatEvolvesPet = [3, 8];
+
+  for (const levelThatEvolvesPet of levelsThatEvolvesPet) {
+    if (
+      newExperience >= level[levelThatEvolvesPet] &&
+      (!pet.experience || pet.experience < level[levelThatEvolvesPet])
+    ) {
+      await handleSpawnPet(req);
+
+      visitor
+        .triggerParticle({
+          name: "firework1_red",
+          duration: 7,
+        })
+        .then()
+        .catch((error) => {
+          console.error(error);
+        });
+
+      // visitor
+      //   .updateDataObject(
+      //     {},
+      //     {
+      //       analytics: [
+      //         {
+      //           analyticName: `level${levelThatEvolvesPet + 2}Reached`,
+      //           uniqueKey: profileId,
+      //         },
+      //       ],
+      //     }
+      //   )
+      //   .then()
+      //   .catch(() =>
+      //     console.error("Error sending level up data for analytics")
+      //   );
+    }
+  }
+}
+
+async function executeParticleEffect({
+  visitor,
+  parentAssetId,
+  assetId,
+  urlSlug,
+  credentials,
+  actionKey,
+  option,
+}) {
+  const world = World.create(urlSlug, { credentials });
+  let particleEffect = ACTION_PARTICLE_EFFECTS[actionKey];
+  let duration = 3;
+
+  if (option == "leveledUp") {
+    particleEffect = "firework1_red";
+    duration = 7;
+  } else if (option == "grantExpression") {
+    particleEffect = "firework2_purple";
+    duration = 7;
+  }
+
+  if (parentAssetId && parentAssetId != "null") {
+    const droppedAsset = await DroppedAsset.get(assetId, urlSlug, {
+      credentials,
+    });
+
+    await world.triggerParticle({
+      name: particleEffect,
+      duration,
+      position: {
+        x: droppedAsset?.position?.x,
+        y: droppedAsset?.position?.y,
+      },
+    });
+  } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
+    await visitor.fetchDataObject();
+    const droppedAsset = await DroppedAsset.get(
+      visitor?.dataObject?.pet?.petSpawnedDroppedAssetId,
+      urlSlug,
+      { credentials }
+    );
+    await world.triggerParticle({
+      name: particleEffect,
+      duration,
+      position: {
+        x: droppedAsset?.position?.x,
+        y: droppedAsset?.position?.y,
+      },
+    });
   }
 }

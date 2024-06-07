@@ -11,6 +11,7 @@ export const update = async (req, res) => {
       interactiveNonce,
       urlSlug,
       visitorId,
+      profileId,
     } = req.query;
 
     const { name, color } = req?.body;
@@ -82,7 +83,18 @@ export const update = async (req, res) => {
     pet.name = name;
     pet.color = color;
 
-    await visitor.updateDataObject({ pet });
+    await visitor.updateDataObject(
+      { pet },
+      {
+        analytics: [
+          {
+            analyticName: `updates`,
+            uniqueKey: profileId,
+            profileId,
+          },
+        ],
+      }
+    );
 
     await handleSpawnPet(req);
 
