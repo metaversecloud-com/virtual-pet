@@ -51,6 +51,15 @@ app.get("/api/system/health", (req, res) => {
       IS_LOCALHOST: process.env.IS_LOCALHOST
         ? process.env.IS_LOCALHOST
         : "NOT SET",
+      GOOGLESHEETS_CLIENT_EMAIL: process.env.GOOGLESHEETS_CLIENT_EMAIL
+        ? "SET"
+        : "NOT SET",
+      GOOGLESHEETS_SHEET_ID: process.env.GOOGLESHEETS_SHEET_ID
+        ? "SET"
+        : "NOT SET",
+      GOOGLESHEETS_PRIVATE_KEY: process.env.GOOGLESHEETS_PRIVATE_KEY
+        ? "SET"
+        : "NOT SET",
     },
   });
 });
