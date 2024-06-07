@@ -68,22 +68,24 @@ export const get = async (req, res) => {
       credentials
     );
 
-    visitor
-      .updateDataObject(
-        {},
-        {
-          analytics: [
-            {
-              analyticName: `interactions`,
-              uniqueKey: profileId,
-              urlSlug,
-              profileId,
-            },
-          ],
-        }
-      )
-      .then()
-      .catch(() => console.error("Error sending interactions analytics"));
+    if (profileId && urlSlug) {
+      visitor
+        .updateDataObject(
+          {},
+          {
+            analytics: [
+              {
+                analyticName: `interactions`,
+                uniqueKey: profileId,
+                urlSlug,
+                profileId,
+              },
+            ],
+          }
+        )
+        .then()
+        .catch(() => console.error("Error sending interactions analytics"));
+    }
 
     return res.json({
       pet: visitor?.dataObject?.pet,
