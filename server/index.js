@@ -10,6 +10,8 @@ dotenv.config();
 
 import { fileURLToPath } from "url";
 
+const SERVER_START_DATE = new Date();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -32,8 +34,12 @@ app.get("/api/system/health", (req, res) => {
     status: "OK",
     envs: {
       test: "v1",
-      DEPLOY_DATE: new Date(),
+      DEPLOYMENT_DATE: SERVER_START_DATE,
       NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : "NOT SET",
+      COMMIT_HASH: process.env.COMMIT_HASH
+        ? process.env.COMMIT_HASH
+        : "NOT SET",
+      SHOWCASE_WORLDS_URLS: ["https://topia.io/virtual-pet-prod"],
       INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN
         ? process.env.INSTANCE_DOMAIN
         : "NOT SET",
@@ -44,9 +50,6 @@ app.get("/api/system/health", (req, res) => {
       S3_BUCKET: process.env.S3_BUCKET ? process.env.S3_BUCKET : "NOT SET",
       IS_LOCALHOST: process.env.IS_LOCALHOST
         ? process.env.IS_LOCALHOST
-        : "NOT SET",
-      COMMIT_HASH: process.env.COMMIT_HASH
-        ? process.env.COMMIT_HASH
         : "NOT SET",
     },
   });

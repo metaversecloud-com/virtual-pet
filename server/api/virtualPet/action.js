@@ -227,22 +227,22 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
           console.error(error);
         });
 
-      visitor
-        .updateDataObject(
-          {},
-          {
-            analytics: [
-              {
-                analyticName: `level${level + 2}Reached`,
-                uniqueKey: profileId,
-              },
-            ],
-          }
-        )
-        .then()
-        .catch(() =>
-          console.error("Error sending level up data for analytics")
-        );
+      // visitor
+      //   .updateDataObject(
+      //     {},
+      //     {
+      //       analytics: [
+      //         {
+      //           analyticName: `level${levelThatEvolvesPet + 2}Reached`,
+      //           uniqueKey: profileId,
+      //         },
+      //       ],
+      //     }
+      //   )
+      //   .then()
+      //   .catch(() =>
+      //     console.error("Error sending level up data for analytics")
+      //   );
     }
   }
 }
