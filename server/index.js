@@ -31,6 +31,7 @@ app.get("/api/system/health", (req, res) => {
     appVersion,
     status: "OK",
     envs: {
+      test: "v1",
       DEPLOY_DATE: new Date(),
       NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : "NOT SET",
       INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN
