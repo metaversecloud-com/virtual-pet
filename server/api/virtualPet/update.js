@@ -88,7 +88,7 @@ export const update = async (req, res) => {
       {
         analytics: [
           {
-            analyticName: `nameOrColorUpdated`,
+            analyticName: `updates`,
             uniqueKey: profileId,
             profileId,
           },

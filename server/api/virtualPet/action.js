@@ -93,7 +93,19 @@ export const action = async (req, res) => {
       .then()
       .catch((error) => console.error(error));
 
-    await visitor.updateDataObject({ [`pet`]: updatedPet });
+    await visitor.updateDataObject(
+      { [`pet`]: updatedPet },
+      {
+        analytics: [
+          {
+            analyticName: `interactions`,
+            uniqueKey: profileId,
+            urlSlug,
+            profileId,
+          },
+        ],
+      }
+    );
 
     const hasEmoteUnlocked = await grantExpression({
       req,
