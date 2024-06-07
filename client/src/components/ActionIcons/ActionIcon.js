@@ -6,10 +6,16 @@ import Play from "../../assets/actionIcons/play.svg";
 import Utensils from "../../assets/actionIcons/utensils.svg";
 
 const ACTION_COOLDOWNS = {
-  PLAY: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 15,
-  SLEEP: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 45,
-  FEED: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 60 * 1,
-  TRAIN: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 30,
+  FEED:
+    process.env.IS_LOCALHOST || process.env.REACT_APP_LOCALHOST
+      ? 500
+      : 1000 * 60 * 60 * 1,
+  SLEEP:
+    process.env.IS_LOCALHOST || process.env.REACT_APP_LOCALHOST
+      ? 500
+      : 1000 * 60 * 45,
+  PLAY: 1000 * 60 * 15,
+  TRAIN: 1000 * 60 * 30,
 };
 
 const icons = {

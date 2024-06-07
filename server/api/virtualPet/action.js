@@ -22,6 +22,13 @@ const ACTION_EXPERIENCE_GAIN = {
   TRAIN: 10,
 };
 
+const ACTION_PARTICLE_EFFECTS = {
+  SLEEP: "Snow",
+  PLAY: "Snow",
+  FEED: "Snow",
+  TRAIN: "Snow",
+};
+
 export const action = async (req, res) => {
   try {
     const {
@@ -75,27 +82,32 @@ export const action = async (req, res) => {
 
     updatedPet.isPetInWorld = await isPetInWorld(urlSlug, visitor, credentials);
 
-    await executeParticleEffect({
+    executeParticleEffect({
       visitor,
       parentAssetId,
       assetId,
       urlSlug,
       credentials,
-    });
+      actionKey: action,
+    })
+      .then()
+      .catch((error) => console.error(error));
 
-    await visitor.updateDataObject({ pet: updatedPet });
+    await visitor.updateDataObject({ [`pet`]: updatedPet });
 
     const hasEmoteUnlocked = await grantExpression({
+      req,
       visitor,
       pet,
       newExperience: updatedPet.experience,
     });
 
-    await respawnPet({
+    await levelUpHandler({
       req,
       pet,
       newExperience: updatedPet.experience,
       visitor,
+      credentials,
     });
 
     return res.json({
@@ -140,7 +152,9 @@ async function performAction({ req, res, visitor, pet, actionKey, now }) {
   };
 }
 
-async function grantExpression({ visitor, pet, newExperience }) {
+async function grantExpression({ req, visitor, pet, newExperience }) {
+  const { profileId } = req?.query;
+
   let hasEmoteUnlocked = false;
   if (
     newExperience >= level[5] &&
@@ -149,6 +163,11 @@ async function grantExpression({ visitor, pet, newExperience }) {
     const expressionName = `pet_${pet?.petType}`;
     const grantExpressionResponse = await visitor.grantExpression({
       name: expressionName,
+    });
+
+    await visitor.triggerParticle({
+      name: "firework2_purple",
+      duration: 7,
     });
 
     visitor
@@ -171,7 +190,7 @@ async function grantExpression({ visitor, pet, newExperience }) {
     hasEmoteUnlocked = true;
 
     if (grantExpressionResponse.data?.statusCode === 409) {
-      title = `Congratulations! You've leveled up!`;
+      title = `🌟 Congratulations! You've leveled up!`;
       text =
         "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
       hasEmoteUnlocked = false;
@@ -186,12 +205,28 @@ async function grantExpression({ visitor, pet, newExperience }) {
   return hasEmoteUnlocked;
 }
 
-async function respawnPet({ req, pet, newExperience, visitor }) {
-  const levels = [3, 8];
+async function levelUpHandler({ req, pet, newExperience, visitor }) {
+  const { profileId } = req?.query;
 
-  for (const level of levels) {
-    if (newExperience >= level && (!pet.experience || pet.experience < level)) {
+  const levelsThatEvolvesPet = [3, 8];
+
+  for (const levelThatEvolvesPet of levelsThatEvolvesPet) {
+    if (
+      newExperience >= level[levelThatEvolvesPet] &&
+      (!pet.experience || pet.experience < level[levelThatEvolvesPet])
+    ) {
       await handleSpawnPet(req);
+
+      visitor
+        .triggerParticle({
+          name: "firework1_red",
+          duration: 7,
+        })
+        .then()
+        .catch((error) => {
+          console.error(error);
+        });
+
       visitor
         .updateDataObject(
           {},
@@ -218,30 +253,44 @@ async function executeParticleEffect({
   assetId,
   urlSlug,
   credentials,
+  actionKey,
+  option,
 }) {
   const world = World.create(urlSlug, { credentials });
+  let particleEffect = ACTION_PARTICLE_EFFECTS[actionKey];
+  let duration = 3;
+
+  if (option == "leveledUp") {
+    particleEffect = "firework1_red";
+    duration = 7;
+  } else if (option == "grantExpression") {
+    particleEffect = "firework2_purple";
+    duration = 7;
+  }
+
   if (parentAssetId && parentAssetId != "null") {
     const droppedAsset = await DroppedAsset.get(assetId, urlSlug, {
       credentials,
     });
 
     await world.triggerParticle({
-      name: process.env.PARTICLE_EFFECT_NAME_FOR_PET_ACTION || "Snow",
-      duration: 3,
+      name: particleEffect,
+      duration,
       position: {
         x: droppedAsset?.position?.x,
         y: droppedAsset?.position?.y,
       },
     });
-  } else if (visitor?.dataObject?.petSpawnedDroppedAssetId) {
+  } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
+    await visitor.fetchDataObject();
     const droppedAsset = await DroppedAsset.get(
-      visitor?.dataObject?.petSpawnedDroppedAssetId,
+      visitor?.dataObject?.pet?.petSpawnedDroppedAssetId,
       urlSlug,
       { credentials }
     );
     await world.triggerParticle({
-      name: process.env.PARTICLE_EFFECT_NAME_FOR_PET_ACTION || "Snow",
-      duration: 3,
+      name: particleEffect,
+      duration,
       position: {
         x: droppedAsset?.position?.x,
         y: droppedAsset?.position?.y,

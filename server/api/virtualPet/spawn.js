@@ -67,7 +67,13 @@ export async function handleSpawnPet(req) {
   const pet = visitor?.dataObject?.pet;
 
   await removeAllUserPets(urlSlug, visitor, credentials);
-  await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId);
+  return await dropImageAsset(
+    urlSlug,
+    credentials,
+    visitor,
+    pet,
+    parentAssetId
+  );
 }
 
 /*
@@ -135,7 +141,7 @@ async function dropImageAsset(
       isOpenLinkInDrawer: true,
     }),
     visitor.updateDataObject({
-      petSpawnedDroppedAssetId: petSpawnedDroppedAsset?.id,
+      [`pet.petSpawnedDroppedAssetId`]: petSpawnedDroppedAsset?.id,
     }),
   ]);
 
