@@ -38,6 +38,7 @@ export const action = async (req, res) => {
       urlSlug,
       visitorId,
       parentAssetId,
+      profileId,
     } = req?.query;
 
     const { action } = req?.body;
