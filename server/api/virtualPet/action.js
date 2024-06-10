@@ -178,31 +178,37 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
       name: expressionName,
     });
 
-    await visitor.triggerParticle({
-      name: "firework2_purple",
-      duration: 7,
-    });
-
-    visitor
-      .updateDataObject(
-        {},
-        {
-          analytics: [
-            {
-              analyticName: `${expressionName}-emoteUnlocked`,
-              uniqueKey: profileId,
-            },
-          ],
-        }
-      )
-      .then()
-      .catch(() => console.error("Error analytics when granting expressions"));
-
     let title = "🔎 New Emote Unlocked";
     let text = "🌟 Congratulations! You just unlocked a new emote!";
     hasEmoteUnlocked = true;
 
-    if (grantExpressionResponse.data?.statusCode === 409) {
+    if (grantExpressionResponse.status === 200) {
+      title = `🌟 Congratulations! You've leveled up!`;
+      text =
+        "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
+      hasEmoteUnlocked = false;
+      await visitor.triggerParticle({
+        name: "firework2_purple",
+        duration: 7,
+      });
+
+      visitor
+        .updateDataObject(
+          {},
+          {
+            analytics: [
+              {
+                analyticName: `${expressionName}-emoteUnlocked`,
+                uniqueKey: profileId,
+              },
+            ],
+          }
+        )
+        .then()
+        .catch(() =>
+          console.error("Error analytics when granting expressions")
+        );
+    } else {
       title = `🌟 Congratulations! You've leveled up!`;
       text =
         "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
