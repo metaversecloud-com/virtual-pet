@@ -131,13 +131,16 @@ async function dropImageAsset(
     await visitor?.closeIframe(credentials?.assetId);
   }
 
+  const fixedDisplayName = encodeURIComponent(displayName);
+  const clickableLink = `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}&displayName=${fixedDisplayName}`;
+
   await Promise.all([
     petSpawnedDroppedAsset?.updateDataObject({
       profileId: visitor?.profileId,
     }),
     petSpawnedDroppedAsset?.updateClickType({
       clickType: "link",
-      clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}&displayName=${displayName}`,
+      clickableLink,
       clickableLinkTitle: "Virtual Pet",
       clickableDisplayTextDescription: "Play with your Virtual Pet",
       clickableDisplayTextHeadline: "Virtual Pet",
