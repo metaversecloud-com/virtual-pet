@@ -18,8 +18,8 @@ const ACTION_COOLDOWNS = {
   TRAIN: 1000 * 60 * 30,
 };
 
-console.log("IS_LOCALHOST", IS_LOCALHOST);
-console.log("ACTION_COOLDOWNS", ACTION_COOLDOWNS);
+console.log("IS_LOCALHOST", process.env.IS_LOCALHOST);
+console.log("ACTION_COOLDOWNS", process.env.ACTION_COOLDOWNS);
 
 const icons = {
   SLEEP: Bed,

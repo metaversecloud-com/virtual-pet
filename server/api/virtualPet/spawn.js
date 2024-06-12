@@ -38,6 +38,7 @@ export async function handleSpawnPet(req) {
     interactiveNonce,
     urlSlug,
     visitorId,
+    displayName,
   } = req.query;
 
   const protocol = process.env.INSTANCE_PROTOCOL;
@@ -72,7 +73,8 @@ export async function handleSpawnPet(req) {
     credentials,
     visitor,
     pet,
-    parentAssetId
+    parentAssetId,
+    displayName
   );
 }
 
@@ -87,7 +89,8 @@ async function dropImageAsset(
   credentials,
   visitor,
   pet,
-  parentAssetId
+  parentAssetId,
+  displayName
 ) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
@@ -134,7 +137,7 @@ async function dropImageAsset(
     }),
     petSpawnedDroppedAsset?.updateClickType({
       clickType: "link",
-      clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}`,
+      clickableLink: `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}&displayName=${displayName}`,
       clickableLinkTitle: "Virtual Pet",
       clickableDisplayTextDescription: "Play with your Virtual Pet",
       clickableDisplayTextHeadline: "Virtual Pet",
