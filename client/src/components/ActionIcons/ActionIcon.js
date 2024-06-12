@@ -5,21 +5,15 @@ import PersonRunning from "../../assets/actionIcons/person-running.svg";
 import Play from "../../assets/actionIcons/play.svg";
 import Utensils from "../../assets/actionIcons/utensils.svg";
 
+const queryParameters = new URLSearchParams(window.location.search);
+const isCheatCodeOn = queryParameters.get("isCheatCodeOn");
+
 const ACTION_COOLDOWNS = {
-  FEED:
-    process.env.IS_LOCALHOST || process.env.REACT_APP_LOCALHOST
-      ? 500
-      : 1000 * 60 * 60 * 1,
-  SLEEP:
-    process.env.IS_LOCALHOST || process.env.REACT_APP_LOCALHOST
-      ? 500
-      : 1000 * 60 * 45,
+  FEED: isCheatCodeOn ? 500 : 1000 * 60 * 60 * 1,
+  SLEEP: 1000 * 60 * 45,
   PLAY: 1000 * 60 * 15,
   TRAIN: 1000 * 60 * 30,
 };
-
-console.log("IS_LOCALHOST", process.env.IS_LOCALHOST);
-console.log("ACTION_COOLDOWNS", process.env.ACTION_COOLDOWNS);
 
 const icons = {
   SLEEP: Bed,
