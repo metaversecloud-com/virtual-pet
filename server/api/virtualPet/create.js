@@ -31,7 +31,7 @@ export const create = async (req, res) => {
     }
 
     let formattedDisplayName = displayName;
-    if (!displayName || identityId === "null") {
+    if (!displayName || displayName === "null") {
     }
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
