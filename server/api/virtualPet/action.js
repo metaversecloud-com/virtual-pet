@@ -66,9 +66,6 @@ export const action = async (req, res) => {
     let updatedPet;
 
     updatedPet = await performAction({
-      req,
-      res,
-      visitor,
       pet,
       actionKey: action,
       now: currentTime,
@@ -139,7 +136,7 @@ export const action = async (req, res) => {
   }
 };
 
-async function performAction({ req, res, visitor, pet, actionKey, now }) {
+async function performAction({ pet, actionKey, now }) {
   const cooldown = ACTION_COOLDOWNS[actionKey];
   const experienceGain = ACTION_EXPERIENCE_GAIN[actionKey];
 
@@ -187,10 +184,13 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
       text =
         "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
       hasEmoteUnlocked = false;
-      await visitor.triggerParticle({
-        name: "firework2_purple",
-        duration: 7,
-      });
+      visitor
+        .triggerParticle({
+          name: "firework2_purple",
+          duration: 7,
+        })
+        .then()
+        .catch();
 
       visitor
         .updateDataObject(
@@ -215,18 +215,19 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
       hasEmoteUnlocked = false;
     }
 
-    await visitor.fireToast({
-      groupId: "VirtualPetExpression",
-      title,
-      text,
-    });
+    visitor
+      .fireToast({
+        groupId: "VirtualPetExpression",
+        title,
+        text,
+      })
+      .then()
+      .catch();
   }
   return hasEmoteUnlocked;
 }
 
 async function levelUpHandler({ req, pet, newExperience, visitor }) {
-  const { profileId } = req?.query;
-
   const levelsThatEvolvesPet = [3, 8];
 
   for (const levelThatEvolvesPet of levelsThatEvolvesPet) {
@@ -242,26 +243,7 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
           duration: 7,
         })
         .then()
-        .catch((error) => {
-          console.error(error);
-        });
-
-      // visitor
-      //   .updateDataObject(
-      //     {},
-      //     {
-      //       analytics: [
-      //         {
-      //           analyticName: `level${levelThatEvolvesPet + 2}Reached`,
-      //           uniqueKey: profileId,
-      //         },
-      //       ],
-      //     }
-      //   )
-      //   .then()
-      //   .catch(() =>
-      //     console.error("Error sending level up data for analytics")
-      //   );
+        .catch();
     }
   }
 }
@@ -292,14 +274,17 @@ async function executeParticleEffect({
       credentials,
     });
 
-    await world.triggerParticle({
-      name: particleEffect,
-      duration,
-      position: {
-        x: droppedAsset?.position?.x,
-        y: droppedAsset?.position?.y,
-      },
-    });
+    world
+      .triggerParticle({
+        name: particleEffect,
+        duration,
+        position: {
+          x: droppedAsset?.position?.x,
+          y: droppedAsset?.position?.y,
+        },
+      })
+      .then()
+      .catch();
   } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
     await visitor.fetchDataObject();
     const droppedAsset = await DroppedAsset.get(
@@ -307,13 +292,16 @@ async function executeParticleEffect({
       urlSlug,
       { credentials }
     );
-    await world.triggerParticle({
-      name: particleEffect,
-      duration,
-      position: {
-        x: droppedAsset?.position?.x,
-        y: droppedAsset?.position?.y,
-      },
-    });
+    world
+      .triggerParticle({
+        name: particleEffect,
+        duration,
+        position: {
+          x: droppedAsset?.position?.x,
+          y: droppedAsset?.position?.y,
+        },
+      })
+      .then()
+      .catch();
   }
 }

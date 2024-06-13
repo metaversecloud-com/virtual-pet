@@ -51,6 +51,9 @@ app.get("/api/system/health", (req, res) => {
       IS_LOCALHOST: process.env.IS_LOCALHOST
         ? process.env.IS_LOCALHOST
         : "NOT SET",
+      REACT_APP_LOCALHOST: process.env.REACT_APP_LOCALHOST
+        ? process.env.REACT_APP_LOCALHOST
+        : "NOT SET",
       GOOGLESHEETS_CLIENT_EMAIL: process.env.GOOGLESHEETS_CLIENT_EMAIL
         ? "SET"
         : "NOT SET",
