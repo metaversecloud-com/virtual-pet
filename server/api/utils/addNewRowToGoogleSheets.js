@@ -15,16 +15,17 @@ const sheetsClient = sheets?.sheets({ version: "v4", auth });
 /**
  * @summary
  * Insert a new row into a spreadsheet.
- * Currently this is being used for Stride SpreadSheet in:
- * https://docs.google.com/spreadsheets/d/1BDUgJ1WJufqXlFqyfBO-vpDx0IfRk2VauMNZzLYohRU/edit#gid=0
+ * Currently this is being used for SpreadSheet in:
+ * https://docs.google.com/spreadsheets/d/{SHEET_ID_EXAMPLE}/edit#gid=0
  *
  * @usage
  * ```js
  *   addNewRowToGoogleSheets({
  *         identityId: req?.query?.identityId,
  *         displayName: req?.query?.displayName,
- *         appName: "Virtual Pet",
- *         event: "starts",
+ *         appName: "App Name Example",
+ *         event: "starts example event name",
+ *         urlSlug
  *       })
  *         .then()
  *         .catch();
@@ -51,8 +52,8 @@ export const addNewRowToGoogleSheets = async ({
     const dataRowToBeInsertedInGoogleSheets = [
       formattedDate,
       formattedTime,
-      identityId,
-      displayName || username,
+      sanitizeString(identityId),
+      sanitizeString(displayName) || username,
       appName,
       event,
       urlSlug,
@@ -71,3 +72,7 @@ export const addNewRowToGoogleSheets = async ({
     console.error(JSON.stringify(error));
   }
 };
+
+function sanitizeString(input) {
+  return input && input !== "null" ? input : "";
+}
