@@ -25,16 +25,6 @@ export const create = async (req, res) => {
 
     const { petType, name } = req.body;
 
-    let formattedIdentityId = identityId;
-    if (!identityId || identityId === "null") {
-      formattedIdentityId = "";
-    }
-
-    let formattedDisplayName = displayName;
-    if (!displayName || displayName === "null") {
-      formattedDisplayName = "";
-    }
-
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
     let pet;
@@ -52,8 +42,8 @@ export const create = async (req, res) => {
       );
 
       addNewRowToGoogleSheets({
-        identityId: formattedIdentityId,
-        displayName: formattedDisplayName,
+        identityId,
+        displayName,
         appName: "Virtual Pet",
         event: "starts",
         urlSlug,
