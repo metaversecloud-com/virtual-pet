@@ -32,6 +32,7 @@ export const create = async (req, res) => {
 
     let formattedDisplayName = displayName;
     if (!displayName || displayName === "null") {
+      formattedDisplayName = "";
     }
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
