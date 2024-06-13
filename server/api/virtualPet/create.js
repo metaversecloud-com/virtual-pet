@@ -55,6 +55,7 @@ export const create = async (req, res) => {
         displayName: formattedDisplayName,
         appName: "Virtual Pet",
         event: "starts",
+        urlSlug,
       })
         .then()
         .catch();
