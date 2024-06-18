@@ -34,7 +34,7 @@
     "start": "source commit_info.txt; npm start -w server"
   },
   "type": "module",
-  "version": "1.5.7",
+  "version": "1.5.5",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
