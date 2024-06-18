@@ -190,7 +190,7 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
           duration: 7,
         })
         .then()
-        .catch();
+        .catch((error) => JSON.stringify(error));
 
       visitor
         .updateDataObject(
@@ -243,7 +243,7 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
           duration: 7,
         })
         .then()
-        .catch();
+        .catch((error) => JSON.stringify(error));
     }
   }
 }
@@ -284,7 +284,7 @@ async function executeParticleEffect({
         },
       })
       .then()
-      .catch();
+      .catch((error) => JSON.stringify(error));
   } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
     await visitor.fetchDataObject();
     const droppedAsset = await DroppedAsset.get(
@@ -302,6 +302,6 @@ async function executeParticleEffect({
         },
       })
       .then()
-      .catch();
+      .catch((error) => JSON.stringify(error));
   }
 }
