@@ -154,7 +154,7 @@ async function dropImageAsset(
   return petSpawnedDroppedAsset;
 }
 
-function getPetImgUrl(petType, level, color) {
+function getPetImgUrl(petType, level, color = 0) {
   let petImgUrlLayer0 = "";
   let petImgUrlLayer1 = "";
   let petAge = "";
