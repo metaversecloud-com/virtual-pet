@@ -32,7 +32,7 @@ app.get("/api/system/health", (req, res) => {
   return res.json({
     appVersion,
     status: "OK",
-    deploymentDate: SERVER_START_DATE,
+    serverStartDate: SERVER_START_DATE,
     envs: {
       NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : "NOT SET",
       COMMIT_HASH: process.env.COMMIT_HASH ? process.env.COMMIT_HASH : "NOT SET",
