@@ -1,9 +1,5 @@
 import { Visitor, World, DroppedAsset } from "../topiaInit.js";
-import {
-  isPetInWorld,
-  canPerformAction,
-  getVisitorWithDataObject,
-} from "./utils.js";
+import { isPetInWorld, canPerformAction, getVisitorWithDataObject } from "./utils.js";
 import { logger } from "../../logs/logger.js";
 import { level } from "./utils.js";
 import { handleSpawnPet } from "./spawn.js";
@@ -23,23 +19,16 @@ const ACTION_EXPERIENCE_GAIN = {
 };
 
 const ACTION_PARTICLE_EFFECTS = {
-  SLEEP: "Snow",
-  PLAY: "Snow",
-  FEED: "Snow",
-  TRAIN: "Snow",
+  SLEEP: "sleep_float",
+  PLAY: "guitar_float",
+  FEED: "redHeart_float",
+  TRAIN: "pawPrint_float",
 };
 
 export const action = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-      parentAssetId,
-      profileId,
-    } = req?.query;
+    const { assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId, parentAssetId, profileId } =
+      req?.query;
 
     const { action } = req?.body;
 
@@ -102,7 +91,7 @@ export const action = async (req, res) => {
             profileId,
           },
         ],
-      }
+      },
     );
 
     const hasEmoteUnlocked = await grantExpression({
@@ -166,10 +155,7 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
   const { profileId } = req?.query;
 
   let hasEmoteUnlocked = false;
-  if (
-    newExperience >= level[5] &&
-    (!pet.experience || pet.experience < level[5])
-  ) {
+  if (newExperience >= level[5] && (!pet.experience || pet.experience < level[5])) {
     const expressionName = `pet_${pet?.petType}`;
     const grantExpressionResponse = await visitor.grantExpression({
       name: expressionName,
@@ -181,12 +167,11 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
 
     if (grantExpressionResponse.status === 200) {
       title = `🌟 Congratulations! You've leveled up!`;
-      text =
-        "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
+      text = "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
       hasEmoteUnlocked = false;
       visitor
         .triggerParticle({
-          name: "firework2_purple",
+          name: "whiteStar_burst",
           duration: 7,
         })
         .then()
@@ -202,16 +187,13 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
                 uniqueKey: profileId,
               },
             ],
-          }
+          },
         )
         .then()
-        .catch(() =>
-          console.error("Error analytics when granting expressions")
-        );
+        .catch(() => console.error("Error analytics when granting expressions"));
     } else {
       title = `🌟 Congratulations! You've leveled up!`;
-      text =
-        "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
+      text = "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
       hasEmoteUnlocked = false;
     }
 
@@ -239,7 +221,7 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
 
       visitor
         .triggerParticle({
-          name: "firework1_red",
+          name: "medal_float",
           duration: 7,
         })
         .then()
@@ -248,24 +230,16 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
   }
 }
 
-async function executeParticleEffect({
-  visitor,
-  parentAssetId,
-  assetId,
-  urlSlug,
-  credentials,
-  actionKey,
-  option,
-}) {
+async function executeParticleEffect({ visitor, parentAssetId, assetId, urlSlug, credentials, actionKey, option }) {
   const world = World.create(urlSlug, { credentials });
   let particleEffect = ACTION_PARTICLE_EFFECTS[actionKey];
   let duration = 3;
 
   if (option == "leveledUp") {
-    particleEffect = "firework1_red";
+    particleEffect = "medal_float";
     duration = 7;
   } else if (option == "grantExpression") {
-    particleEffect = "firework2_purple";
+    particleEffect = "whiteStar_burst";
     duration = 7;
   }
 
@@ -287,11 +261,9 @@ async function executeParticleEffect({
       .catch((error) => JSON.stringify(error));
   } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
     await visitor.fetchDataObject();
-    const droppedAsset = await DroppedAsset.get(
-      visitor?.dataObject?.pet?.petSpawnedDroppedAssetId,
-      urlSlug,
-      { credentials }
-    );
+    const droppedAsset = await DroppedAsset.get(visitor?.dataObject?.pet?.petSpawnedDroppedAssetId, urlSlug, {
+      credentials,
+    });
     world
       .triggerParticle({
         name: particleEffect,

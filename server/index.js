@@ -32,37 +32,20 @@ app.get("/api/system/health", (req, res) => {
   return res.json({
     appVersion,
     status: "OK",
+    serverStartDate: SERVER_START_DATE,
     envs: {
-      test: "v1",
-      DEPLOYMENT_DATE: SERVER_START_DATE,
       NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : "NOT SET",
-      COMMIT_HASH: process.env.COMMIT_HASH
-        ? process.env.COMMIT_HASH
-        : "NOT SET",
+      COMMIT_HASH: process.env.COMMIT_HASH ? process.env.COMMIT_HASH : "NOT SET",
       SHOWCASE_WORLDS_URLS: ["https://topia.io/virtual-pet-prod"],
-      INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN
-        ? process.env.INSTANCE_DOMAIN
-        : "NOT SET",
-      INTERACTIVE_KEY: process.env.INTERACTIVE_KEY
-        ? process.env.INTERACTIVE_KEY
-        : "NOT SET",
+      INSTANCE_DOMAIN: process.env.INSTANCE_DOMAIN ? process.env.INSTANCE_DOMAIN : "NOT SET",
+      INTERACTIVE_KEY: process.env.INTERACTIVE_KEY ? process.env.INTERACTIVE_KEY : "NOT SET",
       INTERACTIVE_SECRET: process.env.INTERACTIVE_SECRET ? "SET" : "NOT SET",
       S3_BUCKET: process.env.S3_BUCKET ? process.env.S3_BUCKET : "NOT SET",
-      IS_LOCALHOST: process.env.IS_LOCALHOST
-        ? process.env.IS_LOCALHOST
-        : "NOT SET",
-      REACT_APP_LOCALHOST: process.env.REACT_APP_LOCALHOST
-        ? process.env.REACT_APP_LOCALHOST
-        : "NOT SET",
-      GOOGLESHEETS_CLIENT_EMAIL: process.env.GOOGLESHEETS_CLIENT_EMAIL
-        ? "SET"
-        : "NOT SET",
-      GOOGLESHEETS_SHEET_ID: process.env.GOOGLESHEETS_SHEET_ID
-        ? "SET"
-        : "NOT SET",
-      GOOGLESHEETS_PRIVATE_KEY: process.env.GOOGLESHEETS_PRIVATE_KEY
-        ? "SET"
-        : "NOT SET",
+      IS_LOCALHOST: process.env.IS_LOCALHOST ? process.env.IS_LOCALHOST : "NOT SET",
+      REACT_APP_LOCALHOST: process.env.REACT_APP_LOCALHOST ? process.env.REACT_APP_LOCALHOST : "NOT SET",
+      GOOGLESHEETS_CLIENT_EMAIL: process.env.GOOGLESHEETS_CLIENT_EMAIL ? "SET" : "NOT SET",
+      GOOGLESHEETS_SHEET_ID: process.env.GOOGLESHEETS_SHEET_ID ? "SET" : "NOT SET",
+      GOOGLESHEETS_PRIVATE_KEY: process.env.GOOGLESHEETS_PRIVATE_KEY ? "SET" : "NOT SET",
     },
   });
 });
