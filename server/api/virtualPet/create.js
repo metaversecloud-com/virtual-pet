@@ -38,7 +38,12 @@ export const create = async (req, res) => {
       };
       await visitor.setDataObject(
         { pet },
-        { analytics: [{ analyticName: `starts`, uniqueKey: profileId }] }
+        {
+          analytics: [
+            { analyticName: `starts`, profileId, uniqueKey: profileId },
+            { analyticName: `starts-${petType}`, profileId, uniqueKey: profileId },
+          ],
+        }
       );
 
       addNewRowToGoogleSheets({

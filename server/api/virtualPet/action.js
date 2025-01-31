@@ -184,7 +184,8 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
             analytics: [
               {
                 analyticName: `${expressionName}-emoteUnlocked`,
-                uniqueKey: profileId,
+                // uniqueKey: profileId,
+                profileId
               },
             ],
           },
