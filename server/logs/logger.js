@@ -16,8 +16,8 @@ export const logger = {
             reqQueryParams: query,
             reqBody: req?.body,
           },
-          error: JSON.stringify(error),
-        })
+          error: JSON.stringify(error, Object.getOwnPropertyNames(error)),
+        }),
       );
     } catch (error) {
       console.error("❌❌❌ Error printing the logs");
