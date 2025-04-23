@@ -1,43 +1,22 @@
 import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
 import { removeAllUserPets } from "./utils.js";
+import { getCredentials } from "../../getCredentials.js";
 
 export const deletePet = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-      profileId,
-    } = req.query;
+    const credentials = getCredentials(req.query);
+    const { urlSlug, visitorId, profileId } = credentials;
 
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
-
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials: {
-        assetId,
-        interactiveNonce,
-        interactivePublicKey,
-        visitorId,
-      },
-    });
+    const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
 
     await removeAllUserPets(urlSlug, visitor, credentials);
 
     await visitor.setDataObject(
       {},
       {
-        analytics: [
-          { analyticName: `trades`, uniqueKey: profileId, profileId },
-        ],
-      }
+        analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId }],
+      },
     );
     await visitor.fetchDataObject();
 

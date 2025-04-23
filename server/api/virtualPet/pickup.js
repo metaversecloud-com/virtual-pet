@@ -1,23 +1,11 @@
-import { Visitor } from "../topiaInit.js";
+import { getCredentials } from "../../getCredentials.js";
 import { logger } from "../../logs/logger.js";
 import { removeAllUserPets, getVisitorWithDataObject } from "./utils.js";
 
 export const pickup = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-    } = req.query;
-
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
+    const credentials = getCredentials(req.query);
+    const { urlSlug } = credentials;
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 

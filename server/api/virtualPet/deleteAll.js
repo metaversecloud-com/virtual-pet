@@ -1,27 +1,14 @@
 import { Visitor, World } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
 import { deleteAllPets } from "./utils.js";
+import { getCredentials } from "../../getCredentials.js";
 
 export const deleteAll = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-    } = req.query;
+    const credentials = getCredentials(req.query);
+    const { urlSlug, visitorId } = credentials;
 
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
-
-    const visitor = await Visitor.get(visitorId, urlSlug, {
-      credentials,
-    });
+    const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
 
     if (!visitor?.isAdmin) {
       return res.status(401).json({
@@ -35,14 +22,9 @@ export const deleteAll = async (req, res) => {
 
     await deleteAllPets({ urlSlug, allPetAssets, credentials });
     visitor
-      .updateDataObject(
-        {},
-        { analytics: [{ analyticName: `adminPickupAllPets`, urlSlug }] }
-      )
+      .updateDataObject({}, { analytics: [{ analyticName: `adminPickupAllPets`, urlSlug }] })
       .then()
-      .catch(() =>
-        console.error("Error sending analytics for adminPickupAllPets")
-      );
+      .catch(() => console.error("Error sending analytics for adminPickupAllPets"));
 
     return res.json({ success: true });
   } catch (error) {
@@ -66,9 +48,7 @@ async function getAllPetAssets(world) {
   });
   arr = Array.from(arr);
 
-  const petAsset = arr?.filter(
-    (item) => item.uniqueName && item.uniqueName?.includes(`petSystem-`)
-  );
+  const petAsset = arr?.filter((item) => item.uniqueName && item.uniqueName?.includes(`petSystem-`));
 
   return petAsset;
 }

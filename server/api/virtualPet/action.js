@@ -1,8 +1,9 @@
-import { Visitor, World, DroppedAsset } from "../topiaInit.js";
+import { World, DroppedAsset } from "../topiaInit.js";
 import { isPetInWorld, canPerformAction, getVisitorWithDataObject } from "./utils.js";
 import { logger } from "../../logs/logger.js";
 import { level } from "./utils.js";
 import { handleSpawnPet } from "./spawn.js";
+import { getCredentials } from "../../getCredentials.js";
 
 const ACTION_COOLDOWNS = {
   PLAY: process.env.IS_LOCALHOST ? 500 : 1000 * 60 * 15,
@@ -27,17 +28,10 @@ const ACTION_PARTICLE_EFFECTS = {
 
 export const action = async (req, res) => {
   try {
-    const { assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId, parentAssetId, profileId } =
-      req?.query;
-
     const { action } = req?.body;
 
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
+    const credentials = getCredentials(req.query);
+    const { assetId, urlSlug, parentAssetId, profileId } = credentials;
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
@@ -161,14 +155,12 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
       name: expressionName,
     });
 
-    let title = "🔎 New Emote Unlocked";
-    let text = "🌟 Congratulations! You just unlocked a new emote!";
-    hasEmoteUnlocked = true;
+    let title, text;
 
     if (grantExpressionResponse.status === 200) {
-      title = `🌟 Congratulations! You've leveled up!`;
-      text = "You've already collected this reward. Trade in your pet to start over and collect a new emote!";
-      hasEmoteUnlocked = false;
+      title = "🔎 New Emote Unlocked";
+      text = "🌟 Congratulations! You just unlocked a new emote!";
+      hasEmoteUnlocked = true;
       visitor
         .triggerParticle({
           name: "whiteStar_burst",
@@ -185,7 +177,7 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
               {
                 analyticName: `${expressionName}-emoteUnlocked`,
                 // uniqueKey: profileId,
-                profileId
+                profileId,
               },
             ],
           },
@@ -245,9 +237,7 @@ async function executeParticleEffect({ visitor, parentAssetId, assetId, urlSlug,
   }
 
   if (parentAssetId && parentAssetId != "null") {
-    const droppedAsset = await DroppedAsset.get(assetId, urlSlug, {
-      credentials,
-    });
+    const droppedAsset = await DroppedAsset.get(assetId, urlSlug, { credentials });
 
     world
       .triggerParticle({

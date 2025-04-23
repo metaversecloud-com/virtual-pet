@@ -1,27 +1,12 @@
-import { Visitor } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
 import { getVisitorWithDataObject } from "./utils.js";
 import { addNewRowToGoogleSheets } from "../utils/addNewRowToGoogleSheets.js";
+import { getCredentials } from "../../getCredentials.js";
 
 export const create = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-      profileId,
-      identityId,
-      displayName,
-    } = req.query;
-
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
+    const credentials = getCredentials(req.query);
+    const { urlSlug, profileId, identityId, displayName } = credentials;
 
     const { petType, name } = req.body;
 
@@ -43,7 +28,7 @@ export const create = async (req, res) => {
             { analyticName: `starts`, profileId, uniqueKey: profileId },
             { analyticName: `starts-${petType}`, profileId, uniqueKey: profileId },
           ],
-        }
+        },
       );
 
       addNewRowToGoogleSheets({
