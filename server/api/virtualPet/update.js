@@ -80,7 +80,7 @@ export const update = async (req, res) => {
   } catch (error) {
     logger.error({
       error,
-      message: "❌ Error while getting the pet",
+      message: "❌ Error while updating the pet",
       functionName: "get",
       req,
     });

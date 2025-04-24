@@ -1,4 +1,4 @@
-import { DroppedAsset, Visitor, User, World } from "../topiaInit.js";
+import { DroppedAsset, Visitor, User } from "../topiaInit.js";
 import { isPetInWorld } from "./utils.js";
 import { logger } from "../../logs/logger.js";
 import { getCredentials } from "../../getCredentials.js";

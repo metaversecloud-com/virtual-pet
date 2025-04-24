@@ -1,6 +1,6 @@
 import { logger } from "./logs/logger.js";
 
-export const getCredentials = () => {
+export const getCredentials = (query) => {
   try {
     const requiredFields = ["interactiveNonce", "interactivePublicKey", "urlSlug", "visitorId"];
     const missingFields = requiredFields.filter((variable) => !query[variable]);
