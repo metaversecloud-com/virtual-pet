@@ -98,7 +98,7 @@ export async function deleteAllPets({ urlSlug, allPetAssets, credentials }) {
   for (const petAsset in allPetAssets) {
     droppedAssetIds.push(allPetAssets[petAsset].id);
   }
-  await World.deleteDroppedAssets(urlSlug, droppedAssetIds, process.env.INTERACTIVE_SECRET, { credentials });
+  await World.deleteDroppedAssets(urlSlug, droppedAssetIds, process.env.INTERACTIVE_SECRET, credentials);
 }
 
 export async function getVisitorWithDataObject({ credentials, urlSlug }) {

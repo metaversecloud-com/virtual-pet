@@ -2,13 +2,7 @@ import { logger } from "../logs/logger.js";
 
 export function validationMiddleware(req, res, next) {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-    } = req?.query;
+    const { assetId, interactivePublicKey, interactiveNonce, urlSlug, visitorId } = req.query;
 
     if (
       !assetId ||

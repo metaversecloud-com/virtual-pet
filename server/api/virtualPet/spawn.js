@@ -31,7 +31,7 @@ export const spawn = async (req, res) => {
 export async function handleSpawnPet(req) {
   const credentials = getCredentials(req.query);
 
-  const protocol = process.env.INSTANCE_PROTOCOL;
+  const protocol = process.env.INSTANCE_PROTOCOL || "https";
   const host = req.host;
 
   const { assetId, urlSlug, displayName } = credentials;
@@ -73,7 +73,7 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId,
   };
   const uniqueName = `petSystem-${username}`;
 
-  const asset = await Asset.create(process.env.IMG_ASSET_ID, { credentials });
+  const asset = await Asset.create(process.env.IMG_ASSET_ID || "webImageAsset", { credentials });
 
   const flipped = Math.random() < 0.5;
 
