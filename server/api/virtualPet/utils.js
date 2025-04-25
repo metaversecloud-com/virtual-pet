@@ -39,8 +39,7 @@ export function getLevel(experience) {
       return {
         currentLevel: i + 1,
         experienceNeededForNextLevel: level[i],
-        experienceNeededForTheLevelYouCurrentlyAchieved:
-          i > 0 ? level[i - 1] : 0,
+        experienceNeededForTheLevelYouCurrentlyAchieved: i > 0 ? level[i - 1] : 0,
       };
     }
   }
@@ -71,11 +70,7 @@ export async function isPetInWorld(urlSlug, visitor, credentials) {
 /**
  * Determines if a pet can perform a certain action based on the time that has passed since the action was last performed (cooldown).
  */
-export function canPerformAction(
-  lastActionTime,
-  currentTime,
-  minTimeBetweenActions
-) {
+export function canPerformAction(lastActionTime, currentTime, minTimeBetweenActions) {
   const timeSinceLastAction = currentTime - lastActionTime;
   return !(lastActionTime && timeSinceLastAction < minTimeBetweenActions);
 }
@@ -103,22 +98,11 @@ export async function deleteAllPets({ urlSlug, allPetAssets, credentials }) {
   for (const petAsset in allPetAssets) {
     droppedAssetIds.push(allPetAssets[petAsset].id);
   }
-  await World.deleteDroppedAssets(
-    urlSlug,
-    droppedAssetIds,
-    process.env.INTERACTIVE_SECRET,
-    {
-      interactiveNonce: credentials.interactiveNonce,
-      interactivePublicKey: credentials.interactivePublicKey,
-      visitorId: credentials.visitorId,
-    }
-  );
+  await World.deleteDroppedAssets(urlSlug, droppedAssetIds, process.env.INTERACTIVE_SECRET, credentials);
 }
 
 export async function getVisitorWithDataObject({ credentials, urlSlug }) {
-  const visitor = Visitor.create(credentials?.visitorId, urlSlug, {
-    credentials,
-  });
+  const visitor = Visitor.create(credentials?.visitorId, urlSlug, { credentials });
 
   await Promise.all([visitor.fetchVisitor(), visitor.fetchDataObject()]);
 

@@ -6,31 +6,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export function checkEnvVariables() {
-  const requiredEnvVariables = [
-    "INSTANCE_DOMAIN",
-    "INSTANCE_PROTOCOL",
-    "INTERACTIVE_KEY",
-    "INTERACTIVE_SECRET",
-  ];
-  const missingVariables = requiredEnvVariables.filter(
-    (variable) => !process.env[variable]
-  );
+  const requiredEnvVariables = ["INSTANCE_DOMAIN", "INTERACTIVE_KEY", "INTERACTIVE_SECRET"];
+  const missingVariables = requiredEnvVariables.filter((variable) => !process.env[variable]);
 
   if (missingVariables.length > 0) {
-    throw new Error(
-      `Missing required environment variables in the .env file: ${missingVariables.join(
-        ", "
-      )}`
-    );
+    throw new Error(`Missing required environment variables in the .env file: ${missingVariables.join(", ")}`);
   }
 }
 
 export function getVersion() {
   try {
-    const packageJsonContent = fs.readFileSync(
-      path.join(__dirname, "../package.json"),
-      "utf8"
-    );
+    const packageJsonContent = fs.readFileSync(path.join(__dirname, "../package.json"), "utf8");
     const packageJson = JSON.parse(packageJsonContent);
     const version = packageJson.version;
     return version;
@@ -40,7 +26,5 @@ export function getVersion() {
 }
 
 export const getS3URL = () => {
-  return `https://${
-    process.env.S3_BUCKET || "sdk-virtual-pet"
-  }.s3.amazonaws.com`;
+  return `https://${process.env.S3_BUCKET || "sdk-virtual-pet"}.s3.amazonaws.com`;
 };

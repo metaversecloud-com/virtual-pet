@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@googleapis/sheets": "^8.0.0",
-    "@rtsdk/topia": "^0.11.8",
+    "@rtsdk/topia": "^0.15.4",
     "axios": "^1.6.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

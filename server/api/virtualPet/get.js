@@ -1,24 +1,12 @@
-import { DroppedAsset, Visitor, User, World } from "../topiaInit.js";
+import { DroppedAsset, Visitor, User } from "../topiaInit.js";
 import { isPetInWorld } from "./utils.js";
 import { logger } from "../../logs/logger.js";
+import { getCredentials } from "../../getCredentials.js";
 
 export const get = async (req, res) => {
   try {
-    const {
-      assetId,
-      interactivePublicKey,
-      interactiveNonce,
-      urlSlug,
-      visitorId,
-      profileId,
-    } = req.query;
-
-    const credentials = {
-      assetId,
-      interactiveNonce,
-      interactivePublicKey,
-      visitorId,
-    };
+    const credentials = getCredentials(req.query);
+    const { assetId, urlSlug, visitorId } = credentials;
 
     const visitor = Visitor.create(visitorId, urlSlug, { credentials });
     const petSpawnedDroppedAsset = DroppedAsset.create(assetId, urlSlug, {
@@ -62,11 +50,7 @@ export const get = async (req, res) => {
       });
     }
 
-    visitor.dataObject.pet.isPetInWorld = await isPetInWorld(
-      urlSlug,
-      visitor,
-      credentials
-    );
+    visitor.dataObject.pet.isPetInWorld = await isPetInWorld(urlSlug, visitor, credentials);
 
     return res.json({
       pet: visitor?.dataObject?.pet,
@@ -81,8 +65,6 @@ export const get = async (req, res) => {
       functionName: "get",
       req,
     });
-    return res
-      .status(500)
-      .send({ requestId: req.id, error: error?.message, success: false });
+    return res.status(500).send({ requestId: req.id, error: error?.message, success: false });
   }
 };

@@ -1,11 +1,8 @@
-import { DroppedAsset, Visitor, Asset, World } from "../topiaInit.js";
+import { DroppedAsset, Asset } from "../topiaInit.js";
 import { logger } from "../../logs/logger.js";
-import {
-  getLevel,
-  removeAllUserPets,
-  getVisitorWithDataObject,
-} from "./utils.js";
+import { getLevel, removeAllUserPets, getVisitorWithDataObject } from "./utils.js";
 import { getS3URL } from "../../utils.js";
+import { getCredentials } from "../../getCredentials.js";
 
 let BASE_URL;
 /**
@@ -32,23 +29,14 @@ export const spawn = async (req, res) => {
 };
 
 export async function handleSpawnPet(req) {
-  const {
-    assetId,
-    interactivePublicKey,
-    interactiveNonce,
-    urlSlug,
-    visitorId,
-    displayName,
-  } = req.query;
+  const credentials = getCredentials(req.query);
 
-  const protocol = process.env.INSTANCE_PROTOCOL;
+  const protocol = process.env.INSTANCE_PROTOCOL || "https";
   const host = req.host;
-  const port = req.port;
 
-  let parentAssetId = req.query.parentAssetId;
-  if (parentAssetId == "null" || !parentAssetId) {
-    parentAssetId = assetId;
-  }
+  const { assetId, urlSlug, displayName } = credentials;
+
+  const parentAssetId = req.query.parentAssetId || assetId;
 
   if (host === "localhost") {
     BASE_URL = "http://localhost:3001";
@@ -56,26 +44,12 @@ export async function handleSpawnPet(req) {
     BASE_URL = `${protocol}://${host}`;
   }
 
-  const credentials = {
-    assetId: parentAssetId ? parentAssetId : assetId,
-    interactiveNonce,
-    interactivePublicKey,
-    visitorId,
-  };
-
   const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
   const pet = visitor?.dataObject?.pet;
 
   await removeAllUserPets(urlSlug, visitor, credentials);
-  return await dropImageAsset(
-    urlSlug,
-    credentials,
-    visitor,
-    pet,
-    parentAssetId,
-    displayName
-  );
+  return await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId, displayName);
 }
 
 /*
@@ -84,23 +58,12 @@ export async function handleSpawnPet(req) {
  *  2. Place a pet image when Updating the image of the Web Image Asset.
  *  3. Configure the asset to be opened in the drawer when clicked.
  */
-async function dropImageAsset(
-  urlSlug,
-  credentials,
-  visitor,
-  pet,
-  parentAssetId,
-  displayName
-) {
+async function dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId, displayName) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
   const level = getLevel(pet?.experience);
 
-  const { petImgUrlLayer0, petImgUrlLayer1 } = getPetImgUrl(
-    pet?.petType,
-    level?.currentLevel,
-    pet?.color
-  );
+  const { petImgUrlLayer0, petImgUrlLayer1 } = getPetImgUrl(pet?.petType, level?.currentLevel, pet?.color);
 
   const { moveTo, username } = visitor;
   const { x, y } = moveTo;
@@ -110,7 +73,7 @@ async function dropImageAsset(
   };
   const uniqueName = `petSystem-${username}`;
 
-  const asset = await Asset.create(process.env.IMG_ASSET_ID, { credentials });
+  const asset = await Asset.create(process.env.IMG_ASSET_ID || "webImageAsset", { credentials });
 
   const flipped = Math.random() < 0.5;
 

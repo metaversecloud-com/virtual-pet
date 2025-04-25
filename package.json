@@ -3,7 +3,7 @@
   "name": "sdk-virtual-pet",
   "dependencies": {
     "@googleapis/sheets": "^8.0.0",
-    "@rtsdk/topia": "^0.11.8",
+    "@rtsdk/topia": "^0.15.4",
     "axios": "^1.6.2",
     "body-parser": "^1.20.2",
     "child_process": "^1.0.2",
