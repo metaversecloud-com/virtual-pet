@@ -166,8 +166,13 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
           name: "whiteStar_burst",
           duration: 7,
         })
-        .then()
-        .catch((error) => JSON.stringify(error));
+        .catch((error) =>
+          errorHandler({
+            error,
+            functionName: "grantExpression",
+            message: "Error triggering particle effects",
+          }),
+        );
 
       visitor
         .updateDataObject(
@@ -196,8 +201,13 @@ async function grantExpression({ req, visitor, pet, newExperience }) {
         title,
         text,
       })
-      .then()
-      .catch();
+      .catch((error) =>
+        errorHandler({
+          error,
+          functionName: "grantExpression",
+          message: "Error firing toast",
+        }),
+      );
   }
   return hasEmoteUnlocked;
 }
@@ -217,8 +227,13 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
           name: "medal_float",
           duration: 7,
         })
-        .then()
-        .catch((error) => JSON.stringify(error));
+        .catch((error) =>
+          errorHandler({
+            error,
+            functionName: "levelUpHandler",
+            message: "Error triggering particle effects",
+          }),
+        );
     }
   }
 }
@@ -248,8 +263,13 @@ async function executeParticleEffect({ visitor, parentAssetId, assetId, urlSlug,
           y: droppedAsset?.position?.y,
         },
       })
-      .then()
-      .catch((error) => JSON.stringify(error));
+      .catch((error) =>
+        errorHandler({
+          error,
+          functionName: "executeParticleEffect",
+          message: "Error triggering particle effects",
+        }),
+      );
   } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
     await visitor.fetchDataObject();
     const droppedAsset = await DroppedAsset.get(visitor?.dataObject?.pet?.petSpawnedDroppedAssetId, urlSlug, {
@@ -264,7 +284,12 @@ async function executeParticleEffect({ visitor, parentAssetId, assetId, urlSlug,
           y: droppedAsset?.position?.y,
         },
       })
-      .then()
-      .catch((error) => JSON.stringify(error));
+      .catch((error) =>
+        errorHandler({
+          error,
+          functionName: "executeParticleEffect",
+          message: "Error triggering particle effects",
+        }),
+      );
   }
 }
