@@ -91,7 +91,13 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId,
     });
   } catch (error) {
     // This solves a bug where the asset is not dropped in the world for legacy assets with outdated urls from the old version.
-    await visitor?.closeIframe(credentials?.assetId);
+    visitor?.closeIframe(credentials?.assetId).catch((error) =>
+      errorHandler({
+        error,
+        functionName: "dropImageAsset",
+        message: "Error closing iframe",
+      }),
+    );
   }
 
   const fixedDisplayName = encodeURIComponent(displayName);
