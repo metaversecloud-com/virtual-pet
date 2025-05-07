@@ -22,7 +22,10 @@ const VirtualFriend = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await getKeyAssetId(dispatch);
+      const currentURL = window.location.href;
+      const containsString = currentURL.includes("spawned");
+      if (containsString) await getKeyAssetId(dispatch);
+      else await setKeyAsset(dispatch);
       await dispatch(getPet(keyAssetId));
       setLoading(false);
     };

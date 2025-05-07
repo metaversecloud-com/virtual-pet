@@ -134,27 +134,16 @@ export const createPet = (petType, name, keyAssetId) => async (dispatch) => {
   }
 };
 
-export const updatePet = (name, color) => async (dispatch) => {
+export const updatePet = (name, color, keyAssetId, pet) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet?${queryParams}`;
 
-    const response = await axios.put(url, { name, color });
-    const pet = response?.data?.pet;
-    const visitor = response?.data?.visitor;
-    dispatch(setVisitor(visitor));
-    if (response.status === 200) {
-      if (!pet) {
-        return dispatch(push(`/pet-selector?${queryParams}`));
-      }
-      dispatch(setPet(pet));
-      dispatch(setPetInWorld(true));
-    }
+    const response = await axios.put(url, { name, color, keyAssetId, pet });
+    dispatch(setPet(response?.data?.pet));
+    dispatch(setPetInWorld(true));
   } catch (error) {
     console.error("error", error);
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 

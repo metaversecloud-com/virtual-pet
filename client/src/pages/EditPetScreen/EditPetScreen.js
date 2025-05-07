@@ -40,7 +40,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
 
   const keyAssetId = useSelector((state) => state?.session?.keyAssetId);
   const pet = useSelector((state) => state?.session?.pet);
-  const currentPetExperience = pet?.experience || 0;
+  const currentPetExperience = 1000; //pet?.experience || 0;
 
   const { currentLevel } = getLevel(currentPetExperience);
 
@@ -83,7 +83,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const handleUpdatePet = async (petColor) => {
     try {
       setIsSaving(true);
-      await dispatch(updatePet(selectedName, petColor));
+      await dispatch(updatePet(selectedName, petColor, keyAssetId, pet));
     } catch (error) {
       console.error("Error updating pet:", error);
     } finally {
@@ -217,13 +217,11 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           </div>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
-            {keyAssetId && (
-              <div style={{ marginBottom: "6px" }}>
-                <button className="btn-danger-outline" onClick={handleOpenModal} disabled={isSaving}>
-                  Trade Pet
-                </button>
-              </div>
-            )}
+            <div style={{ marginBottom: "6px" }}>
+              <button className="btn-danger-outline" onClick={handleOpenModal} disabled={isSaving}>
+                Trade Pet
+              </button>
+            </div>
             <button
               className="topia-default-button"
               onClick={() => handleUpdatePet(selectedPet.color)}

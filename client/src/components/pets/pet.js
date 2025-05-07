@@ -106,10 +106,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     resetPetState();
     updatePetState({ spawnPetButtonIsDisabled: true });
     await dispatch(spawnPet(keyAssetId));
-    const timer = setTimeout(() => {
-      updatePetState({ spawnPetButtonIsDisabled: false });
-    }, 3500);
-    return () => clearTimeout(timer);
+    updatePetState({ spawnPetButtonIsDisabled: false });
   };
 
   const handlePickupPet = async () => {
@@ -119,13 +116,10 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       pickupPetButtonIsDisabled: true,
     });
     await dispatch(pickupPet(isSpawnedDroppedAsset, keyAssetId));
-    const timer = setTimeout(() => {
-      updatePetState({
-        spawnPetButtonIsDisabled: false,
-        pickupPetButtonIsDisabled: false,
-      });
-    }, 3500);
-    return () => clearTimeout(timer);
+    updatePetState({
+      spawnPetButtonIsDisabled: false,
+      pickupPetButtonIsDisabled: false,
+    });
   };
 
   /*
@@ -284,7 +278,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
     <>
       <div className="virtual-pet-container white-overlay">
         <div className="card-img-container">
-          {getEditButton()}
+          {keyAssetId && getEditButton()}
           <img top width="100%" src={actionImage} alt="Pet" />
           <div className="pet-message" style={{ position: "relative", top: "-25px" }}></div>
         </div>
@@ -311,7 +305,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         </div>
 
         <div style={{ padding: 0, border: "none" }}>
-          {!pet?.isPetInWorld ? (
+          {keyAssetId && !pet?.isPetInWorld ? (
             <div className="fixed-bottom">
               <button
                 className={`topia-default-button ${
@@ -323,16 +317,18 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               </button>
             </div>
           ) : (
-            <div className="fixed-bottom" style={{ background: "white" }}>
-              <button
-                className={`topia-default-button ${
-                  petState.spawnPetButtonIsDisabled || petState.isSleeping || petState.isLoading ? "disabled" : ""
-                }`}
-                onClick={!petState.spawnPetButtonIsDisabled ? handlePickupPet : null}
-              >
-                Pick up Pet
-              </button>
-            </div>
+            pet?.isPetInWorld && (
+              <div className="fixed-bottom" style={{ background: "white" }}>
+                <button
+                  className={`topia-default-button ${
+                    petState.spawnPetButtonIsDisabled || petState.isSleeping || petState.isLoading ? "disabled" : ""
+                  }`}
+                  onClick={!petState.spawnPetButtonIsDisabled ? handlePickupPet : null}
+                >
+                  Pick up Pet
+                </button>
+              </div>
+            )
           )}
         </div>
       </div>
