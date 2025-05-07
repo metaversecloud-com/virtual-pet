@@ -40,7 +40,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
 
   const keyAssetId = useSelector((state) => state?.session?.keyAssetId);
   const pet = useSelector((state) => state?.session?.pet);
-  const currentPetExperience = 1000; //pet?.experience || 0;
+  const currentPetExperience = pet?.experience || 0;
 
   const { currentLevel } = getLevel(currentPetExperience);
 
@@ -72,7 +72,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const handleTradePet = async () => {
     try {
       setIsSaving(true);
-      await dispatch(tradePet());
+      await dispatch(tradePet(keyAssetId));
     } catch (error) {
       console.error("Error trading:", error);
     } finally {

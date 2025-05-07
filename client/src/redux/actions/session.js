@@ -12,12 +12,11 @@ const getQueryParams = () => {
   const assetId = queryParameters.get("assetId");
   const interactivePublicKey = queryParameters.get("interactivePublicKey");
   const urlSlug = queryParameters.get("urlSlug");
-  const parentAssetId = queryParameters.get("parentAssetId");
   const profileId = queryParameters.get("profileId");
   const displayName = queryParameters.get("displayName");
   const identityId = queryParameters.get("identityId");
 
-  return `visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${assetId}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}&profileId=${profileId}&displayName=${displayName}&identityId=${identityId}`;
+  return `visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${assetId}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&profileId=${profileId}&displayName=${displayName}&identityId=${identityId}`;
 };
 
 export const getVisitor = () => async (dispatch) => {
@@ -169,10 +168,10 @@ export const namePet = (name) => async (dispatch) => {
   }
 };
 
-export const tradePet = () => async (dispatch) => {
+export const tradePet = (keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `/backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}${keyAssetId && `&keyAssetId=${keyAssetId}`}`;
 
     const response = await axios.delete(url);
     const pet = response?.data?.pet;
@@ -191,12 +190,12 @@ export const tradePet = () => async (dispatch) => {
   }
 };
 
-export const deleteAll = () => async (dispatch) => {
+export const deleteAll = (keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/world/pet?${queryParams}`;
 
-    const response = await axios.delete(url);
+    const response = await axios.delete(url, { keyAssetId });
     if (response.status === 200) {
       return true;
     }

@@ -7,6 +7,8 @@ export const deletePet = async (req, res) => {
   try {
     const credentials = getCredentials(req.query);
     const { urlSlug, visitorId, profileId } = credentials;
+    const { keyAssetId } = req.query;
+    if (keyAssetId) credentials.assetId = keyAssetId;
 
     const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
 
