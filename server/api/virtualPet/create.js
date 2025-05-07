@@ -8,14 +8,14 @@ export const create = async (req, res) => {
     const credentials = getCredentials(req.query);
     const { urlSlug, profileId, identityId, displayName } = credentials;
 
-    const { petType, name } = req.body;
+    const { keyAssetId, petType, name } = req.body;
 
-    const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
+    const visitor = await getVisitorWithDataObject({ credentials: { ...credentials, assetId: keyAssetId }, urlSlug });
 
     let pet;
     if (!visitor?.dataObject?.pet) {
       pet = {
-        username: visitor?.username,
+        username: displayName || visitor?.username,
         experience: 0,
         petType,
         name,

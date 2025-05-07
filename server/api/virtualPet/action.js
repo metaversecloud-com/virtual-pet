@@ -28,9 +28,10 @@ const ACTION_PARTICLE_EFFECTS = {
 
 export const action = async (req, res) => {
   try {
-    const { action } = req?.body;
+    const { action, keyAssetId } = req?.body;
 
-    const credentials = getCredentials(req.query);
+    let credentials = getCredentials(req.query);
+    if (keyAssetId) credentials.assetId = keyAssetId;
     const { assetId, urlSlug, parentAssetId, profileId } = credentials;
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });

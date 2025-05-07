@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import backArrow from "../../assets/backArrow.svg";
-import { tradePet } from "../../redux/actions/session";
+import { tradePet, updatePet } from "../../redux/actions/session";
 import { getLevel, getS3URL } from "../utils.js";
-import { updatePet } from "../../redux/actions/session";
 import "./EditPetScreen.scss";
 
 const petColors = [
@@ -30,26 +29,16 @@ const petColors = [
   },
 ];
 
-const petNames = [
-  "Max",
-  "Luna",
-  "Charlie",
-  "Bella",
-  "Cooper",
-  "Daisy",
-  "Milo",
-  "Lucy",
-  "Buddy",
-  "Lily",
-];
+const petNames = ["Max", "Luna", "Charlie", "Bella", "Cooper", "Daisy", "Milo", "Lucy", "Buddy", "Lily"];
 
 const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   const dispatch = useDispatch();
   const [selectedPet, setSelectedPet] = useState(petColors[0]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedName, setSelectedName] = useState(petNames[0]);
   const [isSaving, setIsSaving] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const keyAssetId = useSelector((state) => state?.session?.keyAssetId);
   const pet = useSelector((state) => state?.session?.pet);
   const currentPetExperience = pet?.experience || 0;
 
@@ -105,10 +94,7 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
 
   function getBackArrow() {
     return (
-      <div
-        className="icon-with-rounded-border"
-        onClick={() => setShowEditPetScreen(false)}
-      >
+      <div className="icon-with-rounded-border" onClick={() => setShowEditPetScreen(false)}>
         <img src={backArrow} alt="pet" />
       </div>
     );
@@ -131,29 +117,17 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
   return (
     <>
       {isModalVisible && (
-        <div
-          className="modal-container visible"
-          style={{ display: "block", visibility: "visible" }}
-        >
+        <div className="modal-container visible" style={{ display: "block", visibility: "visible" }}>
           <div className="modal">
             <h4>Trade your pet?</h4>
             <p className="p">
-              You'll get to choose a new pet but lose access to your current
-              pet. Your new pet will start at Level 1.
+              You'll get to choose a new pet but lose access to your current pet. Your new pet will start at Level 1.
             </p>
             <div className="actions">
-              <button
-                className="btn-outline my-btn"
-                onClick={handleCloseModal}
-                disabled={isSaving}
-              >
+              <button className="btn-outline my-btn" onClick={handleCloseModal} disabled={isSaving}>
                 Cancel
               </button>
-              <button
-                className="btn-danger my-btn"
-                onClick={handleTradePet}
-                disabled={isSaving}
-              >
+              <button className="btn-danger my-btn" onClick={handleTradePet} disabled={isSaving}>
                 Trade Pet
               </button>
             </div>
@@ -194,18 +168,12 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
             >
               <h1>Edit Your Virtual Pet</h1>
             </div>
-            <div style={{ flex: "0 1 auto", opacity: 0 }}>
-              {" "}
-              {getBackArrow()}
-            </div>
+            <div style={{ flex: "0 1 auto", opacity: 0 }}> {getBackArrow()}</div>
           </div>
 
           <div className="pet-name-selection">
             <span>Name:</span>
-            <select
-              value={selectedName}
-              onChange={(e) => setSelectedName(e.target.value)}
-            >
+            <select value={selectedName} onChange={(e) => setSelectedName(e.target.value)}>
               {petNames.map((name, index) => (
                 <option key={index} value={name}>
                   {name}
@@ -220,36 +188,26 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
             {petColors.map((petElement) => (
               <div key={petElement.id} className="pet-item">
                 <div
-                  className={`pet-container ${
-                    selectedPet.id === petElement.id ? "selected-container" : ""
-                  }`}
+                  className={`pet-container ${selectedPet.id === petElement.id ? "selected-container" : ""}`}
                   onClick={() => selectPet(petElement)}
                   style={{ padding: "0px" }}
                 >
                   <div
-                    className={`pet-square ${
-                      selectedPet.id === petElement.id ? "selected-square" : ""
-                    } ${
-                      petElement.minLevelToUnlock &&
-                      petElement.minLevelToUnlock > currentLevel
-                        ? "pet-disabled"
-                        : ""
+                    className={`pet-square ${selectedPet.id === petElement.id ? "selected-square" : ""} ${
+                      petElement.minLevelToUnlock && petElement.minLevelToUnlock > currentLevel ? "pet-disabled" : ""
                     }`}
                     style={{
-                      backgroundImage: `url(${getS3URL()}/assets/${
-                        pet?.petType
-                      }/normal/${petAge}-color-${petElement.id}.png)`,
+                      backgroundImage: `url(${getS3URL()}/assets/${pet?.petType}/normal/${petAge}-color-${
+                        petElement.id
+                      }.png)`,
                       position: "relative",
                     }}
                   >
-                    {petElement.minLevelToUnlock &&
-                    petElement.minLevelToUnlock > currentLevel ? (
+                    {petElement.minLevelToUnlock && petElement.minLevelToUnlock > currentLevel ? (
                       <>
                         <div className="overlay-style"></div>
                         <LockIcon />
-                        <div className="tooltip">
-                          Level up to unlock new colors
-                        </div>
+                        <div className="tooltip">Level up to unlock new colors</div>
                       </>
                     ) : null}
                   </div>
@@ -259,15 +217,13 @@ const EditPetScreen = ({ setShowEditPetScreen, petAge }) => {
           </div>
 
           <div className="fixed-bottom" style={{ background: "white" }}>
-            <div style={{ marginBottom: "6px" }}>
-              <button
-                className="btn-danger-outline"
-                onClick={handleOpenModal}
-                disabled={isSaving}
-              >
-                Trade Pet
-              </button>
-            </div>
+            {keyAssetId && (
+              <div style={{ marginBottom: "6px" }}>
+                <button className="btn-danger-outline" onClick={handleOpenModal} disabled={isSaving}>
+                  Trade Pet
+                </button>
+              </div>
+            )}
             <button
               className="topia-default-button"
               onClick={() => handleUpdatePet(selectedPet.color)}

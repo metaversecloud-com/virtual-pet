@@ -8,6 +8,7 @@ import {
   update,
   action,
   deletePet,
+  handleGetKeyAsset,
 } from "./api/index.js";
 import express from "express";
 import { validationMiddleware } from "./middleware/validation.js";
@@ -27,5 +28,6 @@ router.post("/pet/spawn", validationMiddleware, spawn);
 router.post("/pet/pickup", validationMiddleware, pickup);
 router.post("/pet/action", validationMiddleware, action);
 router.delete("/world/pet", validationMiddleware, deleteAll);
+router.get("/world/key-asset", validationMiddleware, handleGetKeyAsset);
 
 export default router;

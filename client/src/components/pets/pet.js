@@ -1,11 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  spawnPet,
-  pickupPet,
-  executeAction,
-} from "../../redux/actions/session";
+import { spawnPet, pickupPet, executeAction } from "../../redux/actions/session";
 import ExperienceBar from "../experienceBar/ExperienceBar";
 import petData from "./petData";
 import ActionIconsContainer from "../ActionIcons/ActionIconsContainer";
@@ -44,6 +40,8 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const [petState, setPetState] = useState(initialPetState);
   const [showInfoAboutLevels, setShowInfoAboutLevels] = useState(false);
 
+  const keyAssetId = useSelector((state) => state?.session?.keyAssetId);
+
   const resetPetState = () => {
     setPetState(initialPetState);
   };
@@ -53,9 +51,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   };
 
   const pet = useSelector((state) => state?.session?.pet);
-  const isPetAssetOwner = useSelector(
-    (state) => state?.session?.isPetAssetOwner
-  );
+  const isPetAssetOwner = useSelector((state) => state?.session?.isPetAssetOwner);
   const petColor = pet?.color || "0";
   const petType = pet?.petType;
 
@@ -96,22 +92,20 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   }, [actionStatus]);
 
   useEffect(() => {
-    setActionImage(
-      `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
-    );
+    setActionImage(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`);
   }, [petAge, petColor, petType]);
   useEffect(() => {
     currentPetAgeRef.current = petAge;
   }, [petAge]);
 
   const [actionImage, setActionImage] = useState(
-    `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`
+    `${getS3URL()}/assets/${petType}/normal/${petAge}-color-${petColor}.png`,
   );
 
   const handleSpawnPet = async () => {
     resetPetState();
     updatePetState({ spawnPetButtonIsDisabled: true });
-    await dispatch(spawnPet());
+    await dispatch(spawnPet(keyAssetId));
     const timer = setTimeout(() => {
       updatePetState({ spawnPetButtonIsDisabled: false });
     }, 3500);
@@ -124,7 +118,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
       spawnPetButtonIsDisabled: true,
       pickupPetButtonIsDisabled: true,
     });
-    await dispatch(pickupPet(isSpawnedDroppedAsset));
+    await dispatch(pickupPet(isSpawnedDroppedAsset, keyAssetId));
     const timer = setTimeout(() => {
       updatePetState({
         spawnPetButtonIsDisabled: false,
@@ -171,8 +165,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   const handlePetAction = useCallback(
     async (actionType, onAnimationEnd) => {
       resetErrors();
-      const { timestamp, setActionState, setIsNotReady, action } =
-        actionConfig[actionType];
+      const { timestamp, setActionState, setIsNotReady, action } = actionConfig[actionType];
 
       const currentTime = Date.now();
       const timeSinceLastAction = currentTime - timestamp;
@@ -188,21 +181,17 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
 
       updatePetState({ isLoading: true });
 
-      const success = await dispatch(executeAction(action));
+      const success = await dispatch(executeAction(action, keyAssetId));
 
       if (success) {
         setActionState(true);
         setActionImage(
-          `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-${actionType.toLowerCase()}.png`
+          `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${petColor}-${actionType.toLowerCase()}.png`,
         );
 
         setTimeout(() => {
           setActionState(false);
-          setActionImage(
-            `${getS3URL()}/assets/${petType}/normal/${
-              currentPetAgeRef.current
-            }-color-${petColor}.png`
-          );
+          setActionImage(`${getS3URL()}/assets/${petType}/normal/${currentPetAgeRef.current}-color-${petColor}.png`);
           updatePetState({ isLoading: false });
           onAnimationEnd();
         }, DELAY_LONG);
@@ -214,7 +203,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         }, DELAY_LONG);
       }
     },
-    [dispatch, actionConfig, petAge, petColor, petType]
+    [dispatch, actionConfig, petAge, petColor, petType],
   );
 
   const resetErrors = () => {
@@ -250,12 +239,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
   }
 
   if (showInfoAboutLevels) {
-    return (
-      <InfoAboutLevels
-        toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-        petAge={petAge}
-      />
-    );
+    return <InfoAboutLevels toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} petAge={petAge} />;
   }
 
   const notPetAssetOwnerView = () => (
@@ -291,10 +275,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             I'm a {petSelected?.petDescription}
           </div>
         </div>
-        <ExperienceBar
-          isFeeding={petState?.isFeeding}
-          toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-        />
+        <ExperienceBar isFeeding={petState?.isFeeding} toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} />
       </div>
     </div>
   );
@@ -305,10 +286,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
         <div className="card-img-container">
           {getEditButton()}
           <img top width="100%" src={actionImage} alt="Pet" />
-          <div
-            className="pet-message"
-            style={{ position: "relative", top: "-25px" }}
-          ></div>
+          <div className="pet-message" style={{ position: "relative", top: "-25px" }}></div>
         </div>
 
         <div>
@@ -318,9 +296,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
                 <b style={{ color: "#0A2540" }}>{pet?.name}</b>
               </p>
               <p>
-                <b style={{ color: "#0A2540" }}>
-                  {petSelected?.petDescription}
-                </b>
+                <b style={{ color: "#0A2540" }}>{petSelected?.petDescription}</b>
               </p>
             </div>{" "}
             <ActionIconsContainer
@@ -331,10 +307,7 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
               handlePetAction={handlePetAction}
             />
           </div>
-          <ExperienceBar
-            isFeeding={petState.isFeeding}
-            toggleShowInfoAboutLevels={toggleShowInfoAboutLevels}
-          />
+          <ExperienceBar isFeeding={petState.isFeeding} toggleShowInfoAboutLevels={toggleShowInfoAboutLevels} />
         </div>
 
         <div style={{ padding: 0, border: "none" }}>
@@ -342,15 +315,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             <div className="fixed-bottom">
               <button
                 className={`topia-default-button ${
-                  petState.spawnPetButtonIsDisabled ||
-                  petState.isSleeping ||
-                  petState.isLoading
-                    ? "disabled"
-                    : ""
+                  petState.spawnPetButtonIsDisabled || petState.isSleeping || petState.isLoading ? "disabled" : ""
                 }`}
-                onClick={
-                  !petState.spawnPetButtonIsDisabled ? handleSpawnPet : null
-                }
+                onClick={!petState.spawnPetButtonIsDisabled ? handleSpawnPet : null}
               >
                 Call Pet
               </button>
@@ -359,15 +326,9 @@ const Pet = ({ petAge, setShowEditPetScreen }) => {
             <div className="fixed-bottom" style={{ background: "white" }}>
               <button
                 className={`topia-default-button ${
-                  petState.spawnPetButtonIsDisabled ||
-                  petState.isSleeping ||
-                  petState.isLoading
-                    ? "disabled"
-                    : ""
+                  petState.spawnPetButtonIsDisabled || petState.isSleeping || petState.isLoading ? "disabled" : ""
                 }`}
-                onClick={
-                  !petState.spawnPetButtonIsDisabled ? handlePickupPet : null
-                }
+                onClick={!petState.spawnPetButtonIsDisabled ? handlePickupPet : null}
               >
                 Pick up Pet
               </button>

@@ -6,6 +6,7 @@ const initialState = {
   droppedAsset: null,
   error: null,
   pet: null,
+  keyAssetId: null,
   isPetAssetOwner: false,
   petState: {
     isFeeding: false,
@@ -30,6 +31,9 @@ const reducers = {
   },
   setPet: (state, action) => {
     state.pet = action.payload;
+  },
+  setKeyAssetId: (state, action) => {
+    state.keyAssetId = action.payload;
   },
   setError: (state, action) => {
     state.error = action.payload;

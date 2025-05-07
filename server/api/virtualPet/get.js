@@ -5,19 +5,24 @@ import { getCredentials } from "../../getCredentials.js";
 
 export const get = async (req, res) => {
   try {
-    const credentials = getCredentials(req.query);
+    let credentials = await getCredentials(req.query);
     const { assetId, urlSlug, visitorId } = credentials;
 
+    let petSpawnedDroppedAsset;
+
+    try {
+      petSpawnedDroppedAsset = DroppedAsset.create(assetId, urlSlug, {
+        credentials,
+      });
+      await Promise.all([petSpawnedDroppedAsset.fetchDroppedAssetById(), petSpawnedDroppedAsset.fetchDataObject()]);
+    } catch (error) {
+      console.log("Pet no longer in world");
+    }
+
+    if (req.query.keyAssetId) credentials.assetId = req.query.keyAssetId;
+
     const visitor = Visitor.create(visitorId, urlSlug, { credentials });
-    const petSpawnedDroppedAsset = DroppedAsset.create(assetId, urlSlug, {
-      credentials,
-    });
-    await Promise.all([
-      petSpawnedDroppedAsset.fetchDroppedAssetById(),
-      petSpawnedDroppedAsset.fetchDataObject(),
-      visitor.fetchVisitor(),
-      visitor.fetchDataObject(),
-    ]);
+    await Promise.all([visitor.fetchVisitor(), visitor.fetchDataObject()]);
 
     let isPetAssetOwner = false;
     if (
@@ -28,6 +33,7 @@ export const get = async (req, res) => {
     } else {
       // not owner view
       const user = User.create({
+        credentials,
         profileId: petSpawnedDroppedAsset?.dataObject?.profileId,
       });
       await user.fetchDataObject();

@@ -10,8 +10,6 @@ export const deletePet = async (req, res) => {
 
     const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
 
-    await removeAllUserPets(urlSlug, visitor, credentials);
-
     await visitor.setDataObject(
       {},
       {
@@ -19,6 +17,8 @@ export const deletePet = async (req, res) => {
       },
     );
     await visitor.fetchDataObject();
+
+    await removeAllUserPets(urlSlug, visitor, credentials);
 
     return res.json({ pet: visitor?.dataObject?.pet });
   } catch (error) {

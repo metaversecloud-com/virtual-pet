@@ -2,14 +2,8 @@ import { session } from "../reducers/session";
 import { push } from "redux-first-history";
 import axios from "axios";
 
-export const {
-  setVisitor,
-  setDroppedAsset,
-  setPet,
-  setPetAssetOwner,
-  setPetInWorld,
-  setError,
-} = session.actions;
+export const { setVisitor, setDroppedAsset, setPet, setPetAssetOwner, setPetInWorld, setError, setKeyAssetId } =
+  session.actions;
 
 const getQueryParams = () => {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -43,11 +37,11 @@ export const getVisitor = () => async (dispatch) => {
   }
 };
 
-export const executeAction = (action) => async (dispatch) => {
+export const executeAction = (action, keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet/action?${queryParams}`;
-    const response = await axios.post(url, { action });
+    const response = await axios.post(url, { action, keyAssetId });
 
     if (response.status === 200) {
       dispatch(setPet(response?.data?.pet));
@@ -62,14 +56,14 @@ export const executeAction = (action) => async (dispatch) => {
   }
 };
 
-export const spawnPet = () => async (dispatch) => {
+export const spawnPet = (keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet/spawn?${queryParams}`;
-    const response = await axios.post(url);
+    const response = await axios.post(url, { keyAssetId });
 
     if (response.status === 200) {
-      dispatch(getPet());
+      dispatch(getPet(keyAssetId));
       dispatch(setPetInWorld(true));
     }
   } catch (error) {
@@ -81,47 +75,25 @@ export const spawnPet = () => async (dispatch) => {
   }
 };
 
-export const pickupPet = (isSpawnedDroppedAsset) => async (dispatch) => {
+export const pickupPet = (isSpawnedDroppedAsset, keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet/pickup?${queryParams}&isSpawnedDroppedAsset=${isSpawnedDroppedAsset}`;
-    const response = await axios.post(url);
+    const response = await axios.post(url, { keyAssetId });
 
     if (response.status === 200) {
-      await dispatch(getPet());
+      await dispatch(getPet(keyAssetId));
       await dispatch(setPetInWorld(false));
     }
   } catch (error) {
-    dispatch(setError("There was an error while spawning the pet"));
-    if (error.response && error.response.data) {
-    } else {
-    }
-    return false;
+    dispatch(setError("There was an error while picking up the pet"));
   }
 };
 
-export const getDroppedAsset = () => async (dispatch) => {
+export const getPet = (keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
-    const url = `/backend/dropped-asset?${queryParams}`;
-
-    const response = await axios.get(url);
-
-    if (response.status === 200) {
-      dispatch(setDroppedAsset(response?.data?.droppedAsset));
-    }
-  } catch (error) {
-    console.error("error", error);
-    if (error.response && error.response.data) {
-    } else {
-    }
-  }
-};
-
-export const getPet = () => async (dispatch) => {
-  try {
-    const queryParams = getQueryParams();
-    const url = `/backend/pet?${queryParams}`;
+    const url = `/backend/pet?${queryParams}${keyAssetId && `&keyAssetId=${keyAssetId}`}`;
 
     const response = await axios.get(url);
     const pet = response?.data?.pet;
@@ -137,18 +109,15 @@ export const getPet = () => async (dispatch) => {
     }
   } catch (error) {
     console.error("error", error);
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 
-export const createPet = (petType, name) => async (dispatch) => {
+export const createPet = (petType, name, keyAssetId) => async (dispatch) => {
   try {
     const queryParams = getQueryParams();
     const url = `/backend/pet?${queryParams}`;
 
-    const response = await axios.post(url, { petType, name });
+    const response = await axios.post(url, { petType, name, keyAssetId });
     const pet = response?.data?.pet;
     if (response.status === 200) {
       if (!pet) {
@@ -248,5 +217,26 @@ export const deleteAll = () => async (dispatch) => {
     if (error.response && error.response.data) {
     } else {
     }
+  }
+};
+
+export const getKeyAssetId = async (dispatch) => {
+  try {
+    const queryParams = getQueryParams();
+    const url = `/backend/world/key-asset?${queryParams}`;
+
+    const response = await axios.get(url);
+    return dispatch(setKeyAssetId(response.data?.keyAssetId));
+  } catch (error) {
+    console.error("error", error);
+  }
+};
+
+export const setKeyAsset = async (dispatch) => {
+  try {
+    const queryParameters = new URLSearchParams(window.location.search);
+    return dispatch(setKeyAssetId(queryParameters.get("assetId")));
+  } catch (error) {
+    console.error("error", error);
   }
 };

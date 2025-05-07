@@ -29,12 +29,13 @@ export const spawn = async (req, res) => {
 };
 
 export async function handleSpawnPet(req) {
-  const credentials = getCredentials(req.query);
+  const { keyAssetId } = req.body;
+  let credentials = getCredentials(req.query);
+  if (keyAssetId) credentials.assetId = keyAssetId;
+  const { assetId, urlSlug, displayName } = credentials;
 
   const protocol = process.env.INSTANCE_PROTOCOL || "https";
   const host = req.host;
-
-  const { assetId, urlSlug, displayName } = credentials;
 
   const parentAssetId = req.query.parentAssetId || assetId;
 
