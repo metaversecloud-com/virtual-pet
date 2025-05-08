@@ -30,9 +30,6 @@ export const getVisitor = () => async (dispatch) => {
     }
   } catch (error) {
     dispatch(setError("There was an error when getting the user content."));
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 
@@ -48,10 +45,6 @@ export const executeAction = (action, keyAssetId) => async (dispatch) => {
     }
   } catch (error) {
     dispatch(setError("There was an error while training the pet"));
-    if (error.response && error.response.data) {
-    } else {
-    }
-    return false;
   }
 };
 
@@ -67,10 +60,6 @@ export const spawnPet = (keyAssetId) => async (dispatch) => {
     }
   } catch (error) {
     dispatch(setError("There was an error while spawning the pet"));
-    if (error.response && error.response.data) {
-    } else {
-    }
-    return false;
   }
 };
 
@@ -127,9 +116,6 @@ export const createPet = (petType, name, keyAssetId) => async (dispatch) => {
     }
   } catch (error) {
     console.error("error", error);
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 
@@ -162,9 +148,6 @@ export const namePet = (name) => async (dispatch) => {
     }
   } catch (error) {
     console.error("Error Naming the pet", JSON.stringify(error));
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 
@@ -184,27 +167,21 @@ export const tradePet = (keyAssetId) => async (dispatch) => {
     }
   } catch (error) {
     console.error("error", error);
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 
-export const deleteAll = (keyAssetId) => async (dispatch) => {
+export const deleteAll = (keyAssetId) => async () => {
   try {
     const queryParams = getQueryParams();
-    const url = `/backend/world/pet?${queryParams}`;
+    const url = `/backend/world/pet?${queryParams}${keyAssetId && `&keyAssetId=${keyAssetId}`}`;
 
-    const response = await axios.delete(url, { keyAssetId });
+    const response = await axios.delete(url);
     if (response.status === 200) {
       return true;
     }
     return false;
   } catch (error) {
     console.error("error", error);
-    if (error.response && error.response.data) {
-    } else {
-    }
   }
 };
 

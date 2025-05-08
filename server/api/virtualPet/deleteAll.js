@@ -7,7 +7,7 @@ export const deleteAll = async (req, res) => {
   try {
     const credentials = getCredentials(req.query);
     const { urlSlug, visitorId } = credentials;
-    const { keyAssetId } = req.body;
+    const { keyAssetId } = req.query;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
     const visitor = await Visitor.get(visitorId, urlSlug, { credentials });

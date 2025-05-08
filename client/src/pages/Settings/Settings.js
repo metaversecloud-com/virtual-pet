@@ -29,7 +29,7 @@ const Settings = () => {
     <div className="settings-wrapper">
       <h3>Settings</h3>
       {keyAssetId ? (
-        <div className="input-group">
+        <div className="input-group" style={{ margin: 10 }}>
           <button
             className="btn btn-primary topia-default-button"
             onClick={handleDeleteAllPets}
