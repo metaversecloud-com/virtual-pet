@@ -78,19 +78,26 @@ export function canPerformAction(lastActionTime, currentTime, minTimeBetweenActi
 export async function removeAllUserPets(urlSlug, visitor, credentials) {
   const world = await World.create(urlSlug, { credentials });
 
-  try {
-    const petAssets = await world.fetchDroppedAssetsWithUniqueName({
+  await world
+    .fetchDroppedAssetsWithUniqueName({
       uniqueName: `petSystem-${visitor?.username}`,
+    })
+    .then(async (allPetAssets) => {
+      await deleteAllPets({
+        urlSlug,
+        allPetAssets,
+        credentials,
+      })
+        .then(() => {
+          console.log("✅ All pets deleted successfully");
+        })
+        .catch((error) => {
+          console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
+        });
+    })
+    .catch((error) => {
+      console.error("❌ Error deleting pets.", JSON.stringify(error));
     });
-
-    await deleteAllPets({
-      urlSlug,
-      allPetAssets: petAssets,
-      credentials,
-    });
-  } catch (error) {
-    console.error("❌ There are no pets to be deleted.", JSON.stringify(error));
-  }
 }
 
 export async function deleteAllPets({ urlSlug, allPetAssets, credentials }) {

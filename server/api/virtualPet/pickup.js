@@ -4,7 +4,9 @@ import { removeAllUserPets, getVisitorWithDataObject } from "./utils.js";
 
 export const pickup = async (req, res) => {
   try {
-    const credentials = getCredentials(req.query);
+    const { keyAssetId } = req.body;
+    let credentials = getCredentials(req.query);
+    if (keyAssetId) credentials.assetId = keyAssetId;
     const { urlSlug } = credentials;
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });

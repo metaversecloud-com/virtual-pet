@@ -11,7 +11,6 @@ export const getCredentials = (query) => {
     if (process.env.INTERACTIVE_KEY !== query.interactivePublicKey) {
       throw "Provided public key does not match";
     }
-
     return {
       assetId: query.assetId,
       displayName: query.displayName,

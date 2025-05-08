@@ -29,14 +29,13 @@ export const spawn = async (req, res) => {
 };
 
 export async function handleSpawnPet(req) {
-  const credentials = getCredentials(req.query);
+  const { keyAssetId } = req.body;
+  let credentials = getCredentials(req.query);
+  if (keyAssetId) credentials.assetId = keyAssetId;
+  const { urlSlug, displayName } = credentials;
 
   const protocol = process.env.INSTANCE_PROTOCOL || "https";
   const host = req.host;
-
-  const { assetId, urlSlug, displayName } = credentials;
-
-  const parentAssetId = req.query.parentAssetId || assetId;
 
   if (host === "localhost") {
     BASE_URL = "http://localhost:3001";
@@ -49,7 +48,7 @@ export async function handleSpawnPet(req) {
   const pet = visitor?.dataObject?.pet;
 
   await removeAllUserPets(urlSlug, visitor, credentials);
-  return await dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId, displayName);
+  return await dropImageAsset(urlSlug, credentials, visitor, pet, displayName);
 }
 
 /*
@@ -58,7 +57,7 @@ export async function handleSpawnPet(req) {
  *  2. Place a pet image when Updating the image of the Web Image Asset.
  *  3. Configure the asset to be opened in the drawer when clicked.
  */
-async function dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId, displayName) {
+async function dropImageAsset(urlSlug, credentials, visitor, pet, displayName) {
   const { visitorId, interactiveNonce, interactivePublicKey } = credentials;
 
   const level = getLevel(pet?.experience);
@@ -101,7 +100,7 @@ async function dropImageAsset(urlSlug, credentials, visitor, pet, parentAssetId,
   }
 
   const fixedDisplayName = encodeURIComponent(displayName);
-  const clickableLink = `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&parentAssetId=${parentAssetId}&displayName=${fixedDisplayName}`;
+  const clickableLink = `${BASE_URL}/asset-type/spawned?visitorId=${visitorId}&interactiveNonce=${interactiveNonce}&assetId=${petSpawnedDroppedAsset?.id}&interactivePublicKey=${interactivePublicKey}&urlSlug=${urlSlug}&displayName=${fixedDisplayName}`;
 
   await Promise.all([
     petSpawnedDroppedAsset?.updateDataObject({

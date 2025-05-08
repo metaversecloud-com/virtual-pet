@@ -7,6 +7,8 @@ export const deleteAll = async (req, res) => {
   try {
     const credentials = getCredentials(req.query);
     const { urlSlug, visitorId } = credentials;
+    const { keyAssetId } = req.query;
+    if (keyAssetId) credentials.assetId = keyAssetId;
 
     const visitor = await Visitor.get(visitorId, urlSlug, { credentials });
 
@@ -18,13 +20,13 @@ export const deleteAll = async (req, res) => {
 
     const world = await World.create(urlSlug, { credentials });
 
-    const allPetAssets = await getAllPetAssets(world);
-
-    await deleteAllPets({ urlSlug, allPetAssets, credentials });
-    visitor
+    await visitor
       .updateDataObject({}, { analytics: [{ analyticName: `adminPickupAllPets`, urlSlug }] })
       .then()
       .catch(() => console.error("Error sending analytics for adminPickupAllPets"));
+
+    const allPetAssets = await getAllPetAssets(world);
+    await deleteAllPets({ urlSlug, allPetAssets, credentials });
 
     return res.json({ success: true });
   } catch (error) {

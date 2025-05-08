@@ -28,10 +28,11 @@ const ACTION_PARTICLE_EFFECTS = {
 
 export const action = async (req, res) => {
   try {
-    const { action } = req?.body;
+    const { action, keyAssetId } = req?.body;
 
-    const credentials = getCredentials(req.query);
-    const { assetId, urlSlug, parentAssetId, profileId } = credentials;
+    let credentials = getCredentials(req.query);
+    if (keyAssetId) credentials.assetId = keyAssetId;
+    const { assetId, urlSlug, profileId } = credentials;
 
     const visitor = await getVisitorWithDataObject({ credentials, urlSlug });
 
@@ -65,7 +66,6 @@ export const action = async (req, res) => {
 
     executeParticleEffect({
       visitor,
-      parentAssetId,
       assetId,
       urlSlug,
       credentials,
@@ -238,7 +238,7 @@ async function levelUpHandler({ req, pet, newExperience, visitor }) {
   }
 }
 
-async function executeParticleEffect({ visitor, parentAssetId, assetId, urlSlug, credentials, actionKey, option }) {
+async function executeParticleEffect({ visitor, urlSlug, credentials, actionKey, option }) {
   const world = World.create(urlSlug, { credentials });
   let particleEffect = ACTION_PARTICLE_EFFECTS[actionKey];
   let duration = 3;
@@ -251,27 +251,7 @@ async function executeParticleEffect({ visitor, parentAssetId, assetId, urlSlug,
     duration = 7;
   }
 
-  if (parentAssetId && parentAssetId != "null") {
-    const droppedAsset = await DroppedAsset.get(assetId, urlSlug, { credentials });
-
-    world
-      .triggerParticle({
-        name: particleEffect,
-        duration,
-        position: {
-          x: droppedAsset?.position?.x,
-          y: droppedAsset?.position?.y,
-        },
-      })
-      .catch((error) =>
-        errorHandler({
-          error,
-          functionName: "executeParticleEffect",
-          message: "Error triggering particle effects",
-        }),
-      );
-  } else if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
-    await visitor.fetchDataObject();
+  if (visitor?.dataObject?.pet?.petSpawnedDroppedAssetId) {
     const droppedAsset = await DroppedAsset.get(visitor?.dataObject?.pet?.petSpawnedDroppedAssetId, urlSlug, {
       credentials,
     });

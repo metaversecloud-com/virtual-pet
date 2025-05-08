@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import "./VirtualPetMainScreen.scss";
-import { getPet } from "../../redux/actions/session.js";
+import { getPet, getKeyAssetId, setKeyAsset } from "../../redux/actions/session.js";
 import { getLevel } from "../utils.js";
 import EditPetScreen from "../EditPetScreen/EditPetScreen.js";
 
@@ -15,18 +15,25 @@ const VirtualFriend = () => {
   const [loading, setLoading] = useState(true);
   const [showEditPetScreen, setShowEditPetScreen] = useState(false);
 
-  const pet = useSelector((state) => state?.session?.pet);
+  const keyAssetId = useSelector((state) => state?.session?.keyAssetId);
   const visitor = useSelector((state) => state?.session?.visitor);
+  const pet = useSelector((state) => state?.session?.pet);
   const petType = pet?.petType;
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getPet());
+      if (!keyAssetId) {
+        const currentURL = window.location.href;
+        const containsString = currentURL.includes("spawned");
+        if (containsString) await getKeyAssetId(dispatch);
+        else await setKeyAsset(dispatch);
+      }
+      await dispatch(getPet(keyAssetId));
       setLoading(false);
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [keyAssetId]);
 
   useEffect(() => {
     const currentPetExperience = pet?.experience || 0;
@@ -50,9 +57,7 @@ const VirtualFriend = () => {
   };
 
   const getPetComponent = () => {
-    return (
-      <Pet petAge={getPetAge()} setShowEditPetScreen={setShowEditPetScreen} />
-    );
+    return <Pet petAge={getPetAge()} setShowEditPetScreen={setShowEditPetScreen} />;
   };
 
   if (loading) {
@@ -64,19 +69,11 @@ const VirtualFriend = () => {
   }
 
   if (showEditPetScreen) {
-    return (
-      <EditPetScreen
-        setShowEditPetScreen={setShowEditPetScreen}
-        petAge={getPetAge()}
-      />
-    );
+    return <EditPetScreen setShowEditPetScreen={setShowEditPetScreen} petAge={getPetAge()} />;
   }
 
   return (
-    <div
-      className="virtual-pet-wrapper"
-      style={{ paddingTop: visitor?.isAdmin ? "80px" : "30px" }}
-    >
+    <div className="virtual-pet-wrapper" style={{ paddingTop: visitor?.isAdmin ? "80px" : "30px" }}>
       {getPetComponent()}
 
       {visitor?.isAdmin && <MobileMenu />}

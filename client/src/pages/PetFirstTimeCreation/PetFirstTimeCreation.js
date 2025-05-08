@@ -13,16 +13,14 @@ const pets = [
     id: 0,
     name: "Dragon",
     petType: "dragon",
-    description:
-      "A mystical, fire-breathing creature that soars through the skies.",
+    description: "A mystical, fire-breathing creature that soars through the skies.",
     image: dragonImg,
   },
   {
     id: 1,
     name: "Penguin",
     petType: "penguin",
-    description:
-      "A playful bird with striking patterns that swims but does not fly!",
+    description: "A playful bird with striking patterns that swims but does not fly!",
     image: penguinImg,
   },
   {
@@ -34,30 +32,19 @@ const pets = [
   },
 ];
 
-const petNames = [
-  "Max",
-  "Luna",
-  "Charlie",
-  "Bella",
-  "Cooper",
-  "Daisy",
-  "Milo",
-  "Lucy",
-  "Buddy",
-  "Lily",
-];
+const petNames = ["Max", "Luna", "Charlie", "Bella", "Cooper", "Daisy", "Milo", "Lucy", "Buddy", "Lily"];
 
 const PetFirstTimeCreation = () => {
   const dispatch = useDispatch();
   const [selectedPet, setSelectedPet] = useState(pets[0]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedName, setSelectedName] = useState(petNames[0]);
 
   const visitor = useSelector((state) => state?.session?.visitor);
+  const keyAssetId = useSelector((state) => state?.session?.keyAssetId);
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getPet());
+      await dispatch(getPet(keyAssetId));
     };
 
     fetchData();
@@ -68,16 +55,13 @@ const PetFirstTimeCreation = () => {
   };
 
   const handleSelection = () => {
-    dispatch(createPet(selectedPet?.petType, selectedName));
+    dispatch(createPet(selectedPet?.petType, selectedName, keyAssetId));
   };
 
   return (
     <>
       {visitor?.isAdmin && <MobileMenu />}
-      <div
-        className="pet-selector-wrapper"
-        style={{ paddingTop: visitor?.isAdmin ? "126px" : undefined }}
-      >
+      <div className="pet-selector-wrapper" style={{ paddingTop: visitor?.isAdmin ? "126px" : undefined }}>
         <div className="pet-selection-container">
           <div className="pet-title">
             <h1>Choose Your Virtual Pet</h1>
@@ -85,10 +69,7 @@ const PetFirstTimeCreation = () => {
           <div className="pet-name-selection">
             <span>Name:</span>
             <div style={{ marginBottom: "20px", width: "100%" }}>
-              <select
-                value={selectedName}
-                onChange={(e) => setSelectedName(e.target.value)}
-              >
+              <select value={selectedName} onChange={(e) => setSelectedName(e.target.value)}>
                 {petNames.map((name, index) => (
                   <option key={index} value={name}>
                     {name}
@@ -99,26 +80,14 @@ const PetFirstTimeCreation = () => {
           </div>
           <div className="justify-content-center row">
             {pets.map((pet) => (
-              <div
-                key={pet.id}
-                xs={12}
-                sm={6}
-                md={4}
-                className="mb-4 pet-card-margins"
-              >
+              <div key={pet.id} xs={12} sm={6} md={4} className="mb-4 pet-card-margins">
                 <div
                   onClick={() => selectPet(pet)}
-                  className={`card pet-card ${
-                    selectedPet.id === pet.id ? "selected" : ""
-                  }`}
+                  className={`card pet-card ${selectedPet.id === pet.id ? "selected" : ""}`}
                 >
                   <div className="no-gutters row">
                     <div className="pet-image-container col-4">
-                      <img
-                        src={pet.image}
-                        alt={pet.name}
-                        className="pet-image"
-                      />
+                      <img src={pet.image} alt={pet.name} className="pet-image" />
                     </div>
                     <div className="col-7">
                       <div className="card-body">
