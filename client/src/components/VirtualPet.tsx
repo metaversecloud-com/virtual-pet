@@ -22,8 +22,6 @@ const initialPetState = {
   dontWantToTrain: false,
   dontWantToPlay: false,
   isLoading: false,
-  spawnPetButtonIsDisabled: false,
-  pickupPetButtonIsDisabled: false,
 };
 
 const FEED = "FEED";
@@ -89,8 +87,6 @@ export const VirtualPet = () => {
     isTraining?: boolean;
     dontWantToTrain?: boolean;
     isLoading?: boolean;
-    spawnPetButtonIsDisabled?: boolean;
-    pickupPetButtonIsDisabled?: boolean;
   }) => {
     setPetState((prevState) => ({ ...prevState, ...updates }));
   };
@@ -208,6 +204,8 @@ export const VirtualPet = () => {
       }
 
       updatePetState({ isLoading: true });
+      setIsSpawnBtnDisabled(true);
+      setIsPickupBtnDisabled(true);
 
       backendAPI
         .post("/execute-action", { action, keyAssetId })
@@ -228,11 +226,15 @@ export const VirtualPet = () => {
         .catch((error) => {
           setErrorMessage(dispatch, error);
 
-          updatePetState({ isLoading: false });
           setIsNotReady(true);
           setTimeout(() => {
             setIsNotReady(false);
           }, DELAY);
+        })
+        .finally(() => {
+          updatePetState({ isLoading: false });
+          setIsSpawnBtnDisabled(false);
+          setIsPickupBtnDisabled(false);
         });
     },
     [dispatch, actionConfig, petAge, color, petType],

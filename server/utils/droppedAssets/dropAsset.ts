@@ -25,12 +25,7 @@ export const dropAsset = async ({
 
     await removeDroppedAssets(credentials, `petSystem-${username}`);
 
-    let petAge = "baby";
-    if (currentLevel >= 5 && currentLevel < 10) {
-      petAge = "teen";
-    } else if (currentLevel >= 10) {
-      petAge = "adult";
-    }
+    const petAge = currentLevel < 5 ? "baby" : currentLevel < 10 ? "teen" : "adult";
 
     const { moveTo } = visitor;
     const position = {

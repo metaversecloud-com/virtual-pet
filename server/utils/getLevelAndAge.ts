@@ -41,7 +41,7 @@ export const getLevelAndAge = (experience: number) => {
         currentLevel,
         experienceNeededForNextLevel: levels[i],
         experienceNeededForTheLevelYouCurrentlyAchieved: i == 1 ? 0 : levels[i - 1],
-        petAge: currentLevel <= 5 ? "baby" : currentLevel < 10 ? "teen" : "adult",
+        petAge: currentLevel < 5 ? "baby" : currentLevel < 10 ? "teen" : "adult",
       };
     }
   }

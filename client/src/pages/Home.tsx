@@ -11,7 +11,6 @@ import { backendAPI, setErrorMessage, setGameState } from "@/utils";
 import { SET_IS_ADMIN } from "@/context/types";
 
 const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => {
-  console.log("🚀 ~ Home.tsx:14 ~ isSpawnedDroppedAsset:", isSpawnedDroppedAsset);
   const dispatch = useContext(GlobalDispatchContext);
   const { hasSetupBackend, visitorHasPet, keyAssetId } = useContext(GlobalStateContext);
 
