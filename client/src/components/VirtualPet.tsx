@@ -261,7 +261,7 @@ export const VirtualPet = () => {
     <div className="grid gap-4">
       <div className="card">
         <div className="card-image">
-          {keyAssetId && (
+          {keyAssetId && isPetAssetOwner && (
             <button
               className="btn btn-icon"
               style={{

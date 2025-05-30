@@ -14,7 +14,7 @@ export const dropAsset = async ({
   host: string;
 }) => {
   try {
-    const { profileId, urlSlug } = credentials;
+    const { profileId, urlSlug, username } = credentials;
 
     const { petType, color, currentLevel } = petStatus;
 
@@ -23,7 +23,7 @@ export const dropAsset = async ({
     let BASE_URL = `${protocol}://${host}`;
     if (host === "localhost") BASE_URL = "http://localhost:3001";
 
-    await removeDroppedAssets(credentials);
+    await removeDroppedAssets(credentials, `petSystem-${username}`);
 
     let petAge = "baby";
     if (currentLevel >= 5 && currentLevel < 10) {
@@ -32,7 +32,7 @@ export const dropAsset = async ({
       petAge = "adult";
     }
 
-    const { moveTo, username } = visitor;
+    const { moveTo } = visitor;
     const position = {
       x: (moveTo?.x || 0) + 100,
       y: moveTo?.y || 0,
