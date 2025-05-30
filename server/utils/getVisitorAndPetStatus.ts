@@ -1,5 +1,4 @@
-import { IVisitor } from "../types";
-import { Credentials } from "../types/Credentials";
+import { Credentials, IVisitor } from "../types/index.js";
 import { errorHandler, getLevelAndAge, Visitor } from "./index.js";
 
 export const getVisitorAndPetStatus = async (credentials: Credentials) => {

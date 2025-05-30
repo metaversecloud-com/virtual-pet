@@ -1,6 +1,6 @@
-import { ACTION_COOLDOWNS, ACTION_EXPERIENCE_GAIN, ACTION_PARTICLE_EFFECTS } from "../constants";
-import { PetStatusType } from "../types";
-import { errorHandler } from "./errorHandler";
+import { ACTION_COOLDOWNS, ACTION_EXPERIENCE_GAIN, ACTION_PARTICLE_EFFECTS } from "../constants.js";
+import { PetStatusType } from "../types/index.js";
+import { errorHandler } from "./errorHandler.js";
 
 export const performAction = async ({
   petStatus,

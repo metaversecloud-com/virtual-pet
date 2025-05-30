@@ -1,6 +1,6 @@
-import { IVisitor, PetStatusType } from "../types";
-import { level } from "../constants";
-import { errorHandler } from "./errorHandler";
+import { IVisitor, PetStatusType } from "../types/index.js";
+import { level } from "../constants.js";
+import { errorHandler } from "./errorHandler.js";
 
 export const grantExpression = async ({
   profileId,

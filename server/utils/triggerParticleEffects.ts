@@ -1,7 +1,6 @@
-import { ACTION_PARTICLE_EFFECTS } from "../constants";
-import { Credentials } from "../types";
-import { errorHandler } from "./errorHandler";
-import { DroppedAsset, World } from "./topiaInit";
+import { ACTION_PARTICLE_EFFECTS } from "../constants.js";
+import { Credentials } from "../types/index.js";
+import { DroppedAsset, World, errorHandler } from "./index.js";
 
 export const triggerParticleEffects = async ({
   credentials,

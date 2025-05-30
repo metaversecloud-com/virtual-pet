@@ -1,6 +1,6 @@
-import { level } from "../constants";
-import { IVisitor } from "../types";
-import { errorHandler } from "./errorHandler";
+import { level } from "../constants.js";
+import { IVisitor } from "../types/index.js";
+import { errorHandler } from "./errorHandler.js";
 
 export const levelUp = async ({
   experience,

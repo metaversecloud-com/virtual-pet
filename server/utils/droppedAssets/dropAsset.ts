@@ -1,5 +1,5 @@
 import { DroppedAssetClickType, VisitorInterface } from "@rtsdk/topia";
-import { Credentials, PetStatusType } from "../../types";
+import { Credentials, PetStatusType } from "../../types/index.js";
 import { Asset, DroppedAsset, errorHandler, getS3URL, removeDroppedAssets } from "../index.js";
 
 export const dropAsset = async ({
