@@ -13,12 +13,13 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
     if (keyAssetId) credentials.assetId = keyAssetId;
 
     if (!ownerProfileId || ownerProfileId === profileId) {
-      const { petStatus } = await getVisitorAndPetStatus(credentials);
+      const { petStatus, visitorHasPet } = await getVisitorAndPetStatus(credentials);
 
       return res.json({
         isPetAssetOwner: true,
         isPetInWorld: true,
         petStatus,
+        visitorHasPet,
       });
     }
 
@@ -33,6 +34,7 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       petStatus: user?.dataObject?.pet,
       isPetAssetOwner: false,
       isPetInWorld: true,
+      visitorHasPet: true,
     });
   } catch (error) {
     return errorHandler({

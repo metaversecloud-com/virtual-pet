@@ -25,7 +25,7 @@ export const AdminView = () => {
     setAreButtonsDisabled(true);
 
     backendAPI
-      .post("/remove-dropped-assets")
+      .post("/remove-dropped-assets", { keyAssetId })
       .then(() => {
         dispatch!({
           type: SET_PET_IN_WORLD,
@@ -42,10 +42,10 @@ export const AdminView = () => {
 
   return (
     <div>
-      <h3>Settings</h3>
+      <h3 className="pb-8">Settings</h3>
       {keyAssetId ? (
         <button
-          className="btn btn-danger mt-8"
+          className="btn btn-danger"
           disabled={areButtonsDisabled}
           onClick={() => handleToggleShowConfirmationModal()}
         >

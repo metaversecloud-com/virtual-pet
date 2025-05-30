@@ -11,6 +11,7 @@ import { backendAPI, setErrorMessage, setGameState } from "@/utils";
 import { SET_IS_ADMIN } from "@/context/types";
 
 const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => {
+  console.log("🚀 ~ Home.tsx:14 ~ isSpawnedDroppedAsset:", isSpawnedDroppedAsset);
   const dispatch = useContext(GlobalDispatchContext);
   const { hasSetupBackend, visitorHasPet, keyAssetId } = useContext(GlobalStateContext);
 
@@ -44,11 +45,7 @@ const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => 
     if (hasSetupBackend) fetchGameState();
   }, [hasSetupBackend]);
 
-  return (
-    <PageContainer isLoading={isLoading}>
-      {isSpawnedDroppedAsset || visitorHasPet ? <VirtualPet /> : <CreatePet />}
-    </PageContainer>
-  );
+  return <PageContainer isLoading={isLoading}>{visitorHasPet ? <VirtualPet /> : <CreatePet />}</PageContainer>;
 };
 
 export default Home;

@@ -45,23 +45,24 @@ const App = () => {
       });
 
       if (interactiveParams.assetId) {
-        // if (!keyAssetId) {
         const currentURL = window.location.href;
         const containsString = currentURL.includes("spawned");
-        let id = interactiveParams.assetId;
         if (containsString) {
           await backendAPI
             .get("/key-asset")
             .then((response) => {
-              id = response.data.keyAssetId;
+              dispatch!({
+                type: SET_KEY_ASSET_ID,
+                payload: response.data,
+              });
             })
             .catch((error) => setErrorMessage(dispatch, error));
+        } else {
+          dispatch!({
+            type: SET_KEY_ASSET_ID,
+            payload: { keyAssetId: interactiveParams.assetId },
+          });
         }
-        dispatch!({
-          type: SET_KEY_ASSET_ID,
-          payload: { keyAssetId: id || undefined },
-        });
-        // }
       }
     },
     [dispatch],

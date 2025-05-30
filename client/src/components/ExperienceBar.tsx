@@ -37,11 +37,8 @@ export const ExperienceBar = ({
         <img src={`https://sdk-style.s3.amazonaws.com/icons/chevronRight.svg`} />
       </button>
       <h3>{`${level}`}</h3>
-      <div className="tooltip">
-        <div className="h-3 overflow-hidden rounded-full bg-gray-200">
-          <div className="h-3 rounded-full bg-gray-800" style={{ width: `${experiencePercentage}%` }} />
-        </div>
-        <span className="tooltip-content">{experiencePercentage}%</span>
+      <div className="h-3 overflow-hidden rounded-full bg-gray-200">
+        <div className="h-3 rounded-full bg-gray-800" style={{ width: `${experiencePercentage}%` }} />
       </div>
     </div>
   );
