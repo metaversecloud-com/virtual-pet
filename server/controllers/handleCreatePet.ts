@@ -13,12 +13,10 @@ export const handleCreatePet = async (req: Request, res: Response): Promise<Reco
   try {
     const credentials = getCredentials(req.query);
     const { displayName, identityId, profileId, urlSlug, username, visitorId } = credentials;
-
     const { keyAssetId, petType, name } = req.body;
+    if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const visitor: VisitorInterface = await Visitor.create(visitorId, urlSlug, {
-      credentials: { ...credentials, assetId: keyAssetId },
-    });
+    const visitor: VisitorInterface = await Visitor.create(visitorId, urlSlug, { credentials });
 
     const pet = {
       ...defaultPetStatus,
