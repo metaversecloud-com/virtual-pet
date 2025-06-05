@@ -1,5 +1,4 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 // components
 import { ActionIconsContainer, EditPet, ExperienceBar, LevelsModal, PageFooter } from "@/components";
@@ -108,6 +107,7 @@ export const VirtualPet = () => {
   const handleSpawnPet = async () => {
     resetPetState();
     setIsSpawnBtnDisabled(true);
+
     backendAPI
       .post("/spawn-pet", { keyAssetId })
       .then(() => {
@@ -120,14 +120,18 @@ export const VirtualPet = () => {
           },
         });
       })
-      .catch((error) => setErrorMessage(dispatch, error));
-    setIsSpawnBtnDisabled(false);
+      .catch((error) => setErrorMessage(dispatch, error))
+      .finally(() => {
+        setIsSpawnBtnDisabled(false);
+      });
   };
 
   const handlePickupPet = async () => {
     resetPetState();
     setIsSpawnBtnDisabled(true);
     setIsPickupBtnDisabled(true);
+    updatePetState({ isLoading: true });
+
     backendAPI
       .post("/pickup-pet", { keyAssetId })
       .then(() => {
@@ -140,9 +144,12 @@ export const VirtualPet = () => {
           },
         });
       })
-      .catch((error) => setErrorMessage(dispatch, error));
-    setIsSpawnBtnDisabled(false);
-    setIsPickupBtnDisabled(false);
+      .catch((error) => setErrorMessage(dispatch, error))
+      .finally(() => {
+        setIsSpawnBtnDisabled(false);
+        setIsPickupBtnDisabled(false);
+        updatePetState({ isLoading: false });
+      });
   };
 
   /*
