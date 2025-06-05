@@ -10,14 +10,14 @@ export const handlePickupPet = async (req: Request, res: Response): Promise<Reco
 
     const world = World.create(urlSlug, { credentials });
 
-    await removeDroppedAssets(credentials, `petSystem-${username}`);
-
     await world.updateDataObject(
       {},
       {
         analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId }],
       },
     );
+
+    await removeDroppedAssets(credentials, `petSystem-${username}`);
 
     return res.json({ isPetInWorld: false });
   } catch (error) {

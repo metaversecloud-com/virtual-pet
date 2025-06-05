@@ -10,12 +10,12 @@ export const handleRemoveAllPets = async (req: Request, res: Response): Promise<
 
     const world = World.create(urlSlug, { credentials });
 
-    await removeDroppedAssets(credentials);
-
     await world
       .updateDataObject({}, { analytics: [{ analyticName: `adminPickupAllPets`, urlSlug }] })
       .then()
       .catch(() => console.error("Error sending analytics for adminPickupAllPets"));
+
+    await removeDroppedAssets(credentials);
 
     return res.json({ isPetInWorld: false });
   } catch (error) {
