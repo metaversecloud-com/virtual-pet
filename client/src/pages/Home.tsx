@@ -29,7 +29,7 @@ const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => 
         dispatch!({
           type: SET_IS_ADMIN,
           payload: {
-            isAdmin: response.data,
+            isAdmin: response.data.isAdmin,
           },
         });
       } catch (error) {
