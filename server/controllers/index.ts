@@ -7,3 +7,4 @@ export * from "./handleSpawnPet.js";
 export * from "./handleTradePet.js";
 export * from "./handleUpdatePet.js";
 export * from "./handleRemoveAllPets.js";
+export * from "./handleFollowMe.js";

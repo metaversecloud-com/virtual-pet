@@ -8,7 +8,7 @@ export const handleGetGameState = async (req: Request, res: Response) => {
     const keyAssetId = req.query.keyAssetId as string;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const { isAdmin, petStatus, visitorHasPet } = await getVisitorAndPetStatus(credentials);
+    const { isAdmin, petStatus, visitorHasPet, petVisitor } = await getVisitorAndPetStatus(credentials);
 
     let isPetInWorld = false;
     if (visitorHasPet) {
@@ -32,6 +32,7 @@ export const handleGetGameState = async (req: Request, res: Response) => {
       isPetInWorld,
       petStatus,
       visitorHasPet,
+      petVisitor,
     });
   } catch (error) {
     return errorHandler({

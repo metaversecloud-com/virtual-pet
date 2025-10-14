@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { errorHandler, getCredentials, removeDroppedAssets, World } from "../utils/index.js";
+import { errorHandler, getCredentials, getVisitorAndPetStatus, removeDroppedAssets, World } from "../utils/index.js";
 
 export const handlePickupPet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
@@ -18,6 +18,9 @@ export const handlePickupPet = async (req: Request, res: Response): Promise<Reco
     );
 
     await removeDroppedAssets(credentials, `petSystem-${username}`);
+
+    const { visitor } = await getVisitorAndPetStatus(credentials);
+    await visitor.deleteFollowingAvatar();
 
     return res.json({ isPetInWorld: false });
   } catch (error) {

@@ -22,6 +22,7 @@ export const getVisitorAndPetStatus = async (credentials: Credentials) => {
     // this should be stored in the visitor data object moving forward but for backwards compatibility we need to also add it manually here
     const { currentLevel, experienceNeededForNextLevel, experienceNeededForTheLevelYouCurrentlyAchieved, petAge } =
       getLevelAndAge(visitor.dataObject?.pet?.experience || 0);
+    const petVisitor = await visitor.getFollowingAvatar();
 
     return {
       isAdmin,
@@ -34,6 +35,7 @@ export const getVisitorAndPetStatus = async (credentials: Credentials) => {
       },
       visitorHasPet: true,
       visitor,
+      petVisitor,
     };
   } catch (error) {
     return errorHandler({

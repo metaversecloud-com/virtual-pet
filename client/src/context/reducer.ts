@@ -37,12 +37,14 @@ const globalReducer = (state: InitialStateType, action: ActionType) => {
         isPetInWorld: payload.isPetInWorld,
         petStatus: payload.petStatus,
         visitorHasPet: payload.visitorHasPet,
+        petVisitor: payload.petVisitor,
         error: "",
       };
     case SET_PET_IN_WORLD:
       return {
         ...state,
         isPetInWorld: payload.isPetInWorld,
+        petVisitor: payload.petVisitor,
         error: "",
       };
     case SET_KEY_ASSET_ID:

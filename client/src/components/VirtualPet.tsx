@@ -32,7 +32,7 @@ const DELAY = 6000;
 
 export const VirtualPet = () => {
   const dispatch = useContext(GlobalDispatchContext);
-  const { keyAssetId, petStatus, isPetInWorld, isPetAssetOwner } = useContext(GlobalStateContext);
+  const { keyAssetId, petStatus, isPetInWorld, isPetAssetOwner, petVisitor } = useContext(GlobalStateContext);
   const {
     color,
     experience,
@@ -117,6 +117,27 @@ export const VirtualPet = () => {
             isPetInWorld: true,
             isPetAssetOwner: true,
             petStatus,
+            petVisitor: null,
+          },
+        });
+      })
+      .catch((error) => setErrorMessage(dispatch, error))
+      .finally(() => {
+        setIsSpawnBtnDisabled(false);
+      });
+  };
+
+  const handleFollowMe = async () => {
+    resetPetState();
+    setIsSpawnBtnDisabled(true);
+
+    backendAPI
+      .post("/follow-me", { keyAssetId })
+      .then((response) => {
+        dispatch!({
+          type: SET_PET_IN_WORLD,
+          payload: {
+            petVisitor: response?.data?.petVisitor || null,
           },
         });
       })
@@ -141,6 +162,7 @@ export const VirtualPet = () => {
             isPetInWorld: false,
             isPetAssetOwner: true,
             petStatus,
+            petVisitor: null,
           },
         });
       })
@@ -316,12 +338,21 @@ export const VirtualPet = () => {
 
       {isPetAssetOwner && (
         <PageFooter>
-          {keyAssetId && !isPetInWorld ? (
-            <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
-              Call Pet
-            </button>
+          {keyAssetId && !isPetInWorld && !petVisitor ? (
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
+                Call Pet
+              </button>
+              <button
+                className="btn btn-success"
+                disabled={isSpawnBtnDisabled || currentLevel < 2}
+                onClick={handleFollowMe}
+              >
+                {currentLevel < 2 ? "Follow (Level 2+)" : "Follow Me"}
+              </button>
+            </div>
           ) : (
-            isPetInWorld && (
+            (isPetInWorld || petVisitor) && (
               <button className="btn" disabled={isPickupBtnDisabled} onClick={handlePickupPet}>
                 Pick up Pet
               </button>

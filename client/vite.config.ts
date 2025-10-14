@@ -6,9 +6,9 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3001,
+    port: 3012,
     proxy: {
-      "/api": "http://localhost:3000/",
+      "/api": "http://localhost:3013/",
     },
   },
   build: {

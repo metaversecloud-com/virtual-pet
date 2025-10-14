@@ -30,6 +30,8 @@ export interface InitialStateType {
   error?: string;
   hasInteractiveParams?: boolean;
   hasSetupBackend?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  petVisitor?: any;
 }
 
 export type ActionType = {

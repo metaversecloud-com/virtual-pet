@@ -9,6 +9,7 @@ import {
   handleSpawnPet,
   handleTradePet,
   handleUpdatePet,
+  handleFollowMe,
 } from "./controllers/index.js";
 import { getVersion } from "./utils/getVersion.js";
 import { handleGetPet } from "./controllers/handleGetPet.js";
@@ -41,6 +42,7 @@ router.post("/create-pet", handleCreatePet);
 router.post("/update-pet", handleUpdatePet);
 router.post("/trade-pet", handleTradePet);
 router.post("/spawn-pet", handleSpawnPet);
+router.post("/follow-me", handleFollowMe);
 router.post("/pickup-pet", handlePickupPet);
 router.post("/execute-action", handleExecuteAction);
 router.post("/remove-dropped-assets", handleRemoveAllPets);
