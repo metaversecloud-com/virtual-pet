@@ -345,10 +345,10 @@ export const VirtualPet = () => {
               </button>
               <button
                 className="btn btn-success"
-                disabled={isSpawnBtnDisabled || currentLevel < 2}
+                disabled={isSpawnBtnDisabled || currentLevel < 1}
                 onClick={handleFollowMe}
               >
-                {currentLevel < 2 ? "Follow (Level 2+)" : "Follow Me"}
+                {currentLevel < 1 ? "Follow (Level 2+)" : "Follow Me"}
               </button>
             </div>
           ) : (
