@@ -21,7 +21,7 @@ export const dropAsset = async ({
     const protocol = process.env.INSTANCE_PROTOCOL || "https";
 
     let BASE_URL = `${protocol}://${host}`;
-    if (host === "localhost") BASE_URL = "http://localhost:3001";
+    if (host === "localhost") BASE_URL = "http://localhost:3012";
 
     await removeDroppedAssets(credentials, `petSystem-${username}`);
 

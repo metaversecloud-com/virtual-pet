@@ -12,11 +12,18 @@ import { defaultPetStatus } from "@/constants";
 const queryParameters = new URLSearchParams(window.location.search);
 const isCheatCodeOn = queryParameters.get("isCheatCodeOn");
 
+// const ACTION_COOLDOWNS = {
+//   FEED: isCheatCodeOn ? 500 : 1000 * 60 * 60 * 1,
+//   SLEEP: 1000 * 60 * 45,
+//   PLAY: 1000 * 60 * 15,
+//   TRAIN: 1000 * 60 * 30,
+// };
+
 const ACTION_COOLDOWNS = {
-  FEED: isCheatCodeOn ? 500 : 1000 * 60 * 60 * 1,
-  SLEEP: 1000 * 60 * 45,
-  PLAY: 1000 * 60 * 15,
-  TRAIN: 1000 * 60 * 30,
+  FEED: 500,
+  SLEEP: 500,
+  PLAY: 500,
+  TRAIN: 500,
 };
 
 const icons = {

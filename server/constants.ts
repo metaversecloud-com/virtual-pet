@@ -47,10 +47,10 @@ export const ACTION_EXPERIENCE_GAIN = {
 };
 
 export const ACTION_PARTICLE_EFFECTS = {
-  SLEEP: "sleep_float",
-  PLAY: "guitar_float",
-  FEED: "redHeart_float",
-  TRAIN: "pawPrint_float",
+  SLEEP: process.env.IS_LOCALHOST ? "Smoke" : "sleep_float",
+  PLAY: process.env.IS_LOCALHOST ? "Smoke" : "guitar_float",
+  FEED: process.env.IS_LOCALHOST ? "Smoke" : "redHeart_float",
+  TRAIN: process.env.IS_LOCALHOST ? "Smoke" : "pawPrint_float",
 };
 
 export const defaultPetStatus = {

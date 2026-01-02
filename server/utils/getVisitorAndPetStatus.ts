@@ -9,6 +9,8 @@ export const getVisitorAndPetStatus = async (credentials: Credentials) => {
 
     await visitor.fetchDataObject();
 
+    console.log(visitor);
+
     const { isAdmin } = visitor;
 
     if (!visitor.dataObject?.pet) {
