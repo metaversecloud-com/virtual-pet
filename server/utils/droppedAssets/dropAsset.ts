@@ -62,7 +62,7 @@ export const dropAsset = async ({
         },
         {},
       ),
-      visitor.deleteFollowingAvatar(),
+      visitor.deleteNpc(),
     ]);
 
     return;

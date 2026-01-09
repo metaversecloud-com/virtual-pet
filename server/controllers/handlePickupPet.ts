@@ -20,7 +20,7 @@ export const handlePickupPet = async (req: Request, res: Response): Promise<Reco
     await removeDroppedAssets(credentials, `petSystem-${username}`);
 
     const { visitor } = await getVisitorAndPetStatus(credentials);
-    await visitor.deleteFollowingAvatar();
+    await visitor.deleteNpc();
 
     return res.json({ isPetInWorld: false });
   } catch (error) {
