@@ -5,6 +5,7 @@ import {
   errorHandler,
   getCredentials,
   getVisitorAndPetStatus,
+  removeDroppedAssets,
   spawnPetNpc,
   User,
 } from "../utils/index.js";
@@ -29,7 +30,8 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       const getVisitorResponse = await getVisitorAndPetStatus(credentials);
       if (getVisitorResponse instanceof Error) throw getVisitorResponse;
 
-      const { pets, visitor, visitorInventory } = getVisitorResponse;
+      const { pets: visitorPets, visitor, visitorInventory } = getVisitorResponse;
+      pets = visitorPets;
 
       selectedPetId = Object.keys(pets).find((pet) => pets[pet].petSpawnedDroppedAssetId === assetId);
       petStatus = pets[selectedPetId || ""];
@@ -68,6 +70,8 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
         petStatus = pets[selectedPetId || ""];
       }
     }
+
+    await removeDroppedAssets(credentials, `petSystem-${credentials.username}`);
 
     return res.json({
       petStatus,

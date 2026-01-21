@@ -1,4 +1,4 @@
-import { Ecosystem, standardizeError, removeDroppedAssets } from "../utils/index.js";
+import { Ecosystem, standardizeError } from "../utils/index.js";
 import { Credentials } from "../types/Credentials.js";
 import { VisitorInterface } from "@rtsdk/topia";
 import { PetStatusType } from "../types/UserInterface.js";
@@ -25,7 +25,6 @@ export const spawnPetNpc = async ({
 }): Promise<{ success: boolean } | Error> => {
   try {
     await visitor.deleteNpc();
-    await removeDroppedAssets(credentials, `petSystem-${credentials.username}`);
 
     const { petType, color, currentLevel } = petStatus;
 
