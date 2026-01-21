@@ -1,27 +1,32 @@
 import { Request, Response } from "express";
-import { errorHandler, getCredentials, removeDroppedAssets, Visitor } from "../utils/index.js";
-import { VisitorInterface } from "@rtsdk/topia";
+import { errorHandler, getCredentials, getVisitorAndPetStatus } from "../utils/index.js";
 
 export const handleTradePet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
     const credentials = getCredentials(req.query);
-    const { profileId, urlSlug, username, visitorId } = credentials;
+    const { profileId, urlSlug } = credentials;
 
-    const { keyAssetId } = req.body;
+    const { keyAssetId, selectedPetId } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const visitor: VisitorInterface = await Visitor.create(visitorId, urlSlug, { credentials });
+    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
+    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
 
-    await visitor.setDataObject(
-      {},
+    const { pets, visitor } = getVisitorResponse;
+
+    const petStatus = pets ? pets[selectedPetId] : null;
+    if (!petStatus) throw new Error("No pet status found for visitor");
+
+    delete pets[selectedPetId];
+
+    await visitor.updateDataObject(
+      { pets },
       {
         analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId }],
       },
     );
 
-    await removeDroppedAssets(credentials, `petSystem-${username}`);
-
-    return res.json({ isPetAssetOwner: false, isPetInWorld: false, petStatus: {}, visitorHasPet: false });
+    return res.json({ petStatus: {}, pets, selectedPetId: null });
   } catch (error) {
     return errorHandler({
       error,

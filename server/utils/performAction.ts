@@ -1,34 +1,48 @@
-import { ACTION_COOLDOWNS, ACTION_EXPERIENCE_GAIN, ACTION_PARTICLE_EFFECTS } from "../constants.js";
+import { ACTION_COOLDOWNS, ACTION_EXPERIENCE_GAIN } from "../constants.js";
 import { PetStatusType } from "../types/index.js";
-import { errorHandler } from "./errorHandler.js";
+import { standardizeError } from "./standardizeError.js";
 
 export const performAction = async ({
   petStatus,
   actionKey,
 }: {
-  petStatus: Record<keyof PetStatusType, any>;
-  actionKey: keyof typeof ACTION_PARTICLE_EFFECTS;
-}) => {
+  petStatus: PetStatusType;
+  actionKey: string & keyof PetStatusType;
+}): Promise<PetStatusType | Error> => {
   try {
     const now = Date.now();
-    const cooldown = ACTION_COOLDOWNS[actionKey];
-    const experienceGain = ACTION_EXPERIENCE_GAIN[actionKey];
+    const cooldown = ACTION_COOLDOWNS[actionKey.toUpperCase() as keyof typeof ACTION_COOLDOWNS];
+    const experienceGain = ACTION_EXPERIENCE_GAIN[actionKey.toUpperCase() as keyof typeof ACTION_EXPERIENCE_GAIN];
 
-    const actionObj = petStatus[actionKey.toLowerCase() as keyof PetStatusType] || { timestamp: 0 };
+    const actionObj = petStatus[actionKey] || {
+      timestamp: 0,
+      actionTakenCount: 0,
+    };
 
-    const timeSinceLastAction = now - cooldown;
-    if (actionObj.timestamp && timeSinceLastAction < cooldown) return { petStatus };
+    let lastTimestamp = 0;
+    if (typeof actionObj === "object" && "timestamp" in actionObj && typeof actionObj.timestamp === "number") {
+      lastTimestamp = actionObj.timestamp;
+    }
+
+    const timeSinceLastAction = now - lastTimestamp;
+    if (lastTimestamp && timeSinceLastAction < cooldown) return petStatus;
+
+    let actionCount = 0;
+    if (
+      typeof actionObj === "object" &&
+      "actionTakenCount" in actionObj &&
+      typeof actionObj.actionTakenCount === "number"
+    ) {
+      actionCount = actionObj.actionTakenCount;
+    }
+    actionCount += 1;
 
     return {
       ...petStatus,
       experience: (petStatus.experience || 0) + experienceGain,
-      [actionKey.toLowerCase()]: { timestamp: now },
+      [actionKey]: { timestamp: now, actionTakenCount: actionCount },
     };
   } catch (error) {
-    return errorHandler({
-      error,
-      functionName: "performAction",
-      message: "Error performing action",
-    });
+    return standardizeError(error);
   }
 };

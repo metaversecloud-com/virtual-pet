@@ -44,7 +44,7 @@ export const ActionIcon = ({
   disabled: boolean;
   onAnimationEnd: () => void;
 }) => {
-  const { petStatus, isPetInWorld } = useContext(GlobalStateContext);
+  const { petStatus } = useContext(GlobalStateContext);
 
   const key = actionType.toLowerCase() as keyof typeof defaultPetStatus;
   const actionStatus = petStatus ? petStatus[key] : defaultPetStatus[key];
@@ -62,7 +62,7 @@ export const ActionIcon = ({
   };
 
   const getTooltipText = () => {
-    if (!isPetInWorld) {
+    if (!petStatus?.isPetInWorld) {
       return "Call pet to take action.";
     }
     if (isCooldownActive()) {

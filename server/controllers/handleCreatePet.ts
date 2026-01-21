@@ -1,57 +1,155 @@
 import { Request, Response } from "express";
 import {
   addNewRowToGoogleSheets,
+  awardBadge,
   errorHandler,
   getCredentials,
   getVisitorAndPetStatus,
-  Visitor,
 } from "../utils/index.js";
-import { VisitorInterface } from "@rtsdk/topia";
 import { defaultPetStatus } from "../constants.js";
 
 export const handleCreatePet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
     const credentials = getCredentials(req.query);
-    const { displayName, identityId, profileId, urlSlug, username, visitorId } = credentials;
+    const { displayName, identityId, profileId, urlSlug, username } = credentials;
     const { keyAssetId, petType, name } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const visitor: VisitorInterface = await Visitor.create(visitorId, urlSlug, { credentials });
+    const promises = [];
+
+    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
+    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
+
+    const { pets, visitor, visitorInventory } = getVisitorResponse;
+
+    const createdDate = new Date().getTime();
+    const selectedPetId = `${petType}_${createdDate}`;
 
     const pet = {
       ...defaultPetStatus,
+      id: selectedPetId,
       username: displayName || username,
       experience: 0,
       petType,
       name,
       color: 0,
+      createdDate,
     };
 
-    await visitor.setDataObject(
-      { pet },
-      {
-        analytics: [
-          { analyticName: `starts`, profileId, uniqueKey: profileId },
-          { analyticName: `starts-${petType}`, profileId, uniqueKey: profileId },
-        ],
-      },
+    const updatedPets = { ...pets, [selectedPetId]: pet };
+    promises.push(
+      visitor.updateDataObject(
+        { pets: updatedPets },
+        {
+          analytics: [
+            { analyticName: `starts`, profileId, uniqueKey: profileId },
+            { analyticName: `starts-${petType}`, profileId, uniqueKey: profileId },
+          ],
+        },
+      ),
     );
 
-    addNewRowToGoogleSheets([
-      {
-        identityId,
-        displayName,
-        event: "starts",
-        urlSlug,
-        username,
-      },
-    ])
-      .then()
-      .catch();
+    promises.push(
+      addNewRowToGoogleSheets([
+        {
+          identityId,
+          displayName,
+          event: "starts",
+          urlSlug,
+          username,
+        },
+      ]),
+    );
 
-    const { petStatus } = await getVisitorAndPetStatus(credentials);
+    if (Object.keys(updatedPets).length === 1) {
+      // Award Baby Steps badge for creating first pet
+      promises.push(
+        awardBadge({
+          credentials,
+          visitor,
+          visitorInventory,
+          badgeName: "Baby Steps",
+        }).catch((error: any) =>
+          errorHandler({
+            error,
+            functionName: "handleCreatePet",
+            message: "Error awarding Baby Steps badge",
+          }),
+        ),
+      );
+    } else if (Object.keys(updatedPets).length === 3) {
+      // Award Pet Party badge for creating 3 pets
+      promises.push(
+        awardBadge({
+          credentials,
+          visitor,
+          visitorInventory,
+          badgeName: "Pet Party",
+        }).catch((error: any) =>
+          errorHandler({
+            error,
+            functionName: "handleCreatePet",
+            message: "Error awarding Pet Party badge",
+          }),
+        ),
+      );
+    }
 
-    return res.json({ isPetAssetOwner: true, isPetInWorld: false, petStatus, visitorHasPet: true });
+    // Award adoption badges for creating a pet
+    console.log("🚀 ~ handleCreatePet.ts:99 ~ petType:", petType);
+    if (petType === "dragon") {
+      promises.push(
+        awardBadge({
+          credentials,
+          visitor,
+          visitorInventory,
+          badgeName: "Flamekeeper",
+        }).catch((error: any) =>
+          errorHandler({
+            error,
+            functionName: "handleCreatePet",
+            message: "Error awarding Flamekeeper badge",
+          }),
+        ),
+      );
+    } else if (petType === "unicorn") {
+      promises.push(
+        awardBadge({
+          credentials,
+          visitor,
+          visitorInventory,
+          badgeName: "Dreamkeeper",
+        }).catch((error: any) =>
+          errorHandler({
+            error,
+            functionName: "handleCreatePet",
+            message: "Error awarding Dreamkeeper badge",
+          }),
+        ),
+      );
+    } else if (petType === "penguin") {
+      promises.push(
+        awardBadge({
+          credentials,
+          visitor,
+          visitorInventory,
+          badgeName: "Icebreaker",
+        }).catch((error: any) =>
+          errorHandler({
+            error,
+            functionName: "handleCreatePet",
+            message: "Error awarding Icebreaker badge",
+          }),
+        ),
+      );
+    }
+
+    const results = await Promise.allSettled(promises);
+    results.forEach((result) => {
+      if (result.status === "rejected") console.error(result.reason);
+    });
+
+    return res.json({ isPetOwner: true, petStatus: pet, selectedPetId, pets: updatedPets, visitorInventory });
   } catch (error) {
     return errorHandler({
       error,

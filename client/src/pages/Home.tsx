@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 // components
-import { PageContainer, VirtualPet, CreatePet } from "@/components";
+import { PageContainer, VirtualPet, CreatePet, SelectPet } from "@/components";
 
 // context
 import { GlobalDispatchContext, GlobalStateContext } from "@/context/GlobalContext";
@@ -12,7 +12,7 @@ import { SET_IS_ADMIN } from "@/context/types";
 
 const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => {
   const dispatch = useContext(GlobalDispatchContext);
-  const { hasSetupBackend, visitorHasPet, keyAssetId } = useContext(GlobalStateContext);
+  const { hasSetupBackend, keyAssetId, pets, selectedPetId } = useContext(GlobalStateContext);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,7 +44,11 @@ const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => 
     if (hasSetupBackend) fetchGameState();
   }, [hasSetupBackend]);
 
-  return <PageContainer isLoading={isLoading}>{visitorHasPet ? <VirtualPet /> : <CreatePet />}</PageContainer>;
+  return (
+    <PageContainer isLoading={isLoading}>
+      {selectedPetId ? <VirtualPet /> : pets && Object.keys(pets).length > 0 ? <SelectPet /> : <CreatePet />}
+    </PageContainer>
+  );
 };
 
 export default Home;

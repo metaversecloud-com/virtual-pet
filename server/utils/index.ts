@@ -1,4 +1,4 @@
-export * from "./droppedAssets/index.js";
+export * from "./awardBadge.js";
 export * from "./addNewRowToGoogleSheets.js";
 export * from "./checkForLevelUp.js";
 export * from "./cleanReturnPayload.js";
@@ -10,5 +10,7 @@ export * from "./getVersion.js";
 export * from "./getVisitorAndPetStatus.js";
 export * from "./grantExpression.js";
 export * from "./performAction.js";
+export * from "./removeDroppedAssets.js";
+export * from "./spawnPetNpc.js";
+export * from "./standardizeError.js";
 export * from "./topiaInit.js";
-export * from "./triggerParticleEffects.js";

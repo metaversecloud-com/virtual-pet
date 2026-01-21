@@ -4,6 +4,7 @@ import {
   handleExecuteAction,
   handleGetGameState,
   handleGetKeyAsset,
+  handleGetPet,
   handlePickupPet,
   handleRemoveAllPets,
   handleSpawnPet,
@@ -11,7 +12,6 @@ import {
   handleUpdatePet,
 } from "./controllers/index.js";
 import { getVersion } from "./utils/getVersion.js";
-import { handleGetPet } from "./controllers/handleGetPet.js";
 
 const router = express.Router();
 const SERVER_START_DATE = new Date();

@@ -12,29 +12,38 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
 
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    if (!ownerProfileId || ownerProfileId === profileId) {
-      const { petStatus, visitorHasPet } = await getVisitorAndPetStatus(credentials);
+    let isPetOwner = false,
+      pets,
+      petStatus;
 
-      return res.json({
-        isPetAssetOwner: true,
-        isPetInWorld: true,
-        petStatus,
-        visitorHasPet,
-      });
+    if (!ownerProfileId || ownerProfileId === profileId) {
+      const getVisitorResponse = await getVisitorAndPetStatus(credentials);
+      if (getVisitorResponse instanceof Error) throw getVisitorResponse;
+
+      pets = getVisitorResponse.pets;
+      petStatus = pets ? Object.values(pets).find((pet) => pet.petSpawnedDroppedAssetId === assetId) : null;
+      isPetOwner = true;
+    } else {
+      // not owner view
+      const user = User.create({
+        credentials,
+        profileId: ownerProfileId,
+      }) as IUser;
+      await user.fetchDataObject();
+
+      if (user.dataObject?.pet) {
+        petStatus = user.dataObject.pet;
+      } else if (user.dataObject?.pets) {
+        pets = user.dataObject.pets;
+        petStatus = Object.values(user.dataObject.pets).find((pet) => pet.petSpawnedDroppedAssetId === assetId);
+      }
     }
 
-    // not owner view
-    const user = User.create({
-      credentials,
-      profileId: ownerProfileId,
-    }) as IUser;
-    await user.fetchDataObject();
-
     return res.json({
-      petStatus: user?.dataObject?.pet,
-      isPetAssetOwner: false,
-      isPetInWorld: true,
-      visitorHasPet: true,
+      petStatus,
+      isPetOwner,
+      pets,
+      selectedPetId: petStatus?.id,
     });
   } catch (error) {
     return errorHandler({
