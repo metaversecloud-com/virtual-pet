@@ -1,7 +1,17 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 
 // components
-import { ActionIconsContainer, EditPet, ExperienceBar, LevelsModal, PageFooter } from "@/components";
+import {
+  ActionIconsContainer,
+  ConfirmationModal,
+  ExperienceBar,
+  LevelsModal,
+  PageFooter,
+  PetColors,
+} from "@/components";
+
+// constants
+import { petColors, petNames } from "@/constants";
 
 // context
 import { GlobalDispatchContext, GlobalStateContext } from "@/context/GlobalContext";
@@ -10,25 +20,7 @@ import { SET_SELECTED_PET } from "@/context/types";
 // utils
 import { backendAPI, getPetData, getS3URL, setErrorMessage, setGameState } from "@/utils";
 import { defaultPetStatus } from "@/constants";
-
-const initialPetState = {
-  isFeeding: false,
-  isSleeping: false,
-  isTraining: false,
-  isPlaying: false,
-  isNotHungry: false,
-  isNotSleepy: false,
-  dontWantToTrain: false,
-  dontWantToPlay: false,
-  isLoading: false,
-};
-
-const FEED = "FEED";
-const SLEEP = "SLEEP";
-const PLAY = "PLAY";
-const TRAIN = "TRAIN";
-
-const DELAY = 6000;
+import { DELAY, FEED, initialPetState, PLAY, SLEEP, TRAIN } from "@/context/constants";
 
 export const VirtualPet = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -50,9 +42,6 @@ export const VirtualPet = () => {
     isPetInWorld,
   } = petStatus || defaultPetStatus;
 
-  const [showEditPetScreen, setShowEditPetScreen] = useState(false);
-  const [showLevelsModal, setShowLevelsModal] = useState(false);
-
   const [petState, setPetState] = useState(initialPetState);
   const { petDescription } = getPetData(
     petAge as "baby" | "teen" | "adult",
@@ -62,8 +51,15 @@ export const VirtualPet = () => {
   const [actionStatus, setActionStatus] = useState("DEFAULT");
   const [actionImage, setActionImage] = useState(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`);
 
+  const [selectedColor, setSelectedColor] = useState(color ? petColors[color] : petColors[0]);
+  const [selectedName, setSelectedName] = useState(name || petNames[0]);
+
   const [isSpawnBtnDisabled, setIsSpawnBtnDisabled] = useState(false);
   const [isPickupBtnDisabled, setIsPickupBtnDisabled] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [showLevelsModal, setShowLevelsModal] = useState(false);
+  const [showAdoptionModal, setShowAdoptionModal] = useState(false);
 
   const areAllButtonsDisabled =
     petState?.isSleeping ||
@@ -71,7 +67,8 @@ export const VirtualPet = () => {
     petState?.isTraining ||
     petState?.isPlaying ||
     petState?.isLoading ||
-    !isPetInWorld;
+    !isPetInWorld ||
+    isSaving;
 
   const resetPetState = () => {
     setPetState(initialPetState);
@@ -165,6 +162,45 @@ export const VirtualPet = () => {
     });
   };
 
+  const handleTradePet = () => {
+    setIsSaving(true);
+    backendAPI
+      .post("/trade-pet", { keyAssetId, selectedPetId })
+      .then((response) => {
+        setGameState(dispatch, response.data);
+      })
+      .catch((error) => setErrorMessage(dispatch, error))
+      .finally(() => {
+        setIsSaving(false);
+        setShowAdoptionModal(false);
+      });
+  };
+
+  const selectPetColor = (pet: { id: number; minLevelToUnlock?: number }) => {
+    if (!pet.minLevelToUnlock || pet.minLevelToUnlock <= currentLevel) {
+      setSelectedColor(petColors[pet.id]);
+    }
+  };
+
+  const handleUpdatePet = () => {
+    setIsSaving(true);
+    backendAPI
+      .post("/update-pet", { keyAssetId, selectedName, selectedColor: selectedColor.id, selectedPetId })
+      .then((response) => {
+        dispatch!({
+          type: SET_SELECTED_PET,
+          payload: {
+            petStatus: response.data.petStatus,
+            selectedPetId,
+          },
+        });
+      })
+      .catch((error) => setErrorMessage(dispatch, error))
+      .finally(() => {
+        setIsSaving(false);
+      });
+  };
+
   /*
    * Configuration object for different pet actions. Each action has:
    * a timestamp representing when the action last happened
@@ -204,7 +240,7 @@ export const VirtualPet = () => {
       actionType,
       onAnimationEnd,
     }: {
-      actionType: "FEED" | "SLEEP" | "PLAY" | "TRAIN";
+      actionType: typeof FEED | typeof SLEEP | typeof PLAY | typeof TRAIN;
       onAnimationEnd: () => void;
     }) => {
       resetErrors();
@@ -269,45 +305,27 @@ export const VirtualPet = () => {
     });
   };
 
-  const handleToggleShowShowEditPetScreen = () => {
-    setShowEditPetScreen(!showEditPetScreen);
-  };
-
-  const handleToggleShowLevelsModal = () => {
-    setShowLevelsModal(!showLevelsModal);
-  };
-
-  if (showEditPetScreen) return <EditPet setShowEditPetScreen={handleToggleShowShowEditPetScreen} />;
-
   return (
     <>
-      {/* <button className="icon-with-rounded-border mb-4" onClick={() => handleClearSelection()}>
+      <button className="icon-with-rounded-border mb-4" onClick={() => handleClearSelection()}>
         <img src="https://sdk-style.s3.amazonaws.com/icons/arrow.svg" />
-      </button> */}
+      </button>
+
       <div className="grid gap-4">
         <div className="card">
-          <div className="card-image">
-            {keyAssetId && isPetOwner && (
-              <button
-                className="btn btn-icon"
-                style={{
-                  position: "relative",
-                  left: "18px",
-                  top: "14px",
-                }}
-                onClick={handleToggleShowShowEditPetScreen}
-              >
-                <img src="https://sdk-style.s3.amazonaws.com/icons/edit.svg" />
-              </button>
-            )}
-            <img src={actionImage} alt="Pet" />
-          </div>
+          <img src={actionImage} alt="Pet" />
         </div>
 
         <div className="card text-center">
           {isPetOwner ? (
             <>
-              <h4 className="card-title">{name}</h4>
+              <select value={selectedName} className="m-auto" onChange={(e) => setSelectedName(e.target.value)}>
+                {petNames.map((name, index) => (
+                  <option key={index} className="h4" value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
               <p className="p2">{petDescription}</p>
               <ActionIconsContainer
                 areAllButtonsDisabled={areAllButtonsDisabled}
@@ -328,29 +346,66 @@ export const VirtualPet = () => {
           currentLevel={currentLevel}
           experienceNeededForNextLevel={experienceNeededForNextLevel}
           experienceNeededForTheLevelYouCurrentlyAchieved={experienceNeededForTheLevelYouCurrentlyAchieved}
-          handleToggleShowLevelsModal={handleToggleShowLevelsModal}
+          handleToggleShowLevelsModal={() => setShowLevelsModal(true)}
         />
 
         {isPetOwner && (
-          <PageFooter>
-            <button className="btn btn-outline mb-2" disabled={isSpawnBtnDisabled} onClick={handleClearSelection}>
+          <>
+            <PetColors
+              petType={petType!}
+              petAge={petAge!}
+              currentLevel={currentLevel!}
+              selectedColor={selectedColor}
+              selectPetColor={selectPetColor}
+            />
+
+            <PageFooter>
+              {/* <button className="btn btn-outline mb-2" disabled={isSpawnBtnDisabled} onClick={handleClearSelection}>
               Select Another Pet
-            </button>
-            {keyAssetId && !isPetInWorld ? (
-              <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
-                Call Pet
-              </button>
-            ) : (
-              isPetInWorld && (
-                <button className="btn" disabled={isPickupBtnDisabled} onClick={handlePickupPet}>
-                  Pick up Pet
-                </button>
-              )
-            )}
-          </PageFooter>
+            </button> */}
+              <div className="grid gap-2">
+                {selectedColor.id !== color || selectedName !== name ? (
+                  <button className="btn btn-outline" disabled={isSaving} onClick={handleUpdatePet}>
+                    Save Changes
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-danger-outline"
+                    disabled={isSaving}
+                    onClick={() => setShowAdoptionModal(true)}
+                  >
+                    Put Up for Adoption
+                  </button>
+                )}
+
+                {isPetInWorld ? (
+                  <button
+                    className="btn"
+                    disabled={isPickupBtnDisabled || areAllButtonsDisabled}
+                    onClick={handlePickupPet}
+                  >
+                    Pick up Pet
+                  </button>
+                ) : (
+                  <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
+                    Call Pet
+                  </button>
+                )}
+              </div>
+            </PageFooter>
+          </>
         )}
 
-        {showLevelsModal && <LevelsModal handleToggleShowLevelsModal={handleToggleShowLevelsModal} />}
+        {showLevelsModal && <LevelsModal handleToggleShowLevelsModal={() => setShowLevelsModal(false)} />}
+
+        {showAdoptionModal && (
+          <ConfirmationModal
+            title="Put Up for Adoption?"
+            message="Your pet will be adopted by someone else. This can't be undone."
+            handleOnConfirm={handleTradePet}
+            handleToggleShowConfirmationModal={() => setShowAdoptionModal(false)}
+          />
+        )}
       </div>
     </>
   );

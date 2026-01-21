@@ -4,7 +4,7 @@ export * from "./AdminView.js";
 export * from "./AdminIconButton.js";
 export * from "./ConfirmationModal.js";
 export * from "./CreatePet.js";
-export * from "./EditPet.js";
+export * from "./PetColors.js";
 export * from "./ExperienceBar.js";
 export * from "./LevelsModal.js";
 export * from "./Loading.js";

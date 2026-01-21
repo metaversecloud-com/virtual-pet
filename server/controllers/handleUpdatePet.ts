@@ -16,8 +16,20 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
     const petStatus = pets ? pets[selectedPetId] : null;
     if (!petStatus) throw new Error("No pet status found for visitor");
 
-    // Award Fresh Look badge for changing pet color
+    petStatus.username = displayName || username;
+    petStatus.name = selectedName;
+
     if (petStatus.color !== selectedColor) {
+      petStatus.color = selectedColor;
+      const spawnPetNpcResponse = await spawnPetNpc({
+        credentials,
+        visitor,
+        visitorInventory,
+        petStatus,
+      });
+      if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
+
+      // Award Fresh Look badge for changing pet color
       await awardBadge({
         credentials,
         visitor,
@@ -31,10 +43,6 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
         }),
       );
     }
-
-    petStatus.username = displayName || username;
-    petStatus.name = selectedName;
-    petStatus.color = selectedColor;
 
     const updatedPets = { ...pets, [selectedPetId]: petStatus };
     await visitor.updateDataObject(
@@ -50,13 +58,7 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
       },
     );
 
-    const spawnPetNpcResponse = await spawnPetNpc({
-      credentials,
-      visitor,
-      visitorInventory,
-      petStatus,
-    });
-    if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
+    petStatus.isPetInWorld = true;
 
     return res.json({ isPetOwner: true, petStatus, pets: updatedPets, selectedPetId, visitorInventory });
   } catch (error) {

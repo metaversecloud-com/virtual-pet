@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { Ecosystem, errorHandler, getCredentials, getVisitorAndPetStatus } from "../utils/index.js";
+import {
+  Ecosystem,
+  errorHandler,
+  getCredentials,
+  getVisitorAndPetStatus,
+  removeDroppedAssets,
+} from "../utils/index.js";
 import { BadgesType } from "../../shared/types.js";
 
 export const handleGetGameState = async (req: Request, res: Response) => {
@@ -29,6 +35,8 @@ export const handleGetGameState = async (req: Request, res: Response) => {
         };
       }
     }
+
+    await removeDroppedAssets(credentials);
 
     return res.json({
       isAdmin,

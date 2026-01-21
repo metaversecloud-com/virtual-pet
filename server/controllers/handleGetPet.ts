@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import { DroppedAsset, errorHandler, getCredentials, getVisitorAndPetStatus, User } from "../utils/index.js";
+import {
+  DroppedAsset,
+  errorHandler,
+  getCredentials,
+  getVisitorAndPetStatus,
+  spawnPetNpc,
+  User,
+} from "../utils/index.js";
 import { IDroppedAsset, IUser } from "../types/index.js";
 
 export const handleGetPet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
@@ -20,9 +27,20 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       const getVisitorResponse = await getVisitorAndPetStatus(credentials);
       if (getVisitorResponse instanceof Error) throw getVisitorResponse;
 
-      pets = getVisitorResponse.pets;
+      const { pets, visitor, visitorInventory } = getVisitorResponse;
+
       petStatus = pets ? Object.values(pets).find((pet) => pet.petSpawnedDroppedAssetId === assetId) : null;
       isPetOwner = true;
+
+      if (petStatus) {
+        const spawnPetNpcResponse = await spawnPetNpc({
+          credentials,
+          visitor,
+          visitorInventory,
+          petStatus,
+        });
+        if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
+      }
     } else {
       // not owner view
       const user = User.create({

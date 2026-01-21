@@ -47,19 +47,14 @@ export const SelectPet = () => {
               <div
                 key={key}
                 onClick={() => selectPet(key)}
-                className={`card small ${selectedPetId === key ? "success" : ""}`}
+                className={`card ${selectedPetId === key ? "success" : ""}`}
               >
-                <div className="card-image">
-                  {" "}
-                  <img
-                    src={`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`}
-                    alt={name}
-                    className="pet-image"
-                  />
+                <div className="card-image" style={{ height: "auto" }}>
+                  <img src={`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`} alt={name} />
                 </div>
-                <div className="card-details">
+                <div className="card-details text-center">
                   <h4 className="card-title">{name}</h4>
-                  <p className="card-description p2">
+                  <p className="card-description p2" style={{ height: "auto" }}>
                     {petAge && petAge.charAt(0).toUpperCase() + petAge.slice(1)}{" "}
                     {petType && petType.charAt(0).toUpperCase() + petType.slice(1)}
                   </p>
@@ -75,7 +70,7 @@ export const SelectPet = () => {
             </button>
           ) : (
             <button className="btn" onClick={() => setShowCreatePet(true)}>
-              Create a New Pet
+              Adopt a New Pet
             </button>
           )}
         </PageFooter>
@@ -117,7 +112,7 @@ export const SelectPet = () => {
             </button>
           </div>
 
-          {activeTab === "myPets" ? getMyPets() : getBadges()}
+          {activeTab === "myPets" ? <div className="grid grid-cols-2 gap-2">{getMyPets()}</div> : getBadges()}
         </div>
       )}
     </>

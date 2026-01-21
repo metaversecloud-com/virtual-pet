@@ -1,8 +1,8 @@
 import { Ecosystem, standardizeError, removeDroppedAssets } from "../utils/index.js";
 import { Credentials } from "../types/Credentials.js";
 import { VisitorInterface } from "@rtsdk/topia";
-import { VisitorInventoryType } from "../types/VisitorTypes.js";
 import { PetStatusType } from "../types/UserInterface.js";
+import { VisitorInventoryType } from "../types/index.js";
 
 interface InventoryItemMetadata {
   petDescription?: string;
