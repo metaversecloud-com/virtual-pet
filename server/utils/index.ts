@@ -2,6 +2,7 @@ export * from "./awardBadge.js";
 export * from "./addNewRowToGoogleSheets.js";
 export * from "./checkForLevelUp.js";
 export * from "./cleanReturnPayload.js";
+export * from "./convertPetToPets.js";
 export * from "./errorHandler.js";
 export * from "./getCredentials.js";
 export * from "./getLevelAndAge.js";

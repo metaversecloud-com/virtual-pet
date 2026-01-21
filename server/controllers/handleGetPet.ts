@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {
+  convertPetToPets,
   DroppedAsset,
   errorHandler,
   getCredentials,
@@ -7,7 +8,7 @@ import {
   spawnPetNpc,
   User,
 } from "../utils/index.js";
-import { IDroppedAsset, IUser } from "../types/index.js";
+import { IDroppedAsset, IUser, PetStatusType } from "../types/index.js";
 
 export const handleGetPet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
@@ -20,8 +21,9 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
     if (keyAssetId) credentials.assetId = keyAssetId;
 
     let isPetOwner = false,
-      pets,
-      petStatus;
+      pets: Record<string, PetStatusType> = {},
+      petStatus,
+      selectedPetId;
 
     if (!ownerProfileId || ownerProfileId === profileId) {
       const getVisitorResponse = await getVisitorAndPetStatus(credentials);
@@ -29,7 +31,8 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
 
       const { pets, visitor, visitorInventory } = getVisitorResponse;
 
-      petStatus = pets ? Object.values(pets).find((pet) => pet.petSpawnedDroppedAssetId === assetId) : null;
+      selectedPetId = Object.keys(pets).find((pet) => pets[pet].petSpawnedDroppedAssetId === assetId);
+      petStatus = pets[selectedPetId || ""];
       isPetOwner = true;
 
       if (petStatus) {
@@ -50,10 +53,19 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       await user.fetchDataObject();
 
       if (user.dataObject?.pet) {
+        pets = convertPetToPets(user.dataObject.pet);
+
         petStatus = user.dataObject.pet;
+        selectedPetId = petStatus.id;
+
+        user.dataObject.pets = pets;
+        delete user.dataObject.pet;
+
+        await user.setDataObject({ pets });
       } else if (user.dataObject?.pets) {
         pets = user.dataObject.pets;
-        petStatus = Object.values(user.dataObject.pets).find((pet) => pet.petSpawnedDroppedAssetId === assetId);
+        selectedPetId = Object.keys(pets).find((pet) => pets[pet].petSpawnedDroppedAssetId === assetId);
+        petStatus = pets[selectedPetId || ""];
       }
     }
 
@@ -61,7 +73,7 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       petStatus,
       isPetOwner,
       pets,
-      selectedPetId: petStatus?.id,
+      selectedPetId,
     });
   } catch (error) {
     return errorHandler({

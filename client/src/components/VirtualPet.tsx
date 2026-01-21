@@ -307,9 +307,11 @@ export const VirtualPet = () => {
 
   return (
     <>
-      <button className="icon-with-rounded-border mb-4" onClick={() => handleClearSelection()}>
-        <img src="https://sdk-style.s3.amazonaws.com/icons/arrow.svg" />
-      </button>
+      {isPetOwner && (
+        <button className="icon-with-rounded-border mb-4" onClick={() => handleClearSelection()}>
+          <img src="https://sdk-style.s3.amazonaws.com/icons/arrow.svg" />
+        </button>
+      )}
 
       <div className="grid gap-4">
         <div className="card">

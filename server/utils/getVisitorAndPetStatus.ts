@@ -1,5 +1,5 @@
 import { Credentials, IVisitor, PetStatusType, VisitorInventoryType } from "../types/index.js";
-import { getLevelAndAge, standardizeError, Visitor } from "./index.js";
+import { convertPetToPets, getLevelAndAge, standardizeError, Visitor } from "./index.js";
 
 export const getVisitorAndPetStatus = async (
   credentials: Credentials,
@@ -61,20 +61,8 @@ export const getVisitorAndPetStatus = async (
     }
 
     if (visitor.dataObject.pet) {
-      const { experience, petType, createdDate } = visitor.dataObject.pet;
-      // this should be stored in the visitor data object moving forward but for backwards compatibility we need to also add it manually here
-      const { currentLevel, experienceNeededForNextLevel, experienceNeededForTheLevelYouCurrentlyAchieved, petAge } =
-        getLevelAndAge(experience || 0);
+      const pets = convertPetToPets(visitor.dataObject.pet);
 
-      const pets = {
-        [`${petType}_${createdDate}`]: {
-          ...visitor.dataObject.pet,
-          currentLevel,
-          experienceNeededForNextLevel,
-          experienceNeededForTheLevelYouCurrentlyAchieved,
-          petAge,
-        },
-      };
       visitor.dataObject.pets = pets;
       delete visitor.dataObject.pet;
 
