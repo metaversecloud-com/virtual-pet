@@ -1,3 +1,5 @@
+export { defaultPetStatus } from "../shared/constants.js";
+
 export const level = {
   0: 100,
   1: 300,
@@ -51,18 +53,4 @@ export const ACTION_PARTICLE_EFFECTS = {
   PLAY: "guitar_float",
   FEED: "redHeart_float",
   TRAIN: "pawPrint_float",
-};
-
-export const defaultPetStatus = {
-  experience: 0,
-  currentLevel: 0,
-  experienceNeededForNextLevel: 100,
-  experienceNeededForTheLevelYouCurrentlyAchieved: 0,
-  color: 0,
-  petAge: "baby",
-  isPetInWorld: false,
-  feed: { timestamp: null },
-  sleep: { timestamp: null },
-  play: { timestamp: null },
-  train: { timestamp: null },
 };

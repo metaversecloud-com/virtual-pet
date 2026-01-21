@@ -6,8 +6,8 @@ import {
   SET_HAS_SETUP_BACKEND,
   SET_INTERACTIVE_PARAMS,
   SET_KEY_ASSET_ID,
-  SET_PET_IN_WORLD,
   SET_IS_ADMIN,
+  SET_SELECTED_PET,
 } from "./types";
 
 const globalReducer = (state: InitialStateType, action: ActionType) => {
@@ -33,16 +33,18 @@ const globalReducer = (state: InitialStateType, action: ActionType) => {
     case SET_GAME_STATE:
       return {
         ...state,
-        isPetAssetOwner: payload.isPetAssetOwner,
-        isPetInWorld: payload.isPetInWorld,
+        isPetOwner: payload.isPetOwner,
         petStatus: payload.petStatus,
-        visitorHasPet: payload.visitorHasPet,
+        pets: payload.pets,
+        selectedPetId: payload.selectedPetId,
         error: "",
       };
-    case SET_PET_IN_WORLD:
+    case SET_SELECTED_PET:
       return {
         ...state,
-        isPetInWorld: payload.isPetInWorld,
+        petStatus: payload.petStatus,
+        selectedPetId: payload.selectedPetId,
+        isPetOwner: true,
         error: "",
       };
     case SET_KEY_ASSET_ID:

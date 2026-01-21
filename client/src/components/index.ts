@@ -10,4 +10,5 @@ export * from "./LevelsModal.js";
 export * from "./Loading.js";
 export * from "./PageContainer.js";
 export * from "./PageFooter.js";
+export * from "./SelectPet.js";
 export * from "./VirtualPet.js";

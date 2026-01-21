@@ -1,3 +1,5 @@
+export { defaultPetStatus } from "../../shared/constants.js";
+
 import dragonImg from "@/assets/dragon/normal/baby.png";
 import penguinImg from "@/assets/penguin/normal/baby.png";
 import unicornImg from "@/assets/unicorn/normal/baby.png";
@@ -108,20 +110,3 @@ export const petColors = [
     color: 3,
   },
 ];
-
-export const defaultPetStatus = {
-  username: "",
-  experience: 0,
-  currentLevel: 0,
-  experienceNeededForNextLevel: 100,
-  experienceNeededForTheLevelYouCurrentlyAchieved: 0,
-  color: 0,
-  petType: "dragon",
-  petAge: "baby",
-  isPetInWorld: false,
-  name: "Max",
-  feed: { timestamp: undefined },
-  sleep: { timestamp: undefined },
-  play: { timestamp: undefined },
-  train: { timestamp: undefined },
-};

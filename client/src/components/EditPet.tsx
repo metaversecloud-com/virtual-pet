@@ -14,7 +14,7 @@ import { backendAPI, getS3URL, setErrorMessage, setGameState } from "@/utils";
 
 export const EditPet = ({ setShowEditPetScreen }: { setShowEditPetScreen: () => void }) => {
   const dispatch = useContext(GlobalDispatchContext);
-  const { keyAssetId, petStatus } = useContext(GlobalStateContext);
+  const { keyAssetId, petStatus, selectedPetId } = useContext(GlobalStateContext);
   const { color, name, petType, currentLevel, petAge } = petStatus || { currentLevel: 0 };
 
   const [selectedColor, setSelectedColor] = useState(color ? petColors[color] : petColors[0]);
@@ -36,7 +36,7 @@ export const EditPet = ({ setShowEditPetScreen }: { setShowEditPetScreen: () => 
   const handleTradePet = () => {
     setIsSaving(true);
     backendAPI
-      .post("/trade-pet", { keyAssetId })
+      .post("/trade-pet", { keyAssetId, selectedPetId })
       .then((response) => {
         setGameState(dispatch, response.data);
       })
@@ -47,7 +47,7 @@ export const EditPet = ({ setShowEditPetScreen }: { setShowEditPetScreen: () => 
   const handleUpdatePet = () => {
     setIsSaving(true);
     backendAPI
-      .post("/update-pet", { keyAssetId, selectedName, selectedColor: selectedColor.id })
+      .post("/update-pet", { keyAssetId, selectedName, selectedColor: selectedColor.id, selectedPetId })
       .then((response) => {
         setGameState(dispatch, response.data);
       })
@@ -107,9 +107,9 @@ export const EditPet = ({ setShowEditPetScreen }: { setShowEditPetScreen: () => 
         <button className="btn mb-2" disabled={isSaving} onClick={handleUpdatePet}>
           Save Changes
         </button>
-        <button className="btn btn-danger" disabled={isSaving} onClick={handleToggleShowConfirmationModal}>
+        {/* <button className="btn btn-danger" disabled={isSaving} onClick={handleToggleShowConfirmationModal}>
           Trade Pet
-        </button>
+        </button> */}
       </PageFooter>
 
       {showConfirmationModal && (

@@ -1,6 +1,6 @@
-import { Credentials } from "../../types/index.js";
-import { errorHandler } from "../errorHandler.js";
-import { World } from "../topiaInit.js";
+import { Credentials } from "../types/index.js";
+import { errorHandler } from "./errorHandler.js";
+import { World } from "./topiaInit.js";
 
 export const removeDroppedAssets = async (credentials: Credentials, uniqueName: string = `petSystem-`) => {
   try {

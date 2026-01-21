@@ -1,37 +1,26 @@
 import { Request, Response } from "express";
-import { errorHandler, getCredentials, getVisitorAndPetStatus, World } from "../utils/index.js";
+import { Ecosystem, errorHandler, getCredentials, getVisitorAndPetStatus } from "../utils/index.js";
 
 export const handleGetGameState = async (req: Request, res: Response) => {
   try {
     const credentials = getCredentials(req.query);
-    const { urlSlug, username } = credentials;
     const keyAssetId = req.query.keyAssetId as string;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const { isAdmin, petStatus, visitorHasPet } = await getVisitorAndPetStatus(credentials);
+    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
+    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
 
-    let isPetInWorld = false;
-    if (visitorHasPet) {
-      const world = await World.create(urlSlug, { credentials });
-      const petAssets = await world
-        .fetchDroppedAssetsWithUniqueName({
-          uniqueName: `petSystem-${username}`,
-        })
-        .catch((error) =>
-          console.error(`❌ Error retrieving assets with unique name petSystem-${username}`, JSON.stringify(error)),
-        );
+    const { isAdmin, pets, selectedPetId, petStatus, isPetOwner } = getVisitorResponse;
 
-      if (petStatus) {
-        isPetInWorld = !!(petAssets && petAssets.length);
-      }
-    }
+    const ecosystem = await Ecosystem.create({ credentials });
+    await ecosystem.fetchInventoryItems();
 
     return res.json({
       isAdmin,
-      isPetAssetOwner: true,
-      isPetInWorld,
+      pets,
+      selectedPetId,
       petStatus,
-      visitorHasPet,
+      isPetOwner,
     });
   } catch (error) {
     return errorHandler({

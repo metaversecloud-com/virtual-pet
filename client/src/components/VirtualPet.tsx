@@ -5,7 +5,7 @@ import { ActionIconsContainer, EditPet, ExperienceBar, LevelsModal, PageFooter }
 
 // context
 import { GlobalDispatchContext, GlobalStateContext } from "@/context/GlobalContext";
-import { SET_PET_IN_WORLD } from "@/context/types";
+import { SET_SELECTED_PET } from "@/context/types";
 
 // utils
 import { backendAPI, getPetData, getS3URL, setErrorMessage, setGameState } from "@/utils";
@@ -32,7 +32,7 @@ const DELAY = 6000;
 
 export const VirtualPet = () => {
   const dispatch = useContext(GlobalDispatchContext);
-  const { keyAssetId, petStatus, isPetInWorld, isPetAssetOwner } = useContext(GlobalStateContext);
+  const { keyAssetId, petStatus, isPetOwner, selectedPetId } = useContext(GlobalStateContext);
   const {
     color,
     experience,
@@ -47,6 +47,7 @@ export const VirtualPet = () => {
     experienceNeededForTheLevelYouCurrentlyAchieved,
     petAge,
     username,
+    isPetInWorld,
   } = petStatus || defaultPetStatus;
 
   const [showEditPetScreen, setShowEditPetScreen] = useState(false);
@@ -109,14 +110,14 @@ export const VirtualPet = () => {
     setIsSpawnBtnDisabled(true);
 
     backendAPI
-      .post("/spawn-pet", { keyAssetId })
-      .then(() => {
+      .post("/spawn-pet", { keyAssetId, selectedPetId })
+      .then((response) => {
         dispatch!({
-          type: SET_PET_IN_WORLD,
+          type: SET_SELECTED_PET,
           payload: {
-            isPetInWorld: true,
-            isPetAssetOwner: true,
-            petStatus,
+            isPetOwner: true,
+            petStatus: response.data.petStatus,
+            selectedPetId: response.data.selectedPetId,
           },
         });
       })
@@ -133,14 +134,13 @@ export const VirtualPet = () => {
     updatePetState({ isLoading: true });
 
     backendAPI
-      .post("/pickup-pet", { keyAssetId })
+      .post("/pickup-pet")
       .then(() => {
         dispatch!({
-          type: SET_PET_IN_WORLD,
+          type: SET_SELECTED_PET,
           payload: {
-            isPetInWorld: false,
-            isPetAssetOwner: true,
-            petStatus,
+            petStatus: { ...petStatus!, isPetInWorld: false },
+            selectedPetId,
           },
         });
       })
@@ -150,6 +150,19 @@ export const VirtualPet = () => {
         setIsPickupBtnDisabled(false);
         updatePetState({ isLoading: false });
       });
+  };
+
+  const handleClearSelection = async () => {
+    setIsSpawnBtnDisabled(true);
+    updatePetState({ isLoading: true });
+
+    dispatch!({
+      type: SET_SELECTED_PET,
+      payload: {
+        petStatus: undefined,
+        selectedPetId: undefined,
+      },
+    });
   };
 
   /*
@@ -215,7 +228,7 @@ export const VirtualPet = () => {
       setIsPickupBtnDisabled(true);
 
       backendAPI
-        .post("/execute-action", { action, keyAssetId })
+        .post("/execute-action", { action, keyAssetId, selectedPetId })
         .then((response) => {
           setGameState(dispatch, response.data);
           setActionState(true);
@@ -270,7 +283,7 @@ export const VirtualPet = () => {
     <div className="grid gap-4">
       <div className="card">
         <div className="card-image">
-          {keyAssetId && isPetAssetOwner && (
+          {keyAssetId && isPetOwner && (
             <button
               className="btn btn-icon"
               style={{
@@ -288,7 +301,7 @@ export const VirtualPet = () => {
       </div>
 
       <div className="card text-center">
-        {isPetAssetOwner ? (
+        {isPetOwner ? (
           <>
             <h4 className="card-title">{name}</h4>
             <p className="p2">{petDescription}</p>
@@ -314,12 +327,17 @@ export const VirtualPet = () => {
         handleToggleShowLevelsModal={handleToggleShowLevelsModal}
       />
 
-      {isPetAssetOwner && (
+      {isPetOwner && (
         <PageFooter>
           {keyAssetId && !isPetInWorld ? (
-            <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
-              Call Pet
-            </button>
+            <>
+              <button className="btn btn-outline mb-2" disabled={isSpawnBtnDisabled} onClick={handleClearSelection}>
+                Select Another Pet
+              </button>
+              <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
+                Call Pet
+              </button>
+            </>
           ) : (
             isPetInWorld && (
               <button className="btn" disabled={isPickupBtnDisabled} onClick={handlePickupPet}>

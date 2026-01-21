@@ -1,0 +1,17 @@
+export const defaultPetStatus = {
+  username: "",
+  experience: 0,
+  currentLevel: 0,
+  experienceNeededForNextLevel: 100,
+  experienceNeededForTheLevelYouCurrentlyAchieved: 0,
+  color: 0,
+  petType: "dragon",
+  petAge: "baby",
+  isPetInWorld: false,
+  name: "Max",
+  feed: { timestamp: undefined },
+  sleep: { timestamp: undefined },
+  play: { timestamp: undefined },
+  train: { timestamp: undefined },
+  petSpawnedDroppedAssetId: null,
+};

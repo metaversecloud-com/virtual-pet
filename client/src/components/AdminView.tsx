@@ -5,7 +5,6 @@ import { ConfirmationModal } from "@/components";
 
 // context
 import { GlobalDispatchContext, GlobalStateContext } from "@/context/GlobalContext";
-import { SET_PET_IN_WORLD } from "@/context/types";
 
 // utils
 import { backendAPI, setErrorMessage } from "@/utils";
@@ -26,14 +25,6 @@ export const AdminView = () => {
 
     backendAPI
       .post("/remove-dropped-assets", { keyAssetId })
-      .then(() => {
-        dispatch!({
-          type: SET_PET_IN_WORLD,
-          payload: {
-            isPetInWorld: false,
-          },
-        });
-      })
       .catch((error) => setErrorMessage(dispatch, error))
       .finally(() => {
         setAreButtonsDisabled(false);

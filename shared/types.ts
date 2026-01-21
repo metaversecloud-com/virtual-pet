@@ -1,0 +1,22 @@
+export type PetStatusType = {
+  id: string;
+  username: string;
+  experience: number;
+  currentLevel: number;
+  experienceNeededForNextLevel: number;
+  experienceNeededForTheLevelYouCurrentlyAchieved: number;
+  petAge: string;
+  petType: string;
+  name: string;
+  color: number;
+  isPetInWorld: boolean;
+  feed: { timestamp?: number; actionTakenCount?: number };
+  sleep: { timestamp?: number; actionTakenCount?: number };
+  play: { timestamp?: number; actionTakenCount?: number };
+  train: { timestamp?: number; actionTakenCount?: number };
+  petSpawnedDroppedAssetId?: string;
+  createdDate?: string;
+  lastInteractionDate?: string;
+  currentStreak?: number;
+  longestStreak?: number;
+};

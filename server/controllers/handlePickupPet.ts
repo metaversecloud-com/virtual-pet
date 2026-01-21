@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-import { errorHandler, getCredentials, removeDroppedAssets, World } from "../utils/index.js";
+import { errorHandler, getCredentials, World, Visitor } from "../utils/index.js";
 
 export const handlePickupPet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
     const credentials = getCredentials(req.query);
-    const { profileId, urlSlug, username } = credentials;
-    const { keyAssetId } = req.body;
-    if (keyAssetId) credentials.assetId = keyAssetId;
+    const { profileId, urlSlug, visitorId } = credentials;
+
+    const visitor = await Visitor.create(visitorId, urlSlug, { credentials });
+    await visitor.deleteNpc();
 
     const world = World.create(urlSlug, { credentials });
 
@@ -17,9 +18,7 @@ export const handlePickupPet = async (req: Request, res: Response): Promise<Reco
       },
     );
 
-    await removeDroppedAssets(credentials, `petSystem-${username}`);
-
-    return res.json({ isPetInWorld: false });
+    return res.json({ success: true });
   } catch (error) {
     return errorHandler({
       error,
