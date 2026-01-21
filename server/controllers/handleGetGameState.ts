@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Ecosystem, errorHandler, getCredentials, getVisitorAndPetStatus } from "../utils/index.js";
+import { BadgesType } from "../../shared/types.js";
 
 export const handleGetGameState = async (req: Request, res: Response) => {
   try {
@@ -10,10 +11,24 @@ export const handleGetGameState = async (req: Request, res: Response) => {
     const getVisitorResponse = await getVisitorAndPetStatus(credentials);
     if (getVisitorResponse instanceof Error) throw getVisitorResponse;
 
-    const { isAdmin, pets, selectedPetId, petStatus, isPetOwner } = getVisitorResponse;
+    const { isAdmin, pets, selectedPetId, petStatus, isPetOwner, visitorInventory } = getVisitorResponse;
 
     const ecosystem = await Ecosystem.create({ credentials });
     await ecosystem.fetchInventoryItems();
+
+    const badges: BadgesType = {};
+
+    for (const item of ecosystem.inventoryItems) {
+      const { id, name, image_path, description, type } = item;
+      if (name && type === "BADGE") {
+        badges[name] = {
+          id: id,
+          name: name || "Unknown",
+          icon: image_path || "",
+          description: description || "",
+        };
+      }
+    }
 
     return res.json({
       isAdmin,
@@ -21,6 +36,8 @@ export const handleGetGameState = async (req: Request, res: Response) => {
       selectedPetId,
       petStatus,
       isPetOwner,
+      badges,
+      visitorInventory,
     });
   } catch (error) {
     return errorHandler({

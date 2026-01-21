@@ -256,6 +256,7 @@ export const handleExecuteAction = async (req: Request, res: Response): Promise<
       petStatus: updatedPetStatus,
       pets: updatedPets,
       selectedPetId,
+      visitorInventory,
     });
   } catch (error) {
     return errorHandler({

@@ -1,4 +1,4 @@
-import { PetStatusType } from "../../../shared/types.js";
+import { BadgesType, PetStatusType, VisitorInventoryType } from "../../../shared/types.js";
 
 export const SET_HAS_SETUP_BACKEND = "SET_HAS_SETUP_BACKEND";
 export const SET_INTERACTIVE_PARAMS = "SET_INTERACTIVE_PARAMS";
@@ -32,6 +32,8 @@ export interface InitialStateType {
   hasSetupBackend?: boolean;
   pets?: { [key: string]: PetStatusType };
   selectedPetId?: string;
+  badges?: BadgesType;
+  visitorInventory?: VisitorInventoryType;
 }
 
 export type ActionType = {

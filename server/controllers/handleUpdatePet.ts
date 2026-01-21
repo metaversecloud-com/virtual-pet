@@ -58,7 +58,7 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
     });
     if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
 
-    return res.json({ isPetOwner: true, petStatus, pets: updatedPets, selectedPetId });
+    return res.json({ isPetOwner: true, petStatus, pets: updatedPets, selectedPetId, visitorInventory });
   } catch (error) {
     return errorHandler({
       error,

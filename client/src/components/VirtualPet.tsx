@@ -280,76 +280,79 @@ export const VirtualPet = () => {
   if (showEditPetScreen) return <EditPet setShowEditPetScreen={handleToggleShowShowEditPetScreen} />;
 
   return (
-    <div className="grid gap-4">
-      <div className="card">
-        <div className="card-image">
-          {keyAssetId && isPetOwner && (
-            <button
-              className="btn btn-icon"
-              style={{
-                position: "relative",
-                left: "18px",
-                top: "14px",
-              }}
-              onClick={handleToggleShowShowEditPetScreen}
-            >
-              <img src="https://sdk-style.s3.amazonaws.com/icons/edit.svg" />
-            </button>
-          )}
-          <img src={actionImage} alt="Pet" />
-        </div>
-      </div>
-
-      <div className="card text-center">
-        {isPetOwner ? (
-          <>
-            <h4 className="card-title">{name}</h4>
-            <p className="p2">{petDescription}</p>
-            <ActionIconsContainer
-              areAllButtonsDisabled={areAllButtonsDisabled}
-              handlePetAction={(actionType, onAnimationEnd) => handlePetAction({ actionType, onAnimationEnd })}
-            />
-          </>
-        ) : (
-          <>
-            <h4 className="card-title">{name}</h4>
-            <h6>My owner is {username}</h6>
-            <h6>I'm a {petDescription}</h6>
-          </>
-        )}
-      </div>
-
-      <ExperienceBar
-        experience={experience}
-        currentLevel={currentLevel}
-        experienceNeededForNextLevel={experienceNeededForNextLevel}
-        experienceNeededForTheLevelYouCurrentlyAchieved={experienceNeededForTheLevelYouCurrentlyAchieved}
-        handleToggleShowLevelsModal={handleToggleShowLevelsModal}
-      />
-
-      {isPetOwner && (
-        <PageFooter>
-          {keyAssetId && !isPetInWorld ? (
-            <>
-              <button className="btn btn-outline mb-2" disabled={isSpawnBtnDisabled} onClick={handleClearSelection}>
-                Select Another Pet
+    <>
+      {/* <button className="icon-with-rounded-border mb-4" onClick={() => handleClearSelection()}>
+        <img src="https://sdk-style.s3.amazonaws.com/icons/arrow.svg" />
+      </button> */}
+      <div className="grid gap-4">
+        <div className="card">
+          <div className="card-image">
+            {keyAssetId && isPetOwner && (
+              <button
+                className="btn btn-icon"
+                style={{
+                  position: "relative",
+                  left: "18px",
+                  top: "14px",
+                }}
+                onClick={handleToggleShowShowEditPetScreen}
+              >
+                <img src="https://sdk-style.s3.amazonaws.com/icons/edit.svg" />
               </button>
+            )}
+            <img src={actionImage} alt="Pet" />
+          </div>
+        </div>
+
+        <div className="card text-center">
+          {isPetOwner ? (
+            <>
+              <h4 className="card-title">{name}</h4>
+              <p className="p2">{petDescription}</p>
+              <ActionIconsContainer
+                areAllButtonsDisabled={areAllButtonsDisabled}
+                handlePetAction={(actionType, onAnimationEnd) => handlePetAction({ actionType, onAnimationEnd })}
+              />
+            </>
+          ) : (
+            <>
+              <h4 className="card-title">{name}</h4>
+              <h6>My owner is {username}</h6>
+              <h6>I'm a {petDescription}</h6>
+            </>
+          )}
+        </div>
+
+        <ExperienceBar
+          experience={experience}
+          currentLevel={currentLevel}
+          experienceNeededForNextLevel={experienceNeededForNextLevel}
+          experienceNeededForTheLevelYouCurrentlyAchieved={experienceNeededForTheLevelYouCurrentlyAchieved}
+          handleToggleShowLevelsModal={handleToggleShowLevelsModal}
+        />
+
+        {isPetOwner && (
+          <PageFooter>
+            <button className="btn btn-outline mb-2" disabled={isSpawnBtnDisabled} onClick={handleClearSelection}>
+              Select Another Pet
+            </button>
+            {keyAssetId && !isPetInWorld ? (
               <button className="btn" disabled={isSpawnBtnDisabled} onClick={handleSpawnPet}>
                 Call Pet
               </button>
-            </>
-          ) : (
-            isPetInWorld && (
-              <button className="btn" disabled={isPickupBtnDisabled} onClick={handlePickupPet}>
-                Pick up Pet
-              </button>
-            )
-          )}
-        </PageFooter>
-      )}
+            ) : (
+              isPetInWorld && (
+                <button className="btn" disabled={isPickupBtnDisabled} onClick={handlePickupPet}>
+                  Pick up Pet
+                </button>
+              )
+            )}
+          </PageFooter>
+        )}
 
-      {showLevelsModal && <LevelsModal handleToggleShowLevelsModal={handleToggleShowLevelsModal} />}
-    </div>
+        {showLevelsModal && <LevelsModal handleToggleShowLevelsModal={handleToggleShowLevelsModal} />}
+      </div>
+    </>
   );
 };
 

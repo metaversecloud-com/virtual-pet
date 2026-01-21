@@ -100,7 +100,6 @@ export const getVisitorAndPetStatus = async (
       if (npcId && petVisitor?.isNPCFromKey.includes(npcId)) {
         selectedPetId = petKey;
         visitor.dataObject.pets[petKey].isPetInWorld = true;
-        break;
       } else {
         visitor.dataObject.pets[petKey].isPetInWorld = false;
       }

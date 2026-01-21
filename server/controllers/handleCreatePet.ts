@@ -96,6 +96,7 @@ export const handleCreatePet = async (req: Request, res: Response): Promise<Reco
     }
 
     // Award adoption badges for creating a pet
+    console.log("🚀 ~ handleCreatePet.ts:99 ~ petType:", petType);
     if (petType === "dragon") {
       promises.push(
         awardBadge({
@@ -148,7 +149,7 @@ export const handleCreatePet = async (req: Request, res: Response): Promise<Reco
       if (result.status === "rejected") console.error(result.reason);
     });
 
-    return res.json({ isPetOwner: true, petStatus: pet, selectedPetId, pets: updatedPets });
+    return res.json({ isPetOwner: true, petStatus: pet, selectedPetId, pets: updatedPets, visitorInventory });
   } catch (error) {
     return errorHandler({
       error,

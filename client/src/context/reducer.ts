@@ -37,6 +37,8 @@ const globalReducer = (state: InitialStateType, action: ActionType) => {
         petStatus: payload.petStatus,
         pets: payload.pets,
         selectedPetId: payload.selectedPetId,
+        badges: payload.badges || state.badges,
+        visitorInventory: payload.visitorInventory,
         error: "",
       };
     case SET_SELECTED_PET:
