@@ -24,7 +24,7 @@
     "baseUrl": ".", // Required for path mapping
     "paths": {
       "@/*": ["src/*"],
-      "@assetts/*": ["src/assets/*"],
+      "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@context/*": ["src/context/*"],
       "@pages/*": ["src/pages/*"],
@@ -32,6 +32,6 @@
       "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../shared"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
