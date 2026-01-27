@@ -1,4 +1,4 @@
-import { User, Visitor } from "@rtsdk/topia";
+import { User, UserInventoryItemInterface, Visitor } from "@rtsdk/topia";
 import { PetStatusType } from "../../shared/types.js";
 
 export { PetStatusType };

@@ -27,9 +27,10 @@ export const getVisitorAndPetStatus = async (
     await visitor.fetchInventoryItems();
     let visitorInventory: VisitorInventoryType = { badges: {}, npcs: {} };
 
-    for (const item of visitor.inventoryItems) {
-      // @ts-ignore
-      const { id, itemId, name = "", image_url, type, status, itemMetadata } = item;
+    for (const visitorItem of visitor.inventoryItems) {
+      const { id, status, item } = visitorItem;
+      const { id: ecosystemItemId, name, type, image_url = "", metadata } = item || {};
+      const { petDescription } = (metadata as { petDescription: string }) || {};
 
       if (status === "ACTIVE") {
         if (type === "BADGE") {
@@ -41,9 +42,9 @@ export const getVisitorAndPetStatus = async (
         } else if (type === "NPC") {
           visitorInventory.npcs[name] = {
             id,
-            ecosystemItemId: itemId,
+            ecosystemItemId,
             name,
-            petDescription: itemMetadata?.petDescription || "",
+            petDescription,
           };
         }
       }

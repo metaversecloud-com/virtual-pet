@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import {
-  Ecosystem,
   errorHandler,
+  getCachedInventoryItems,
   getCredentials,
   getVisitorAndPetStatus,
   removeDroppedAssets,
@@ -19,12 +19,11 @@ export const handleGetGameState = async (req: Request, res: Response) => {
 
     const { isAdmin, pets, selectedPetId, petStatus, isPetOwner, visitorInventory } = getVisitorResponse;
 
-    const ecosystem = await Ecosystem.create({ credentials });
-    await ecosystem.fetchInventoryItems();
+    const inventoryItems = await getCachedInventoryItems({ credentials });
 
     const badges: BadgesType = {};
 
-    for (const item of ecosystem.inventoryItems) {
+    for (const item of inventoryItems) {
       const { id, name, image_path, description, type } = item;
       if (name && type === "BADGE") {
         badges[name] = {

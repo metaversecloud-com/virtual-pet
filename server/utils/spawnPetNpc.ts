@@ -1,4 +1,4 @@
-import { Ecosystem, standardizeError } from "../utils/index.js";
+import { getCachedInventoryItems, standardizeError } from "../utils/index.js";
 import { Credentials } from "../types/Credentials.js";
 import { VisitorInterface } from "@rtsdk/topia";
 import { PetStatusType } from "../types/UserInterface.js";
@@ -33,19 +33,26 @@ export const spawnPetNpc = async ({
     const petAge = currentLevel < 5 ? "baby" : currentLevel < 10 ? "teen" : "adult";
     const petDescription = `${petType}:${petAge}:${color}`;
 
-    // Fetch app's NPC inventory items
-    const ecosystem = Ecosystem.create({ credentials });
-    await ecosystem.fetchInventoryItems();
-    const appInventoryItems = ecosystem.inventoryItems;
+    // Fetch app's NPC inventory items (cached)
+    const appInventoryItems = await getCachedInventoryItems({ credentials });
 
     // Find the NPC inventory item matching this pet's description
-    const matchingItem = appInventoryItems.find((item) => {
+    let matchingItem = appInventoryItems.find((item) => {
       const metadata = (item as { metadata?: InventoryItemMetadata }).metadata;
       return metadata?.petDescription === petDescription;
     });
 
+    // If not found in cache, force refresh in case it's a newly added NPC
     if (!matchingItem) {
-      throw new Error(`No NPC inventory item found for petDescription: ${petDescription}`);
+      const freshItems = await getCachedInventoryItems({ credentials, forceRefresh: true });
+      matchingItem = freshItems.find((item) => {
+        const metadata = (item as { metadata?: InventoryItemMetadata }).metadata;
+        return metadata?.petDescription === petDescription;
+      });
+
+      if (!matchingItem) {
+        throw new Error(`No NPC inventory item found for petDescription: ${petDescription}`);
+      }
     }
 
     // Find the user's inventory item that references the matching NPC item
