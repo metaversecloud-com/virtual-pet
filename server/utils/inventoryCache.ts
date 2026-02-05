@@ -1,9 +1,20 @@
 import { Credentials } from "../types";
 import { Ecosystem } from "./topiaInit.js";
 import { standardizeError } from "./standardizeError.js";
+import { InventoryItemInterface as BaseInventoryItemInterface } from "@rtsdk/topia";
+
+// Extend InventoryItemInterface to include metadata with optional sortOrder
+interface InventoryItemMetadata {
+  sortOrder?: number;
+  [key: string]: any;
+}
+
+interface InventoryItemInterface extends BaseInventoryItemInterface {
+  metadata?: InventoryItemMetadata | null;
+}
 
 interface CachedInventory {
-  items: any[];
+  items: InventoryItemInterface[];
   timestamp: number;
 }
 
@@ -25,7 +36,7 @@ export const getCachedInventoryItems = async ({
 }: {
   credentials: Credentials;
   forceRefresh?: boolean;
-}): Promise<any[]> => {
+}): Promise<InventoryItemInterface[]> => {
   try {
     const now = Date.now();
 
@@ -43,7 +54,19 @@ export const getCachedInventoryItems = async ({
 
     // Update cache
     inventoryCache = {
-      items: ecosystem.inventoryItems,
+      items: (ecosystem.inventoryItems as InventoryItemInterface[])
+        .map((item) => ({
+          ...item,
+          metadata: {
+            ...(item.metadata || {}),
+            sortOrder: typeof item.metadata?.sortOrder === "number" ? item.metadata.sortOrder : 0,
+          },
+        }))
+        .sort((a, b) => {
+          const aOrder = a.metadata?.sortOrder ?? 0;
+          const bOrder = b.metadata?.sortOrder ?? 0;
+          return aOrder - bOrder;
+        }),
       timestamp: now,
     };
 

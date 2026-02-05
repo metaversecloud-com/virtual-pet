@@ -187,13 +187,7 @@ export const VirtualPet = () => {
     backendAPI
       .post("/update-pet", { keyAssetId, selectedName, selectedColor: selectedColor.id, selectedPetId })
       .then((response) => {
-        dispatch!({
-          type: SET_SELECTED_PET,
-          payload: {
-            petStatus: response.data.petStatus,
-            selectedPetId,
-          },
-        });
+        setGameState(dispatch, response.data);
       })
       .catch((error) => setErrorMessage(dispatch, error))
       .finally(() => {

@@ -18,17 +18,9 @@ export const awardBadge = async ({
     const inventoryItems = await getCachedInventoryItems({ credentials });
 
     const inventoryItem = inventoryItems?.find((item) => item.name === badgeName);
-    if (!inventoryItem) {
-      // If not found in cache, try forcing a refresh in case it's a new item
-      const freshItems = await getCachedInventoryItems({ credentials, forceRefresh: true });
-      const freshItem = freshItems?.find((item) => item.name === badgeName);
-      if (!freshItem) {
-        throw new Error(`Inventory item ${badgeName} not found in ecosystem`);
-      }
-      await visitor.grantInventoryItem(freshItem, 1);
-    } else {
-      await visitor.grantInventoryItem(inventoryItem, 1);
-    }
+    if (!inventoryItem) throw new Error(`Inventory item ${badgeName} not found in ecosystem`);
+
+    await visitor.grantInventoryItem(inventoryItem, 1);
 
     await visitor
       .fireToast({

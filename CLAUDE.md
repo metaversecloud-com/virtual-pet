@@ -333,6 +333,41 @@ await visitor.updateDataObject(
 
 ---
 
+## Inventory Cache Pattern
+
+This app uses an inventory cache utility (`server/utils/inventoryCache.ts`) to efficiently fetch and cache ecosystem inventory items like badges.
+
+### Usage
+
+```typescript
+import { getCachedInventoryItems } from "./inventoryCache.js";
+
+// Get all cached items (24-hour TTL)
+const items = await getCachedInventoryItems({ credentials });
+
+// Filter for badges
+const badges = items.filter((item) => item.type === "BADGE");
+
+// Award a badge
+const badge = items.find((item) => item.name === "MyBadge");
+await visitor.grantInventoryItem(badge, 1);
+```
+
+### Key Features
+
+- **24-hour cache TTL** - Reduces API calls by caching ecosystem inventory
+- **Stale cache fallback** - Returns old data if API fails
+- **Force refresh option** - Pass `forceRefresh: true` to bypass cache
+- **Helper functions**: `clearInventoryCache()`, `getInventoryCacheStatus()`
+
+### Adding to a New App
+
+1. Copy `server/utils/inventoryCache.ts` to your app
+2. Ensure `EcosystemFactory` is exported from `server/utils/topiaInit.ts`
+3. Export from `server/utils/index.ts`
+
+---
+
 ## NPC System (Following Avatars)
 
 NPCs are non-player characters that follow visitors around the world. They're spawned from inventory items and managed per-visitor, per-app.

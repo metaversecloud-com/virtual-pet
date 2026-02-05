@@ -87,7 +87,30 @@ export const pets = [
   },
 ];
 
-export const petNames = ["Max", "Luna", "Charlie", "Bella", "Cooper", "Daisy", "Milo", "Lucy", "Buddy", "Lily"];
+export const petNames = [
+  "Max",
+  "Luna",
+  "Charlie",
+  "Bella",
+  "Cooper",
+  "Daisy",
+  "Milo",
+  "Lucy",
+  "Buddy",
+  "Lily",
+  "Maple",
+  "Ace",
+  "Churro",
+  "Sunny",
+  "Mochi",
+  "Juno",
+  "Scout",
+  "Coco",
+  "Ollie",
+  "Riley",
+  "Ziggy",
+  "Rex",
+];
 
 export const petColors = [
   {

@@ -15,23 +15,17 @@ export const SelectPet = () => {
   const dispatch = useContext(GlobalDispatchContext);
   const { pets, visitorInventory, badges } = useContext(GlobalStateContext);
 
-  const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [showCreatePet, setShowCreatePet] = useState(false);
   const [activeTab, setActiveTab] = useState("myPets");
 
   const selectPet = (petId: string) => {
-    if (petId === selectedPetId) setSelectedPetId(null);
-    setSelectedPetId(petId);
-  };
-
-  const handleConfirmSelection = () => {
-    if (!pets || !selectedPetId) return;
+    if (!pets) return;
 
     dispatch!({
       type: SET_SELECTED_PET,
       payload: {
-        selectedPetId,
-        petStatus: pets[selectedPetId],
+        selectedPetId: petId,
+        petStatus: pets[petId],
       },
     });
   };
@@ -44,11 +38,7 @@ export const SelectPet = () => {
             const pet = pets[key];
             const { petType, petAge, color, name } = pet;
             return (
-              <div
-                key={key}
-                onClick={() => selectPet(key)}
-                className={`card ${selectedPetId === key ? "success" : ""}`}
-              >
+              <div key={key} onClick={() => selectPet(key)} className="card">
                 <div className="card-image" style={{ height: "auto" }}>
                   <img src={`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`} alt={name} />
                 </div>
@@ -64,15 +54,9 @@ export const SelectPet = () => {
           })}
 
         <PageFooter>
-          {pets && selectedPetId ? (
-            <button className="btn" onClick={handleConfirmSelection}>
-              Choose {pets[selectedPetId].name}
-            </button>
-          ) : (
-            <button className="btn" onClick={() => setShowCreatePet(true)}>
-              Adopt a New Pet
-            </button>
-          )}
+          <button className="btn" onClick={() => setShowCreatePet(true)}>
+            Adopt a New Pet
+          </button>
         </PageFooter>
       </>
     );
@@ -83,13 +67,16 @@ export const SelectPet = () => {
       <div className="grid grid-cols-3 gap-6 pt-4">
         {badges &&
           Object.values(badges).map((badge) => {
-            const hasBadge = visitorInventory?.badges && Object.keys(visitorInventory.badges).includes(badge.name);
+            const { name, description, icon } = badge;
+            const hasBadge = visitorInventory && Object.keys(visitorInventory).includes(name);
             const style = { width: "90px", filter: "none" };
             if (!hasBadge) style.filter = "grayscale(1)";
             return (
-              <div className="tooltip" key={badge.id}>
-                <span className="tooltip-content">{badge.name}</span>
-                <img src={badge.icon} alt={badge.name} style={style} />
+              <div className="tooltip" key={name}>
+                <span className="tooltip-content" style={{ width: "115px" }}>
+                  {name} {description && `- ${description}`}
+                </span>
+                <img src={icon} alt={name} style={style} />
               </div>
             );
           })}

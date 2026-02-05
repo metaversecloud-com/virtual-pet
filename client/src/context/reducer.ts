@@ -33,12 +33,12 @@ const globalReducer = (state: InitialStateType, action: ActionType) => {
     case SET_GAME_STATE:
       return {
         ...state,
-        isPetOwner: payload.isPetOwner,
-        petStatus: payload.petStatus,
-        pets: payload.pets,
-        selectedPetId: payload.selectedPetId,
-        badges: payload.badges || state.badges,
-        visitorInventory: payload.visitorInventory,
+        isPetOwner: payload.isPetOwner ?? state.isPetOwner,
+        petStatus: payload.petStatus ?? state.petStatus,
+        pets: payload.pets ?? state.pets,
+        selectedPetId: payload.selectedPetId ?? state.selectedPetId,
+        badges: payload.badges ?? state.badges,
+        visitorInventory: payload.visitorInventory ?? state.visitorInventory,
         error: "",
       };
     case SET_SELECTED_PET:
