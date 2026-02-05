@@ -98,6 +98,7 @@ export const petNames = [
   "Lucy",
   "Buddy",
   "Lily",
+  "Pixie",
   "Maple",
   "Ace",
   "Churro",
