@@ -27,23 +27,17 @@ export const handleExecuteAction = async (req: Request, res: Response): Promise<
 
     const actionKey = action.toLowerCase() as keyof typeof updatedPetStatus;
 
-    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
-    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
-
-    const { pets, visitor, visitorInventory, petVisitorPosition } = getVisitorResponse;
+    const { pets, visitor, visitorInventory, petVisitorPosition } = await getVisitorAndPetStatus(credentials);
     if (!pets) throw new Error("No pets status found for visitor");
 
     const petStatus = pets[selectedPetId];
 
     const { currentLevel, petType, lastInteractionDate, currentStreak = 0, longestStreak = 0 } = petStatus;
 
-    const performActionResponse = await performAction({
+    const updatedPetStatus = await performAction({
       petStatus,
       actionKey,
     });
-    if (performActionResponse instanceof Error) throw performActionResponse;
-
-    const updatedPetStatus = performActionResponse;
 
     if (!updatedPetStatus) {
       return res.status(403).json({
@@ -144,13 +138,12 @@ export const handleExecuteAction = async (req: Request, res: Response): Promise<
         );
       }
 
-      const spawnPetNpcResponse = await spawnPetNpc({
+      await spawnPetNpc({
         credentials,
         visitor,
         visitorInventory,
         petStatus: updatedPetStatus,
       });
-      if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
     }
 
     // Award Veteran Caretaker badge for leveling up to 15

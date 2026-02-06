@@ -3,19 +3,16 @@ import { convertPetToPets, getLevelAndAge, standardizeError, Visitor } from "./i
 
 export const getVisitorAndPetStatus = async (
   credentials: Credentials,
-): Promise<
-  | {
-      isAdmin: boolean;
-      pets: Record<string, PetStatusType>;
-      visitor: IVisitor;
-      visitorInventory: VisitorInventoryType;
-      selectedPetId?: string;
-      petStatus?: PetStatusType;
-      isPetOwner?: boolean;
-      petVisitorPosition?: { x: number; y: number };
-    }
-  | Error
-> => {
+): Promise<{
+  isAdmin: boolean;
+  pets: Record<string, PetStatusType>;
+  visitor: IVisitor;
+  visitorInventory: VisitorInventoryType;
+  selectedPetId?: string;
+  petStatus?: PetStatusType;
+  isPetOwner?: boolean;
+  petVisitorPosition?: { x: number; y: number };
+}> => {
   try {
     const { urlSlug, visitorId } = credentials;
 
@@ -105,6 +102,6 @@ export const getVisitorAndPetStatus = async (
       petVisitorPosition: petVisitor ? petVisitor.moveTo : undefined,
     };
   } catch (error) {
-    return standardizeError(error);
+    throw standardizeError(error);
   }
 };

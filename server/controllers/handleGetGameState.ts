@@ -14,10 +14,8 @@ export const handleGetGameState = async (req: Request, res: Response) => {
     const keyAssetId = req.query.keyAssetId as string;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
-    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
-
-    const { isAdmin, pets, selectedPetId, petStatus, isPetOwner, visitorInventory } = getVisitorResponse;
+    const { isAdmin, pets, selectedPetId, petStatus, isPetOwner, visitorInventory } =
+      await getVisitorAndPetStatus(credentials);
 
     const inventoryItems = await getCachedInventoryItems({ credentials });
 

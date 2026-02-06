@@ -7,21 +7,17 @@ export const handleSpawnPet = async (req: Request, res: Response): Promise<Recor
     const { keyAssetId, selectedPetId } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
-    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
-
-    const { pets, visitor, visitorInventory } = getVisitorResponse;
+    const { pets, visitor, visitorInventory } = await getVisitorAndPetStatus(credentials);
 
     const petStatus = pets ? pets[selectedPetId] : null;
     if (!petStatus) throw new Error("No pet status found for visitor");
 
-    const spawnPetNpcResponse = await spawnPetNpc({
+    await spawnPetNpc({
       credentials,
       visitor,
       visitorInventory,
       petStatus,
     });
-    if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
 
     petStatus.isPetInWorld = true;
 

@@ -8,7 +8,7 @@ export const performAction = async ({
 }: {
   petStatus: PetStatusType;
   actionKey: string & keyof PetStatusType;
-}): Promise<PetStatusType | Error> => {
+}): Promise<PetStatusType> => {
   try {
     const now = Date.now();
     const cooldown = ACTION_COOLDOWNS[actionKey.toUpperCase() as keyof typeof ACTION_COOLDOWNS];
@@ -43,6 +43,6 @@ export const performAction = async ({
       [actionKey]: { timestamp: now, actionTakenCount: actionCount },
     };
   } catch (error) {
-    return standardizeError(error);
+    throw standardizeError(error);
   }
 };

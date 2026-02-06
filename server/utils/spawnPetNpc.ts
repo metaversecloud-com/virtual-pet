@@ -22,7 +22,7 @@ export const spawnPetNpc = async ({
   visitor: VisitorInterface;
   visitorInventory: VisitorInventoryType;
   petStatus: PetStatusType;
-}): Promise<{ success: boolean } | Error> => {
+}): Promise<{ success: boolean }> => {
   try {
     await visitor.deleteNpc();
 
@@ -75,6 +75,6 @@ export const spawnPetNpc = async ({
 
     return { success: true };
   } catch (error) {
-    return standardizeError(error);
+    throw standardizeError(error);
   }
 };

@@ -17,10 +17,7 @@ export const handleCreatePet = async (req: Request, res: Response): Promise<Reco
 
     const promises = [];
 
-    const getVisitorResponse = await getVisitorAndPetStatus(credentials);
-    if (getVisitorResponse instanceof Error) throw getVisitorResponse;
-
-    const { pets, visitor, visitorInventory } = getVisitorResponse;
+    const { pets, visitor, visitorInventory } = await getVisitorAndPetStatus(credentials);
 
     const createdDate = new Date().getTime();
     const selectedPetId = `${petType}_${createdDate}`;

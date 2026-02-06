@@ -27,10 +27,7 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       selectedPetId;
 
     if (!ownerProfileId || ownerProfileId === profileId) {
-      const getVisitorResponse = await getVisitorAndPetStatus(credentials);
-      if (getVisitorResponse instanceof Error) throw getVisitorResponse;
-
-      const { pets: visitorPets, visitor, visitorInventory } = getVisitorResponse;
+      const { pets: visitorPets, visitor, visitorInventory } = await getVisitorAndPetStatus(credentials);
       pets = visitorPets;
 
       selectedPetId = Object.keys(pets).find((pet) => pets[pet].petSpawnedDroppedAssetId === assetId);
@@ -38,13 +35,12 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
       isPetOwner = true;
 
       if (petStatus) {
-        const spawnPetNpcResponse = await spawnPetNpc({
+        await spawnPetNpc({
           credentials,
           visitor,
           visitorInventory,
           petStatus,
         });
-        if (spawnPetNpcResponse instanceof Error) throw spawnPetNpcResponse;
       }
     } else {
       // not owner view

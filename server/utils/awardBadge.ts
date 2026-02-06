@@ -31,6 +31,6 @@ export const awardBadge = async ({
 
     return { success: true };
   } catch (error: any) {
-    return standardizeError(error);
+    throw standardizeError(error);
   }
 };
