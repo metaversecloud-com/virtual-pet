@@ -1,8 +1,22 @@
-# Virtual Pet 🐶🐕🐕‍🦺
+# Virtual Pet
 
 ## Introduction / Summary
 
 Virtual Pet is a captivating mini-game developed using React and Node.js, allowing users to adopt, care for, and interact with their virtual pets. This game fosters a community environment where users can see others' pets, contributing to a dynamic social interaction.
+
+## Built With
+
+### Client
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+### Server
+
+![Node.js](https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/express-%23000000.svg?style=for-the-badge&logo=express&logoColor=white)
 
 ## Key Features
 
