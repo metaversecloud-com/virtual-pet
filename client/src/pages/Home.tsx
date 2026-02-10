@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 // components
 import { PageContainer, VirtualPet, CreatePet, SelectPet } from "@/components";
@@ -13,6 +14,8 @@ import { SET_IS_ADMIN } from "@/context/types";
 const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => {
   const dispatch = useContext(GlobalDispatchContext);
   const { hasSetupBackend, keyAssetId, pets, selectedPetId } = useContext(GlobalStateContext);
+  const [searchParams] = useSearchParams();
+  const forceRefreshInventory = searchParams.get("forceRefreshInventory") === "true";
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +24,9 @@ const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => 
       try {
         let response;
         if (!isSpawnedDroppedAsset) {
-          response = await backendAPI.get(`/game-state${keyAssetId && `?keyAssetId=${keyAssetId}`}`);
+          response = await backendAPI.get("/game-state", {
+            params: { ...(keyAssetId && { keyAssetId }), forceRefreshInventory },
+          });
         } else {
           response = await backendAPI.get("/pet");
         }

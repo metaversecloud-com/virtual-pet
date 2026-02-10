@@ -13,11 +13,12 @@ export const handleGetGameState = async (req: Request, res: Response) => {
     const credentials = getCredentials(req.query);
     const keyAssetId = req.query.keyAssetId as string;
     if (keyAssetId) credentials.assetId = keyAssetId;
+    const forceRefreshInventory = req.query.forceRefreshInventory === "true";
 
     const { isAdmin, pets, selectedPetId, petStatus, isPetOwner, visitorInventory } =
       await getVisitorAndPetStatus(credentials);
 
-    const inventoryItems = await getCachedInventoryItems({ credentials });
+    const inventoryItems = await getCachedInventoryItems({ credentials, forceRefresh: forceRefreshInventory });
 
     const badges: BadgesType = {};
 
