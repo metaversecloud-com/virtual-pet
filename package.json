@@ -9,10 +9,12 @@
     "start": "npm run start -w server",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "dev-server": "npm run dev --prefix server",
-    "dev-client": "npm run dev --prefix client"
+    "dev-client": "npm run dev --prefix client",
+    "link-sdk": "yalc link @rtsdk/topia",
+    "unlink-sdk": "yalc remove @rtsdk/topia"
   },
   "dependencies": {
-    "@rtsdk/topia": "^0.15.9",
+    "@rtsdk/topia": "^0.19.5",
     "axios": "^1.6.8",
     "concurrently": "^8.2.2"
   },

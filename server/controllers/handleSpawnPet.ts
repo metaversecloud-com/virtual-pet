@@ -1,17 +1,27 @@
 import { Request, Response } from "express";
-import { dropAsset, errorHandler, getCredentials, getVisitorAndPetStatus } from "../utils/index.js";
+import { errorHandler, getCredentials, getVisitorAndPetStatus, spawnPetNpc } from "../utils/index.js";
 
 export const handleSpawnPet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
     const credentials = getCredentials(req.query);
-    const { keyAssetId } = req.body;
+    const { keyAssetId, selectedPetId } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const { petStatus, visitor } = await getVisitorAndPetStatus(credentials);
+    const { pets, visitor, visitorInventory } = await getVisitorAndPetStatus(credentials);
 
-    await dropAsset({ credentials, petStatus, visitor, host: req.host });
+    const petStatus = pets ? pets[selectedPetId] : null;
+    if (!petStatus) throw new Error("No pet status found for visitor");
 
-    return res.json({ isPetAssetOwner: true, isPetInWorld: true, petStatus, visitorHasPet: true });
+    await spawnPetNpc({
+      credentials,
+      visitor,
+      visitorInventory,
+      petStatus,
+    });
+
+    petStatus.isPetInWorld = true;
+
+    return res.json({ isPetOwner: true, petStatus, selectedPetId });
   } catch (error) {
     return errorHandler({
       error,

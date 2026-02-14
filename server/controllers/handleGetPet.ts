@@ -1,6 +1,15 @@
 import { Request, Response } from "express";
-import { DroppedAsset, errorHandler, getCredentials, getVisitorAndPetStatus, User } from "../utils/index.js";
-import { IDroppedAsset, IUser } from "../types/index.js";
+import {
+  convertPetToPets,
+  DroppedAsset,
+  errorHandler,
+  getCredentials,
+  getVisitorAndPetStatus,
+  removeDroppedAssets,
+  spawnPetNpc,
+  User,
+} from "../utils/index.js";
+import { IDroppedAsset, IUser, PetStatusType } from "../types/index.js";
 
 export const handleGetPet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
@@ -12,29 +21,59 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
 
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    if (!ownerProfileId || ownerProfileId === profileId) {
-      const { petStatus, visitorHasPet } = await getVisitorAndPetStatus(credentials);
+    let isPetOwner = false,
+      pets: Record<string, PetStatusType> = {},
+      petStatus,
+      selectedPetId;
 
-      return res.json({
-        isPetAssetOwner: true,
-        isPetInWorld: true,
-        petStatus,
-        visitorHasPet,
-      });
+    if (!ownerProfileId || ownerProfileId === profileId) {
+      const { pets: visitorPets, visitor, visitorInventory } = await getVisitorAndPetStatus(credentials);
+      pets = visitorPets;
+
+      selectedPetId = Object.keys(pets).find((pet) => pets[pet].petSpawnedDroppedAssetId === assetId);
+      petStatus = pets[selectedPetId || ""];
+      isPetOwner = true;
+
+      if (petStatus) {
+        await spawnPetNpc({
+          credentials,
+          visitor,
+          visitorInventory,
+          petStatus,
+        });
+      }
+    } else {
+      // not owner view
+      const user = User.create({
+        credentials,
+        profileId: ownerProfileId,
+      }) as IUser;
+      await user.fetchDataObject();
+
+      if (user.dataObject?.pet) {
+        pets = convertPetToPets(user.dataObject.pet);
+
+        petStatus = user.dataObject.pet;
+        selectedPetId = petStatus.id;
+
+        user.dataObject.pets = pets;
+        delete user.dataObject.pet;
+
+        await user.setDataObject({ pets });
+      } else if (user.dataObject?.pets) {
+        pets = user.dataObject.pets;
+        selectedPetId = Object.keys(pets).find((pet) => pets[pet].petSpawnedDroppedAssetId === assetId);
+        petStatus = pets[selectedPetId || ""];
+      }
     }
 
-    // not owner view
-    const user = User.create({
-      credentials,
-      profileId: ownerProfileId,
-    }) as IUser;
-    await user.fetchDataObject();
+    await removeDroppedAssets(credentials, `petSystem-${credentials.username}`);
 
     return res.json({
-      petStatus: user?.dataObject?.pet,
-      isPetAssetOwner: false,
-      isPetInWorld: true,
-      visitorHasPet: true,
+      petStatus,
+      isPetOwner,
+      pets,
+      selectedPetId,
     });
   } catch (error) {
     return errorHandler({

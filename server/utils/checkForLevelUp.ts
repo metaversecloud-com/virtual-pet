@@ -1,4 +1,3 @@
-import { level } from "../constants.js";
 import { IVisitor } from "../types/index.js";
 import { errorHandler } from "./errorHandler.js";
 import { grantExpression } from "./grantExpression.js";
@@ -15,14 +14,14 @@ export const checkForLevelUp = async ({
   petType: string;
 }) => {
   let didLevelUp = false;
-  if (updatedLevel >= 5 && currentLevel < 4) {
+  if (updatedLevel >= 5 && currentLevel <= 4) {
     didLevelUp = true;
     grantExpression({
       visitor,
       petType,
     });
   }
-  if (updatedLevel >= 10 && currentLevel < 9) {
+  if (updatedLevel >= 10 && currentLevel <= 9) {
     didLevelUp = true;
   }
   if (didLevelUp) {

@@ -28,15 +28,16 @@ export const ExperienceBar = ({
 
   return (
     <div className="card">
-      <p>Level</p>
-      <button
-        className="btn btn-icon mb-4"
-        onClick={() => handleToggleShowLevelsModal()}
-        style={{ position: "absolute", right: "26px" }}
-      >
-        <img src={`https://sdk-style.s3.amazonaws.com/icons/chevronRight.svg`} />
-      </button>
-      <h3>{`${level}`}</h3>
+      <div className="grid grid-cols-2">
+        <h3 className="stretch">Level {`${level}`}</h3>
+        <button
+          className="p-2"
+          onClick={() => handleToggleShowLevelsModal()}
+          style={{ position: "absolute", right: "26px" }}
+        >
+          <img src={`https://sdk-style.s3.amazonaws.com/icons/chevronRight.svg`} />
+        </button>
+      </div>
       <div className="h-3 overflow-hidden rounded-full bg-gray-200">
         <div className="h-3 rounded-full bg-gray-800" style={{ width: `${experiencePercentage}%` }} />
       </div>

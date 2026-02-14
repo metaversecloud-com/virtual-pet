@@ -1,45 +1,107 @@
-import { Credentials, IVisitor } from "../types/index.js";
-import { errorHandler, getLevelAndAge, Visitor } from "./index.js";
+import { Credentials, IVisitor, PetStatusType, VisitorInventoryType } from "../types/index.js";
+import { convertPetToPets, getLevelAndAge, standardizeError, Visitor } from "./index.js";
 
-export const getVisitorAndPetStatus = async (credentials: Credentials) => {
+export const getVisitorAndPetStatus = async (
+  credentials: Credentials,
+): Promise<{
+  isAdmin: boolean;
+  pets: Record<string, PetStatusType>;
+  visitor: IVisitor;
+  visitorInventory: VisitorInventoryType;
+  selectedPetId?: string;
+  petStatus?: PetStatusType;
+  isPetOwner?: boolean;
+  petVisitorPosition?: { x: number; y: number };
+}> => {
   try {
     const { urlSlug, visitorId } = credentials;
 
     const visitor = (await Visitor.get(visitorId, urlSlug, { credentials })) as IVisitor;
+    const { isAdmin = false } = visitor;
 
     await visitor.fetchDataObject();
 
-    const { isAdmin } = visitor;
+    await visitor.fetchInventoryItems();
+    let visitorInventory: VisitorInventoryType = { badges: {}, npcs: {} };
 
-    if (!visitor.dataObject?.pet) {
+    for (const visitorItem of visitor.inventoryItems) {
+      const { id, status, item } = visitorItem;
+      const { id: ecosystemItemId, name, type, image_url = "", metadata } = item || {};
+      const { petDescription } = (metadata as { petDescription: string }) || {};
+
+      if (status === "ACTIVE") {
+        if (type === "BADGE") {
+          visitorInventory.badges[name] = {
+            id,
+            icon: image_url,
+            name,
+          };
+        } else if (type === "NPC") {
+          visitorInventory.npcs[name] = {
+            id,
+            ecosystemItemId,
+            name,
+            petDescription,
+          };
+        }
+      }
+    }
+
+    if (!visitor.dataObject?.pet && !visitor.dataObject?.pets) {
+      await visitor.setDataObject({ pets: {} });
+
       return {
         isAdmin,
-        visitorHasPet: false,
+        pets: {},
         visitor,
+        visitorInventory,
       };
     }
 
-    // this should be stored in the visitor data object moving forward but for backwards compatibility we need to also add it manually here
-    const { currentLevel, experienceNeededForNextLevel, experienceNeededForTheLevelYouCurrentlyAchieved, petAge } =
-      getLevelAndAge(visitor.dataObject?.pet?.experience || 0);
+    if (visitor.dataObject.pet) {
+      const pets = convertPetToPets(visitor.dataObject.pet);
+
+      visitor.dataObject.pets = pets;
+      delete visitor.dataObject.pet;
+
+      await visitor.setDataObject({ pets });
+    }
+
+    const petVisitor = (await visitor.getNpc()) as { isNPCFromKey: string; moveTo: { x: number; y: number } } | null;
+
+    // Find the pet in world by matching petDescription and id of the NPC
+    let selectedPetId;
+    // Build a map of petDescription to npc id
+    const npcDescToId = Object.values(visitorInventory.npcs).reduce(
+      (acc, npc) => {
+        acc[npc.petDescription] = npc.id;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+    for (const [petKey, pet] of Object.entries(visitor.dataObject.pets)) {
+      const { petType, petAge, color = "" } = pet;
+      const description = `${petType}:${petAge}:${color}`;
+      const npcId = npcDescToId[description];
+      if (npcId && petVisitor?.isNPCFromKey.includes(npcId)) {
+        selectedPetId = petKey;
+        visitor.dataObject.pets[petKey].isPetInWorld = true;
+      } else {
+        visitor.dataObject.pets[petKey].isPetInWorld = false;
+      }
+    }
 
     return {
       isAdmin,
-      petStatus: {
-        ...visitor.dataObject?.pet,
-        currentLevel,
-        experienceNeededForNextLevel,
-        experienceNeededForTheLevelYouCurrentlyAchieved,
-        petAge,
-      },
-      visitorHasPet: true,
+      pets: visitor.dataObject.pets,
       visitor,
+      visitorInventory,
+      selectedPetId,
+      petStatus: selectedPetId ? visitor.dataObject.pets[selectedPetId] : undefined,
+      isPetOwner: selectedPetId ? !!visitor.dataObject.pets[selectedPetId] : false,
+      petVisitorPosition: petVisitor ? petVisitor.moveTo : undefined,
     };
   } catch (error) {
-    return errorHandler({
-      error,
-      functionName: "getVisitorAndPetStatus",
-      message: "Error getting visitor and pet status",
-    });
+    throw standardizeError(error);
   }
 };

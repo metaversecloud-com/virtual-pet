@@ -2,6 +2,7 @@ export * from "./handleCreatePet.js";
 export * from "./handleExecuteAction.js";
 export * from "./handleGetGameState.js";
 export * from "./handleGetKeyAsset.js";
+export * from "./handleGetPet.js";
 export * from "./handlePickupPet.js";
 export * from "./handleSpawnPet.js";
 export * from "./handleTradePet.js";
