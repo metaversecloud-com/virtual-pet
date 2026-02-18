@@ -38,6 +38,16 @@ Admins have the capability to pick up all pets in the world, enhancing the game'
 
 Admins can manage pets, including picking up all pets within the game environment for maintenance or moderation purposes.
 
+## Force Refresh Inventory Cache
+
+The app caches inventory data for 6 hours. To manually bypass this cache and force a refresh:
+
+1. Open the app by clicking on the key asset in the world.
+2. Right-click inside the drawer and select **Inspect** to open DevTools.
+3. Find the `<iframe>` element and locate its `src` attribute.
+4. Append `&forceRefreshInventory=true` to the end of the URL.
+5. Press **Enter** to reload the iframe with the updated URL.
+
 ## Themes Description
 
 N/A

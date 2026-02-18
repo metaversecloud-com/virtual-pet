@@ -27,6 +27,7 @@ export const AdminView = () => {
       .post("/remove-dropped-assets", { keyAssetId })
       .catch((error) => setErrorMessage(dispatch, error))
       .finally(() => {
+        setShowConfirmationModal(false);
         setAreButtonsDisabled(false);
       });
   };
