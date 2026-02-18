@@ -173,6 +173,7 @@ export const VirtualPet = () => {
       .finally(() => {
         setIsSaving(false);
         setShowAdoptionModal(false);
+        handleClearSelection();
       });
   };
 
