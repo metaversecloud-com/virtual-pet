@@ -26,7 +26,7 @@ export const spawnPetNpc = async ({
   try {
     await visitor.deleteNpc();
 
-    const { petType, color, currentLevel } = petStatus;
+    const { petType, color = 0, currentLevel = 0 } = petStatus;
 
     // Build petDescription to match inventory item metadata
     // Format: {type}:{age}:{color} (e.g., {"petDescription":"dragon:baby:0"})

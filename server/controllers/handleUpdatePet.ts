@@ -8,7 +8,7 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
     const { keyAssetId, selectedName, selectedColor, selectedPetId } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
-    const { pets, visitor, visitorInventory } = await getVisitorAndPetStatus(credentials);
+    const { pets, visitor, visitorInventory, petVisitorPosition } = await getVisitorAndPetStatus(credentials);
 
     const petStatus = pets ? pets[selectedPetId] : null;
     if (!petStatus) throw new Error("No pet status found for visitor");
@@ -16,14 +16,17 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
     petStatus.username = displayName || username;
     petStatus.name = selectedName;
 
-    if (petStatus.color !== selectedColor) {
+    if (selectedColor && petStatus.color !== selectedColor) {
       petStatus.color = selectedColor;
-      await spawnPetNpc({
-        credentials,
-        visitor,
-        visitorInventory,
-        petStatus,
-      });
+
+      if (petVisitorPosition) {
+        await spawnPetNpc({
+          credentials,
+          visitor,
+          visitorInventory,
+          petStatus,
+        });
+      }
 
       // Award Fresh Look badge for changing pet color
       await awardBadge({
@@ -53,8 +56,6 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
         ],
       },
     );
-
-    petStatus.isPetInWorld = true;
 
     return res.json({ isPetOwner: true, petStatus, pets: updatedPets, selectedPetId, visitorInventory });
   } catch (error) {
