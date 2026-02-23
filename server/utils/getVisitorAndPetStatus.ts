@@ -1,5 +1,5 @@
 import { Credentials, IVisitor, PetStatusType, VisitorInventoryType } from "../types/index.js";
-import { convertPetToPets, getLevelAndAge, standardizeError, Visitor } from "./index.js";
+import { convertPetToPets, standardizeError, Visitor } from "./index.js";
 
 export const getVisitorAndPetStatus = async (
   credentials: Credentials,
