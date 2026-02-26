@@ -45,11 +45,12 @@ export const VirtualPet = () => {
   const [petState, setPetState] = useState(initialPetState);
   const { petDescription } = getPetData(
     petAge as "baby" | "teen" | "adult",
-    petType as "dragon" | "penguin" | "unicorn",
+    petType as "dragon" | "penguin" | "unicorn" | "dog" | "cat",
   );
 
   const [actionStatus, setActionStatus] = useState("DEFAULT");
-  const [actionImage, setActionImage] = useState(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`);
+  const [petImage, setPetImage] = useState(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`);
+  const [actionImage, setActionImage] = useState<string | null>(null);
 
   const [selectedColor, setSelectedColor] = useState(color ? petColors[color] : petColors[0]);
   const [selectedName, setSelectedName] = useState(name || petNames[0]);
@@ -99,7 +100,7 @@ export const VirtualPet = () => {
   }, [actionStatus]);
 
   useEffect(() => {
-    setActionImage(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`);
+    setPetImage(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`);
   }, [petAge, color, petType]);
 
   const handleSpawnPet = async () => {
@@ -240,6 +241,7 @@ export const VirtualPet = () => {
     }) => {
       resetErrors();
       const { timestamp: rawTimestamp, setActionState, setIsNotReady, action } = actionConfig[actionType];
+      console.log("🚀 ~ VirtualPet.tsx:244 ~ actionType:", actionType);
       const timestamp = rawTimestamp ? Number(rawTimestamp) : 0;
 
       const currentTime = Date.now();
@@ -263,13 +265,11 @@ export const VirtualPet = () => {
         .then((response) => {
           setGameState(dispatch, response.data);
           setActionState(true);
-          setActionImage(
-            `${getS3URL()}/assets/${petType}/normal/doing-action/${petAge}-color-${color}-${actionType.toLowerCase()}.png`,
-          );
+          setActionImage(`${getS3URL()}/assets/actions/${actionType}.gif`);
 
           setTimeout(() => {
             setActionState(false);
-            setActionImage(`${getS3URL()}/assets/${petType}/normal/${petAge}-color-${color}.png`);
+            setActionImage(null);
             updatePetState({ isLoading: false });
             onAnimationEnd();
           }, DELAY);
@@ -309,8 +309,9 @@ export const VirtualPet = () => {
       )}
 
       <div className="grid gap-4">
-        <div className="card">
-          <img src={actionImage} alt="Pet" />
+        <div className="card relative">
+          {actionImage && <img src={actionImage} alt="Pet Action" style={{ position: "absolute", top: 0, left: 0 }} />}
+          <img src={petImage} alt="Pet" />
         </div>
 
         <div className="card text-center">

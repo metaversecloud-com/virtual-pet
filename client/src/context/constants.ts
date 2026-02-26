@@ -26,4 +26,4 @@ export const SLEEP = "SLEEP";
 export const PLAY = "PLAY";
 export const TRAIN = "TRAIN";
 
-export const DELAY = 6000;
+export const DELAY = 5000;
