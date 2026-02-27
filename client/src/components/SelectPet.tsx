@@ -7,7 +7,7 @@ import { PageFooter } from "./PageFooter";
 import { GlobalDispatchContext, GlobalStateContext } from "@/context/GlobalContext";
 
 // utils
-import { getS3URL } from "@/utils";
+import { getPetData, getS3URL } from "@/utils";
 import { SET_SELECTED_PET } from "@/context/types";
 import CreatePet from "./CreatePet";
 
@@ -45,8 +45,7 @@ export const SelectPet = () => {
                 <div className="card-details text-center">
                   <h4 className="card-title">{name}</h4>
                   <p className="card-description p2" style={{ height: "auto" }}>
-                    {petAge && petAge.charAt(0).toUpperCase() + petAge.slice(1)}{" "}
-                    {petType && petType.charAt(0).toUpperCase() + petType.slice(1)}
+                    {getPetData(petAge as "baby" | "teen" | "adult", petType as "dragon" | "penguin" | "unicorn" | "dog" | "cat").petDescription}
                   </p>
                 </div>
               </div>
