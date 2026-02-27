@@ -62,7 +62,7 @@ const unicorn = {
 const dog = {
   baby: {
     ...baby,
-    petDescription: "Baby Dog",
+    petDescription: "Puppy",
   },
   teen: {
     ...teen,
@@ -77,7 +77,7 @@ const dog = {
 const cat = {
   baby: {
     ...baby,
-    petDescription: "Baby Cat",
+    petDescription: "Kitten",
   },
   teen: {
     ...teen,
@@ -153,6 +153,7 @@ export const petNames = [
   "Riley",
   "Ziggy",
   "Rex",
+  "Bob",
 ];
 
 export const petColors = [
