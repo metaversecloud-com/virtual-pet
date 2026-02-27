@@ -1,67 +1,95 @@
+import { getS3URL } from "@/utils";
 export { defaultPetStatus } from "../../shared/constants.js";
 
-import dragonImg from "@/assets/dragon/normal/baby.png";
-import penguinImg from "@/assets/penguin/normal/baby.png";
-import unicornImg from "@/assets/unicorn/normal/baby.png";
+const baby = {
+  beingFedMessage: "So Yummy!!",
+  notHungryMessage: "I'm not hungry.",
+};
+const teen = {
+  beingFedMessage: "Yum! Thanks for feeding me!!",
+  notHungryMessage: "I don't want to eat right now.",
+};
+const adult = {
+  beingFedMessage: "So great! Thanks!",
+  notHungryMessage: "I'm not hungry right now.",
+};
 
 const dragon = {
   baby: {
-    beingFedMessage: "So Yummy!!",
-    notHungryMessage: "I'm not hungry.",
+    ...baby,
     petDescription: "Baby Dragon",
   },
-
   teen: {
-    beingFedMessage: "Yum! Thanks for feeding me!!",
-    notHungryMessage: "I don't want to eat right now.",
+    ...teen,
     petDescription: "Teen Dragon",
   },
   adult: {
-    beingFedMessage: "So great! Thanks!",
-    notHungryMessage: "I'm not hungry right now.",
+    ...adult,
     petDescription: "Adult Dragon",
   },
 };
 
 const penguin = {
   baby: {
-    beingFedMessage: "So Yummy!!",
-    notHungryMessage: "I'm not hungry.",
+    ...baby,
     petDescription: "Baby Penguin",
   },
-
   teen: {
-    beingFedMessage: "Yum! Thanks for feeding me!!",
-    notHungryMessage: "I don't want to eat right now.",
+    ...teen,
     petDescription: "Teen Penguin",
   },
   adult: {
-    beingFedMessage: "So great! Thanks!",
-    notHungryMessage: "I'm not hungry right now.",
+    ...adult,
     petDescription: "Adult Penguin",
   },
 };
 
 const unicorn = {
   baby: {
-    beingFedMessage: "So Yummy!!",
-    notHungryMessage: "I'm not hungry.",
+    ...baby,
     petDescription: "Baby Unicorn",
   },
-
   teen: {
-    beingFedMessage: "Yum! Thanks for feeding me!!",
-    notHungryMessage: "I don't want to eat right now.",
+    ...teen,
     petDescription: "Teen Unicorn",
   },
   adult: {
-    beingFedMessage: "So great! Thanks!",
-    notHungryMessage: "I'm not hungry right now.",
+    ...adult,
     petDescription: "Adult Unicorn",
   },
 };
 
-export const petData = { dragon, penguin, unicorn };
+const dog = {
+  baby: {
+    ...baby,
+    petDescription: "Puppy",
+  },
+  teen: {
+    ...teen,
+    petDescription: "Teen Dog",
+  },
+  adult: {
+    ...adult,
+    petDescription: "Adult Dog",
+  },
+};
+
+const cat = {
+  baby: {
+    ...baby,
+    petDescription: "Kitten",
+  },
+  teen: {
+    ...teen,
+    petDescription: "Teen Cat",
+  },
+  adult: {
+    ...adult,
+    petDescription: "Adult Cat",
+  },
+};
+
+export const petData = { dragon, penguin, unicorn, dog, cat };
 
 export const pets = [
   {
@@ -69,21 +97,35 @@ export const pets = [
     name: "Dragon",
     petType: "dragon",
     description: "A mystical, fire-breathing creature that soars through the skies.",
-    image: dragonImg,
+    image: `${getS3URL()}/assets/dragon/normal/baby-color-0.png`,
   },
   {
     id: 1,
     name: "Penguin",
     petType: "penguin",
     description: "A playful bird with striking patterns that swims but does not fly!",
-    image: penguinImg,
+    image: `${getS3URL()}/assets/penguin/normal/baby-color-0.png`,
   },
   {
     id: 2,
     name: "Unicorn",
     petType: "unicorn",
     description: "A magical and majestic creature that is difficult to catch.",
-    image: unicornImg,
+    image: `${getS3URL()}/assets/unicorn/normal/baby-color-0.png`,
+  },
+  {
+    id: 3,
+    name: "Dog",
+    petType: "dog",
+    description: "A loyal and friendly companion that loves to play fetch.",
+    image: `${getS3URL()}/assets/dog/normal/baby-color-0.png`,
+  },
+  {
+    id: 4,
+    name: "Cat",
+    petType: "cat",
+    description: "A graceful and independent companion that enjoys both play and relaxation.",
+    image: `${getS3URL()}/assets/cat/normal/baby-color-0.png`,
   },
 ];
 
@@ -111,6 +153,7 @@ export const petNames = [
   "Riley",
   "Ziggy",
   "Rex",
+  "Bob",
 ];
 
 export const petColors = [
