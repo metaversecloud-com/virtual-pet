@@ -52,7 +52,18 @@ The app caches inventory data for 6 hours. To manually bypass this cache and for
 
 N/A
 
-## Data Objects
+## Implementation Requirements
+
+### Required Assets with Unique Names
+
+The app uses the following unique names to identify and manage dropped assets:
+
+| Unique Name                    | Description                                                     |
+| ------------------------------ | --------------------------------------------------------------- |
+| `virtualPetKeyAsset`           | Key asset used to locate the app's entry point in the world     |
+| `petSystem-{username}`         | Pet assets spawned per user (used for cleanup via partial match) |
+
+### Data Objects
 
 - **Pet States:** Each pet has states that evolve through interaction, saved in the user's session.
 - **Action Cooldowns and Experience Gains:** Defined by environmental variables and affecting pet growth.
