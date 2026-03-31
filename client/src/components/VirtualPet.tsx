@@ -241,7 +241,6 @@ export const VirtualPet = () => {
     }) => {
       resetErrors();
       const { timestamp: rawTimestamp, setActionState, setIsNotReady, action } = actionConfig[actionType];
-      console.log("🚀 ~ VirtualPet.tsx:244 ~ actionType:", actionType);
       const timestamp = rawTimestamp ? Number(rawTimestamp) : 0;
 
       const currentTime = Date.now();
