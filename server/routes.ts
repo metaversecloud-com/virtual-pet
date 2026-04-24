@@ -3,10 +3,8 @@ import {
   handleCreatePet,
   handleExecuteAction,
   handleGetGameState,
-  handleGetKeyAsset,
   handleGetPet,
   handlePickupPet,
-  handleRemoveAllPets,
   handleSpawnPet,
   handleTradePet,
   handleUpdatePet,
@@ -34,7 +32,6 @@ router.get("/system/health", (req, res) => {
   });
 });
 
-router.get("/key-asset", handleGetKeyAsset);
 router.get("/game-state", handleGetGameState);
 router.get("/pet", handleGetPet);
 router.post("/create-pet", handleCreatePet);
@@ -43,6 +40,5 @@ router.post("/trade-pet", handleTradePet);
 router.post("/spawn-pet", handleSpawnPet);
 router.post("/pickup-pet", handlePickupPet);
 router.post("/execute-action", handleExecuteAction);
-router.post("/remove-dropped-assets", handleRemoveAllPets);
 
 export default router;

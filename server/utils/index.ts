@@ -12,7 +12,6 @@ export * from "./getVisitorAndPetStatus.js";
 export * from "./grantExpression.js";
 export * from "./inventoryCache.js";
 export * from "./performAction.js";
-export * from "./removeDroppedAssets.js";
 export * from "./spawnPetNpc.js";
 export * from "./standardizeError.js";
 export * from "./topiaInit.js";
