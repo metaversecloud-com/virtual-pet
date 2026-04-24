@@ -9,7 +9,6 @@ import { GlobalDispatchContext, GlobalStateContext } from "@/context/GlobalConte
 
 // utils
 import { backendAPI, setErrorMessage, setGameState } from "@/utils";
-import { SET_IS_ADMIN } from "@/context/types";
 
 const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -31,12 +30,6 @@ const Home = ({ isSpawnedDroppedAsset }: { isSpawnedDroppedAsset: boolean }) => 
           response = await backendAPI.get("/pet");
         }
         setGameState(dispatch, response.data);
-        dispatch!({
-          type: SET_IS_ADMIN,
-          payload: {
-            isAdmin: response.data.isAdmin,
-          },
-        });
       } catch (error) {
         if (error instanceof Error) {
           setErrorMessage(dispatch, error.message);
