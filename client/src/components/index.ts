@@ -1,7 +1,5 @@
 export * from "./ActionIcon.js";
 export * from "./ActionIconsContainer.js";
-export * from "./AdminView.js";
-export * from "./AdminIconButton.js";
 export * from "./ConfirmationModal.js";
 export * from "./CreatePet.js";
 export * from "./PetColors.js";

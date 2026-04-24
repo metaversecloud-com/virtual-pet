@@ -4,7 +4,7 @@ import { PetStatusType } from "../../../shared/types.js";
 
 export const setGameState = (
   dispatch: Dispatch<ActionType> | null,
-  gameState: { isPetOwner: boolean; petStatus: PetStatusType; isAdmin: boolean },
+  gameState: { isPetOwner: boolean; petStatus: PetStatusType },
 ) => {
   if (!dispatch || !setGameState) return;
 

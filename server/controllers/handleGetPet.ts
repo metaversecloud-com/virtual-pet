@@ -5,7 +5,6 @@ import {
   errorHandler,
   getCredentials,
   getVisitorAndPetStatus,
-  removeDroppedAssets,
   spawnPetNpc,
   User,
 } from "../utils/index.js";
@@ -66,8 +65,6 @@ export const handleGetPet = async (req: Request, res: Response): Promise<Record<
         petStatus = pets[selectedPetId || ""];
       }
     }
-
-    await removeDroppedAssets(credentials, `petSystem-${credentials.username}`);
 
     return res.json({
       petStatus,

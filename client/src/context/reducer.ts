@@ -6,7 +6,6 @@ import {
   SET_HAS_SETUP_BACKEND,
   SET_INTERACTIVE_PARAMS,
   SET_KEY_ASSET_ID,
-  SET_IS_ADMIN,
   SET_SELECTED_PET,
 } from "./types";
 
@@ -23,12 +22,6 @@ const globalReducer = (state: InitialStateType, action: ActionType) => {
         ...state,
         ...payload,
         hasSetupBackend: true,
-      };
-    case SET_IS_ADMIN:
-      return {
-        ...state,
-        isAdmin: action.payload.isAdmin,
-        error: "",
       };
     case SET_GAME_STATE:
       return {
