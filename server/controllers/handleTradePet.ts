@@ -14,7 +14,9 @@ export const handleTradePet = async (req: Request, res: Response): Promise<Recor
     const petStatus = pets ? pets[selectedPetId] : null;
     if (!petStatus) throw new Error("No pet status found for visitor");
 
-    await visitor.deleteNpc();
+    // Only despawn the in-world NPC if the pet being traded is the one currently spawned.
+    // Otherwise we'd kick out an unrelated pet (e.g. trading Pet B while Pet A is in world).
+    if (petStatus.isPetInWorld) await visitor.deleteNpc();
 
     delete pets[selectedPetId];
 
