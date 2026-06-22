@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# No `namespace:` directive: the interceptor Ingresses must stay in `keda`; the
+# workload resources carry no namespace and Argo injects the Application's
+# destination namespace (sdk-apps-dev).
+
+resources:
+  - ../../services/vpet0
+  - ../../services/stg-vpet0
+  - vpet0-config.yaml
+  - vpet0-sealedsecret.yaml
+  - vpet0-httpscaledobject.yaml
+  - vpet0-interceptor-ingress.yaml
+  - stg-vpet0-config.yaml
+  - stg-vpet0-sealedsecret.yaml
+  - stg-vpet0-httpscaledobject.yaml
+  - stg-vpet0-interceptor-ingress.yaml
+
+patches:
+  # Drop each service's direct ALB Ingress: in dev the app is fronted through the
+  # KEDA interceptor so a scaled-to-zero Deployment is woken by the first request.
+  - target:
+      kind: Ingress
+      name: vpet0
+    patch: |
+      $patch: delete
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: vpet0
+  - target:
+      kind: Ingress
+      name: stg-vpet0
+    patch: |
+      $patch: delete
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: stg-vpet0
+
+# Per-service image (defaults to the shared dev ECR sdk-example:<repo>; an
+# independent deployment may pin a different tag/image).
+images:
+  - name: vpet0
+    newName: 368076259134.dkr.ecr.us-east-1.amazonaws.com/sdk-example
+    newTag: virtual-pet
+  - name: stg-vpet0
+    newName: 368076259134.dkr.ecr.us-east-1.amazonaws.com/sdk-example
+    newTag: virtual-pet
