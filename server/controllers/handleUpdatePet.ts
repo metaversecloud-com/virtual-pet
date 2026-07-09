@@ -16,7 +16,7 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
     petStatus.username = displayName || username;
     petStatus.name = selectedName;
 
-    if (selectedColor && petStatus.color !== selectedColor) {
+    if (petStatus.color !== selectedColor) {
       petStatus.color = selectedColor;
 
       if (petVisitorPosition) {
