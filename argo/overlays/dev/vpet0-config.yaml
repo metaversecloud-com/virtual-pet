@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vpet0-config
+  labels:
+    app.kubernetes.io/name: vpet0
+data:
+  BROWSER: "none"
+  IMG_ASSET_ID: "webImageAsset"
+  INSTANCE_DOMAIN: "api.topia.io"
+  INSTANCE_PROTOCOL: "https"
+  INTERACTIVE_KEY: "frLZKZvZwZqr7YcQYAL1"
+  IS_LOCALHOST: "true"
+  NODE_ENV: "production"
+  PORT: "3000"
+  REACT_APP_API_URL: "vpet-dev-topia.topia-rtsdk.com"
+  REACT_APP_LOCALHOST: "true"
+  S3_BUCKET: "sdk-virtual-pet"
