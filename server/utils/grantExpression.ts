@@ -1,7 +1,15 @@
 import { IVisitor } from "../types/index.js";
 import { errorHandler } from "./errorHandler.js";
 
-export const grantExpression = async ({ visitor, petType }: { visitor: IVisitor; petType: string }) => {
+export const grantExpression = async ({
+  visitor,
+  petType,
+  urlSlug,
+}: {
+  visitor: IVisitor;
+  petType: string;
+  urlSlug: string;
+}) => {
   try {
     const expressionName = `pet_${petType}`;
     const grantExpressionResponse = await visitor.grantExpression({
@@ -35,6 +43,7 @@ export const grantExpression = async ({ visitor, petType }: { visitor: IVisitor;
                 analyticName: `${expressionName}-emoteUnlocked`,
                 // uniqueKey: profileId,
                 profileId: visitor.profileId!,
+                urlSlug,
               },
             ],
           },

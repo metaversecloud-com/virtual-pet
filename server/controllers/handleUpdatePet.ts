@@ -4,7 +4,7 @@ import { awardBadge, errorHandler, getCredentials, getVisitorAndPetStatus, spawn
 export const handleUpdatePet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
     const credentials = getCredentials(req.query);
-    const { displayName, profileId, username } = credentials;
+    const { displayName, profileId, username, urlSlug } = credentials;
     const { keyAssetId, selectedName, selectedColor, selectedPetId } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
 
@@ -52,6 +52,7 @@ export const handleUpdatePet = async (req: Request, res: Response): Promise<Reco
             analyticName: `updates`,
             uniqueKey: profileId,
             profileId,
+            urlSlug,
           },
         ],
       },

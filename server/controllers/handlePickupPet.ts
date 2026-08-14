@@ -14,7 +14,7 @@ export const handlePickupPet = async (req: Request, res: Response): Promise<Reco
     await world.updateDataObject(
       {},
       {
-        analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId }],
+        analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId, urlSlug }],
       },
     );
 

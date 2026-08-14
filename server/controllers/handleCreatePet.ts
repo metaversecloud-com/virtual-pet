@@ -39,8 +39,8 @@ export const handleCreatePet = async (req: Request, res: Response): Promise<Reco
         { pets: updatedPets },
         {
           analytics: [
-            { analyticName: `starts`, profileId, uniqueKey: profileId },
-            { analyticName: `starts-${petType}`, profileId, uniqueKey: profileId },
+            { analyticName: `starts`, profileId, urlSlug, uniqueKey: profileId },
+            { analyticName: `starts-${petType}`, profileId, urlSlug, uniqueKey: profileId },
           ],
         },
       ),
