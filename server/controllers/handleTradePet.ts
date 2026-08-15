@@ -4,7 +4,7 @@ import { errorHandler, getCredentials, getVisitorAndPetStatus } from "../utils/i
 export const handleTradePet = async (req: Request, res: Response): Promise<Record<string, any> | void> => {
   try {
     const credentials = getCredentials(req.query);
-    const { profileId } = credentials;
+    const { profileId, urlSlug } = credentials;
 
     const { keyAssetId, selectedPetId } = req.body;
     if (keyAssetId) credentials.assetId = keyAssetId;
@@ -23,7 +23,7 @@ export const handleTradePet = async (req: Request, res: Response): Promise<Recor
     await visitor.updateDataObject(
       { pets },
       {
-        analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId }],
+        analytics: [{ analyticName: `trades`, uniqueKey: profileId, profileId, urlSlug }],
       },
     );
 

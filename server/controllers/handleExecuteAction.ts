@@ -99,6 +99,7 @@ export const handleExecuteAction = async (req: Request, res: Response): Promise<
       updatedLevel,
       visitor,
       petType,
+      urlSlug,
     });
 
     if (didPetLevelUp) {

@@ -7,11 +7,13 @@ export const checkForLevelUp = async ({
   updatedLevel,
   visitor,
   petType,
+  urlSlug,
 }: {
   currentLevel: number;
   updatedLevel: number;
   visitor: IVisitor;
   petType: string;
+  urlSlug: string;
 }) => {
   let didLevelUp = false;
   if (updatedLevel >= 5 && currentLevel <= 4) {
@@ -19,6 +21,7 @@ export const checkForLevelUp = async ({
     grantExpression({
       visitor,
       petType,
+      urlSlug,
     });
   }
   if (updatedLevel >= 10 && currentLevel <= 9) {
