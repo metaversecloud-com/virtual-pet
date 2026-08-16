@@ -26,5 +26,5 @@ patches:
 images:
   - name: vpet0
     newName: 368076259134.dkr.ecr.us-east-1.amazonaws.com/sdk-example
-    digest: sha256:1304fb2b870aa36a12a4b198e3b0a1bd722091239a5124af3bf920a7503650bd
+    digest: sha256:58237d7e0594bfd3e4d771270b1c8714dfd5557aa314d8f029b08bc402862f6c
     newTag: virtual-pet
