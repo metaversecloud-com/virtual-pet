@@ -8,7 +8,6 @@ resources:
   - vpet0-config.yaml
   - vpet0-sealedsecret.yaml
   - vpet0-httpscaledobject.yaml
-  - vpet0-interceptor-ingress.yaml
 patches:
   # Drop the direct ALB Ingress: in dev the app is fronted through the KEDA
   # interceptor so a scaled-to-zero Deployment is woken by the first request.
