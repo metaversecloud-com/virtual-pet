@@ -23,7 +23,7 @@ test("reaching level 5 makes the pet a teen and unlocks its emote", async ({ wor
 
 test("a player who already unlocked the emote is told so when another pet becomes a teen", async ({ world }) => {
   const pet = makePet("dragon", { experience: 995 });
-  await world.seed({ pets: [pet], inWorld: pet.id, expressions: ["pet_dragon"], badges: ["Growing up Fast"] });
+  await world.seed({ pets: [pet], inWorld: pet.id, visitor: { expressions: ["expression-pet_dragon"] }, badges: ["Growing up Fast"] });
 
   expect((await world.act("FEED", pet.id)).ok()).toBe(true);
 
@@ -37,7 +37,7 @@ test("a player who already unlocked the emote is told so when another pet become
 test("reaching level 10 makes the pet an adult", async ({ world }) => {
   // Level 10 runs from 4,500 to 5,500 XP.
   const pet = makePet("cat", { experience: 4495 });
-  await world.seed({ pets: [pet], inWorld: pet.id, expressions: ["pet_cat"] });
+  await world.seed({ pets: [pet], inWorld: pet.id, visitor: { expressions: ["expression-pet_cat"] } });
 
   expect((await world.act("FEED", pet.id)).ok()).toBe(true);
 
