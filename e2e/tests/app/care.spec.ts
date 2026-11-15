@@ -20,8 +20,8 @@ test("calling a pet makes it follow the player as an NPC", async ({ page, world 
   await expect(page.getByRole("button", { name: "Pick up Pet" })).toBeVisible();
   await expect(actionButton(page, "FEED")).toBeEnabled();
   expect(await world.npc()).toBe("penguin:baby:0");
-  expect(await world.events("create-npc")).toEqual([expect.objectContaining({ petDescription: "penguin:baby:0", showNameplate: false })]);
-  expect((await world.events("grant-item")).map((g) => g.itemType)).toEqual(["NPC"]);
+  expect(await world.events("create-npc")).toEqual([expect.objectContaining({ itemId: "npc-penguin-baby-0", showNameplate: false })]);
+  expect((await world.events("grant-item")).map((g) => g.name)).toEqual(["penguin baby 0"]);
 });
 
 test("calling the pet again reuses the NPC item the player already owns", async ({ request, world }) => {
