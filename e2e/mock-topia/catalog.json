@@ -1,0 +1,842 @@
+[
+  {
+    "id": "badge-1",
+    "name": "Baby Steps",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Baby Steps badge",
+    "image_path": "https://example.invalid/badges/1.png"
+  },
+  {
+    "id": "badge-2",
+    "name": "Pet Party",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Pet Party badge",
+    "image_path": "https://example.invalid/badges/2.png"
+  },
+  {
+    "id": "badge-3",
+    "name": "Flamekeeper",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Flamekeeper badge",
+    "image_path": "https://example.invalid/badges/3.png"
+  },
+  {
+    "id": "badge-4",
+    "name": "Dreamkeeper",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Dreamkeeper badge",
+    "image_path": "https://example.invalid/badges/4.png"
+  },
+  {
+    "id": "badge-5",
+    "name": "Icebreaker",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Icebreaker badge",
+    "image_path": "https://example.invalid/badges/5.png"
+  },
+  {
+    "id": "badge-6",
+    "name": "Growing up Fast",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Growing up Fast badge",
+    "image_path": "https://example.invalid/badges/6.png"
+  },
+  {
+    "id": "badge-7",
+    "name": "All Grown Up",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "All Grown Up badge",
+    "image_path": "https://example.invalid/badges/7.png"
+  },
+  {
+    "id": "badge-8",
+    "name": "Veteran Caretaker",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Veteran Caretaker badge",
+    "image_path": "https://example.invalid/badges/8.png"
+  },
+  {
+    "id": "badge-9",
+    "name": "Loyal Friend",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Loyal Friend badge",
+    "image_path": "https://example.invalid/badges/9.png"
+  },
+  {
+    "id": "badge-10",
+    "name": "Consistent Care",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Consistent Care badge",
+    "image_path": "https://example.invalid/badges/10.png"
+  },
+  {
+    "id": "badge-11",
+    "name": "Well Fed",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Well Fed badge",
+    "image_path": "https://example.invalid/badges/11.png"
+  },
+  {
+    "id": "badge-12",
+    "name": "Well Rested",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Well Rested badge",
+    "image_path": "https://example.invalid/badges/12.png"
+  },
+  {
+    "id": "badge-13",
+    "name": "Let's Play",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Let's Play badge",
+    "image_path": "https://example.invalid/badges/13.png"
+  },
+  {
+    "id": "badge-14",
+    "name": "Trainer in the Making",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Trainer in the Making badge",
+    "image_path": "https://example.invalid/badges/14.png"
+  },
+  {
+    "id": "badge-15",
+    "name": "Fresh Look",
+    "type": "BADGE",
+    "status": "ACTIVE",
+    "description": "Fresh Look badge",
+    "image_path": "https://example.invalid/badges/15.png"
+  },
+  {
+    "id": "npc-dragon-baby-0",
+    "name": "dragon baby 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:baby:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-baby-1",
+    "name": "dragon baby 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:baby:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-baby-2",
+    "name": "dragon baby 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:baby:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-baby-3",
+    "name": "dragon baby 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:baby:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-teen-0",
+    "name": "dragon teen 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:teen:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-teen-1",
+    "name": "dragon teen 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:teen:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-teen-2",
+    "name": "dragon teen 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:teen:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-teen-3",
+    "name": "dragon teen 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:teen:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-adult-0",
+    "name": "dragon adult 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:adult:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-adult-1",
+    "name": "dragon adult 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:adult:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-adult-2",
+    "name": "dragon adult 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:adult:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dragon-adult-3",
+    "name": "dragon adult 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dragon:adult:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-baby-0",
+    "name": "penguin baby 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:baby:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-baby-1",
+    "name": "penguin baby 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:baby:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-baby-2",
+    "name": "penguin baby 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:baby:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-baby-3",
+    "name": "penguin baby 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:baby:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-teen-0",
+    "name": "penguin teen 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:teen:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-teen-1",
+    "name": "penguin teen 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:teen:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-teen-2",
+    "name": "penguin teen 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:teen:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-teen-3",
+    "name": "penguin teen 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:teen:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-adult-0",
+    "name": "penguin adult 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:adult:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-adult-1",
+    "name": "penguin adult 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:adult:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-adult-2",
+    "name": "penguin adult 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:adult:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-penguin-adult-3",
+    "name": "penguin adult 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "penguin:adult:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-baby-0",
+    "name": "unicorn baby 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:baby:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-baby-1",
+    "name": "unicorn baby 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:baby:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-baby-2",
+    "name": "unicorn baby 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:baby:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-baby-3",
+    "name": "unicorn baby 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:baby:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-teen-0",
+    "name": "unicorn teen 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:teen:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-teen-1",
+    "name": "unicorn teen 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:teen:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-teen-2",
+    "name": "unicorn teen 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:teen:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-teen-3",
+    "name": "unicorn teen 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:teen:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-adult-0",
+    "name": "unicorn adult 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:adult:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-adult-1",
+    "name": "unicorn adult 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:adult:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-adult-2",
+    "name": "unicorn adult 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:adult:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-unicorn-adult-3",
+    "name": "unicorn adult 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "unicorn:adult:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-baby-0",
+    "name": "dog baby 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:baby:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-baby-1",
+    "name": "dog baby 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:baby:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-baby-2",
+    "name": "dog baby 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:baby:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-baby-3",
+    "name": "dog baby 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:baby:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-teen-0",
+    "name": "dog teen 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:teen:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-teen-1",
+    "name": "dog teen 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:teen:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-teen-2",
+    "name": "dog teen 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:teen:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-teen-3",
+    "name": "dog teen 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:teen:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-adult-0",
+    "name": "dog adult 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:adult:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-adult-1",
+    "name": "dog adult 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:adult:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-adult-2",
+    "name": "dog adult 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:adult:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-dog-adult-3",
+    "name": "dog adult 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "dog:adult:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-baby-0",
+    "name": "cat baby 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:baby:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-baby-1",
+    "name": "cat baby 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:baby:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-baby-2",
+    "name": "cat baby 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:baby:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-baby-3",
+    "name": "cat baby 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:baby:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-teen-0",
+    "name": "cat teen 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:teen:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-teen-1",
+    "name": "cat teen 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:teen:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-teen-2",
+    "name": "cat teen 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:teen:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-teen-3",
+    "name": "cat teen 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:teen:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-adult-0",
+    "name": "cat adult 0",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:adult:0",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-adult-1",
+    "name": "cat adult 1",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:adult:1",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-adult-2",
+    "name": "cat adult 2",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:adult:2",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  },
+  {
+    "id": "npc-cat-adult-3",
+    "name": "cat adult 3",
+    "type": "NPC",
+    "status": "ACTIVE",
+    "description": "",
+    "image_path": "",
+    "metadata": {
+      "petDescription": "cat:adult:3",
+      "spriteUrl": "https://example.invalid/npc.png"
+    }
+  }
+]
